@@ -2,6 +2,7 @@ package hwr.oop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Shelf {
@@ -28,6 +29,8 @@ public class Shelf {
     return boardNumber;
   }
   public Room getRoomIn() {return roomIn;}
+  public void addBookOnShelf(Book book) {booksOnShelf.add(book); }
+  public void removeBookOnShelf(Book book) {booksOnShelf.remove(book); }
 
   public Shelf(Room roomIn, String genre, int shelfWidth, int boardNumber) {
     this.shelfID = UUID.randomUUID();
@@ -38,7 +41,16 @@ public class Shelf {
     this.boardNumber = boardNumber;
   }
 
-  public void addBookOnShelf(Book book) {
-    booksOnShelf.add(book);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Shelf shelf = (Shelf) o;
+    return shelfWidth == shelf.shelfWidth && boardNumber == shelf.boardNumber && Objects.equals(shelfID, shelf.shelfID) && Objects.equals(roomIn, shelf.roomIn) && Objects.equals(booksOnShelf, shelf.booksOnShelf) && Objects.equals(genre, shelf.genre);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(shelfID, roomIn, booksOnShelf, genre, shelfWidth, boardNumber);
   }
 }

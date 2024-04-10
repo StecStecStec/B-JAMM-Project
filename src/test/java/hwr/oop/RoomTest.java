@@ -16,6 +16,15 @@ public class RoomTest {
     Room room = new Room();
     Shelf shelf = new Shelf(room, "Action", 400,1);
     room.roomAddShelf(shelf);
-    Assertions.assertThat(room.getShelfList()).isNotNull();
+    Assertions.assertThat(shelf).isIn(room.getShelfList());
+  }
+
+  @Test
+  void removeShelfFromRoom_checkThatTheRoomWasCorrectlyRemovedFromList() {
+    Room room = new Room();
+    Shelf shelf = new Shelf(room, "Action", 400,1);
+    room.roomAddShelf(shelf);
+    room.roomRemoveShelf(shelf);
+    Assertions.assertThat(shelf).isNotIn(room.getShelfList());
   }
 }

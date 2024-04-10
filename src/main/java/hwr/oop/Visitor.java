@@ -19,8 +19,10 @@ public class Visitor {
     public String getVisitorSurname() {return visitorSurname;}
     public String getVisitorBirthday() {return visitorBirthday;}
     public String getVisitorEmailAddress() {return visitorEmailAddress;}
+    public List<Book> getBorrowedBooks() {return borrowedBooks;}
     public void addBorrowedBook(Book book) {borrowedBooks.add(book);}
     public void removeBorrowedBook(Book book) {borrowedBooks.remove(book);}
+    public List<Book> getBooksToReturn() {return booksToReturn;}
     public void addBookToReturn(Book book) {booksToReturn.add(book);}
     public void removeBookToReturn(Book book) {booksToReturn.remove(book);}
 

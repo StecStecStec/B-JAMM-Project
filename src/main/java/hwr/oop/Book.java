@@ -35,6 +35,7 @@ public class Book {
         }
         borrowedBy = visitor;
         borrowedBy.addBorrowedBook(this);
+        shelf.removeBookOnShelf(this);
         shelf = null;
         return 0;
     }
@@ -42,8 +43,10 @@ public class Book {
         if(borrowedBy == null) {
             return -1;
         }
+        borrowedBy.removeBorrowedBook(this);
         borrowedBy = null;
         shelf = returnShelf;
+        shelf.addBookOnShelf(this);
         return 0;
     }
     public void setBookCondition(int bookCondition) {
