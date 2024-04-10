@@ -1,7 +1,7 @@
 package hwr.oop;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,21 +15,13 @@ public class Visitor {
     private List<Book> booksToReturn; //warnings
 
     public UUID getVisitorID() {return visitorID;}
-
     public String getVisitorName() {return visitorName;}
-
     public String getVisitorSurname() {return visitorSurname;}
-
     public String getVisitorBirthday() {return visitorBirthday;}
-
     public String getVisitorEmailAddress() {return visitorEmailAddress;}
-
     public void addBorrowedBook(Book book) {borrowedBooks.add(book);}
-
     public void removeBorrowedBook(Book book) {borrowedBooks.remove(book);}
-
     public void addBookToReturn(Book book) {booksToReturn.add(book);}
-
     public void removeBookToReturn(Book book) {booksToReturn.remove(book);}
 
     public Visitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
@@ -37,8 +29,8 @@ public class Visitor {
         this.visitorSurname = visitorSurname;
         this.visitorBirthday = visitorBirthday;
         this.visitorEmailAddress = visitorEmailAddress;
-        this.booksToReturn = new ArrayList<>();
-        this.borrowedBooks = new ArrayList<>();
+        this.booksToReturn = new ArrayList<Book>();
+        this.borrowedBooks = new ArrayList<Book>();
         this.visitorID = UUID.randomUUID();
     }
 

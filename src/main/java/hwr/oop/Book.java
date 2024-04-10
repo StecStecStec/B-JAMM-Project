@@ -33,7 +33,8 @@ public class Book {
         if(borrowedBy != null) {
             return -1;
         }
-        borrowedBy.
+        borrowedBy = visitor;
+        borrowedBy.addBorrowedBook(this);
         shelf = null;
         return 0;
     }

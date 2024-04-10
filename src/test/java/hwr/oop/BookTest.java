@@ -21,9 +21,9 @@ public class BookTest {
         Room room = new Room();
         Shelf shelf = new Shelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
-        Visitor visitor = new Visitor();
+        Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
-        Assertions.assertThat(book.getBorrowedBy()).isEqualTo(Visitor);
+        Assertions.assertThat(book.getBorrowedBy()).isEqualTo(visitor);
         Assertions.assertThat(book.getShelf()).isEqualTo(null);
     }
     @Test
@@ -31,7 +31,7 @@ public class BookTest {
         Room room = new Room();
         Shelf shelf = new Shelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
-        Visitor visitor = new Visitor();
+        Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         book.returnBook(shelf);
         Assertions.assertThat(book.getBorrowedBy()).isEqualTo(null);

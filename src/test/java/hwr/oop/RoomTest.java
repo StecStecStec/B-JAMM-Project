@@ -13,9 +13,9 @@ public class RoomTest {
 
   @Test
   void appointShelfToRoom_checkThatTheRoomWasCorrectlyAddedToList() {
-    Shelf shelf = new Shelf();
     Room room = new Room();
-    room.roomAddShelf(Shelf);
+    Shelf shelf = new Shelf(room, "Action", 400,1);
+    room.roomAddShelf(shelf);
     Assertions.assertThat(room.getShelfList()).isNotNull();
   }
 }
