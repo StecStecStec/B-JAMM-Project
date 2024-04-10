@@ -14,7 +14,7 @@ public class Book {
 
     public int getBookCondition() {return bookCondition;}
 
-    public int getID() {return ID;}
+    public UUID getID() {return ID;}
 
     public Shelf getShelf() {return shelf;}
 
