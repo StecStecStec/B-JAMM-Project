@@ -13,17 +13,11 @@ public class Book {
     private Visitor borrowedBy = null;
 
     public int getBookCondition() {return bookCondition;}
-
     public UUID getBookID() {return bookID;}
-
     public Shelf getShelf() {return shelf;}
-
     public String getBookTitle() {return title;}
-
     public String getBookAuthor() {return author;}
-
     public String getBookGenre() {return genre;}
-
     public Visitor getBorrowedBy() {return borrowedBy;}
 
     public Book(String title, String author, String genre, Shelf shelf, int bookCondition){
