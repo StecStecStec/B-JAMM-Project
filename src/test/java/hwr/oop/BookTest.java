@@ -5,9 +5,10 @@ import org.assertj.core.api.Assertions;
 
 public class BookTest {
     @Test
-    void createBook_checkRightAssignment(){
+    void createBook_checkRightAttributes(){
         Shelf shelf = new Shelf();
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+        Assertions.assertThat(book.getBookID()).isNotNull();
         Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
         Assertions.assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
         Assertions.assertThat(book.getBookGenre()).isEqualTo("Natur");

@@ -8,7 +8,7 @@ public class Room {
 
   private List<Shelf> shelfList;
 
-  private int shelfLimit = 5;
+  private int shelfLimit;
 
   private UUID roomID;
 
@@ -23,10 +23,12 @@ public class Room {
   public List<Shelf> getShelfList() {
     return shelfList;
   }
-
-  public Room(int shelfLimit) {
+  public void roomAddShelf(Shelf shelf) {
+    shelfList.add(shelf);
+  }
+  public Room() {
     this.shelfList = new ArrayList<Shelf>();
-    this.shelfLimit = shelfLimit;
+    this.shelfLimit = 5;
     this.roomID = UUID.randomUUID();
   }
 }
