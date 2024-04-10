@@ -24,9 +24,9 @@ public class BookTest {
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         Assertions.assertThat(book.getBorrowedBy()).isEqualTo(visitor);
-        Assertions.assertThat(book).isIn(book.getBorrowedBy().getBorrowedBooks());
+        Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
         Assertions.assertThat(book.getShelf()).isEqualTo(null);
-        Assertions.assertThat(book).isNotIn(book.getShelf().getBooksOnShelf());
+        Assertions.assertThat(book).isNotIn(shelf.getBooksOnShelf());
     }
     @Test
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull(){
@@ -37,8 +37,8 @@ public class BookTest {
         book.borrow(visitor);
         book.returnBook(shelf);
         Assertions.assertThat(book.getBorrowedBy()).isEqualTo(null);
-        Assertions.assertThat(book).isNotIn(book.getBorrowedBy().getBorrowedBooks());
+        Assertions.assertThat(book).isNotIn(visitor.getBorrowedBooks());
         Assertions.assertThat(book.getShelf()).isEqualTo(shelf);
-        Assertions.assertThat(book).isIn(book.getShelf().getBooksOnShelf());
+        Assertions.assertThat(book).isIn(shelf.getBooksOnShelf());
     }
 }
