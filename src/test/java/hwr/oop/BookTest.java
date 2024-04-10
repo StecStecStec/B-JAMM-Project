@@ -8,9 +8,9 @@ public class BookTest {
     void createBook_checkRightAssignment(){
         Shelf shelf = new Shelf();
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
-        Assertions.assertThat(book.getName()).isEqualTo("Welt");
-        Assertions.assertThat(book.getAuthor()).isEqualTo("Peter Hans");
-        Assertions.assertThat(book.getTopic()).isEqualTo("Natur");
+        Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
+        Assertions.assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
+        Assertions.assertThat(book.getBookGenre()).isEqualTo("Natur");
         Assertions.assertThat(book.getShelf()).isEqualTo(shelf);
         Assertions.assertThat(book.getBookCondition()).isEqualTo(100);
     }

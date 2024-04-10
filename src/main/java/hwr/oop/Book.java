@@ -4,35 +4,35 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Book {
-    private UUID ID;
-    private int bookCondition; //in percentage
-    private String name;
+    private UUID bookID;
+    private int bookCondition; //in percentage (0-100)
+    private String title;
     private String author;
-    private String topic;
+    private String genre;
     private Shelf shelf;
     private Visitor borrowedBy = null;
 
     public int getBookCondition() {return bookCondition;}
 
-    public UUID getID() {return ID;}
+    public UUID getBookID() {return bookID;}
 
     public Shelf getShelf() {return shelf;}
 
-    public String getName() {return name;}
+    public String getBookTitle() {return title;}
 
-    public String getAuthor() {return author;}
+    public String getBookAuthor() {return author;}
 
-    public String getTopic() {return topic;}
+    public String getBookGenre() {return genre;}
 
     public Visitor getBorrowedBy() {return borrowedBy;}
 
-    public Book(String name, String author, String topic, Shelf shelf, int bookCondition){
-        this.name = name;
+    public Book(String title, String author, String genre, Shelf shelf, int bookCondition){
+        this.title = title;
         this.author = author;
-        this.topic = topic;
+        this.genre = genre;
         this.shelf = shelf;
         this.bookCondition = bookCondition;
-        this.ID = UUID.randomUUID();
+        this.bookID = UUID.randomUUID();
     }
 
     public int borrow(Visitor visitor) {
@@ -60,11 +60,11 @@ public class Book {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return ID == book.ID && bookCondition == book.bookCondition && Objects.equals(name, book.name) && Objects.equals(author, book.author) && Objects.equals(topic, book.topic) && Objects.equals(shelf, book.shelf) && Objects.equals(borrowedBy, book.borrowedBy);
+        return bookID == book.bookID && bookCondition == book.bookCondition && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(genre, book.genre) && Objects.equals(shelf, book.shelf) && Objects.equals(borrowedBy, book.borrowedBy);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ID, bookCondition, name, author, topic, shelf, borrowedBy);
+        return Objects.hash(bookID, bookCondition, title, author, genre, shelf, borrowedBy);
     }
 }
