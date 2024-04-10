@@ -25,7 +25,7 @@ public class BookTest {
         book.borrow(visitor);
         Assertions.assertThat(book.getBorrowedBy()).isEqualTo(visitor);
         Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
-        Assertions.assertThat(book.getShelf()).isEqualTo(null);
+        Assertions.assertThat(book.getShelf()).isNull();
         Assertions.assertThat(book).isNotIn(shelf.getBooksOnShelf());
     }
     @Test
@@ -36,7 +36,7 @@ public class BookTest {
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         book.returnBook(shelf);
-        Assertions.assertThat(book.getBorrowedBy()).isEqualTo(null);
+        Assertions.assertThat(book.getBorrowedBy()).isNull();
         Assertions.assertThat(book).isNotIn(visitor.getBorrowedBooks());
         Assertions.assertThat(book.getShelf()).isEqualTo(shelf);
         Assertions.assertThat(book).isIn(shelf.getBooksOnShelf());
