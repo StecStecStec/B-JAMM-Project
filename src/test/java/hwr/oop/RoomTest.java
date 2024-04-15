@@ -2,6 +2,9 @@ package hwr.oop;
 
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class RoomTest {
   @Test
@@ -26,5 +29,46 @@ public class RoomTest {
     room.roomAddShelf(shelf);
     room.roomRemoveShelf(shelf);
     Assertions.assertThat(shelf).isNotIn(room.getShelfList());
+  }
+
+  @Test
+  void testEqualsMethod() {
+    Room room1 = new Room();
+    Room room2 = new Room();
+    Room room3 = new Room();
+
+    //Comparison with null should be return false
+    Assertions.assertThat(room1).isNotNull();
+
+    //Comparison with an object of another class should be return false
+    Assertions.assertThat(room1).isNotEqualTo(new Shelf(room1, "Action", 400, 1));
+
+    List<Shelf> shelfList = new ArrayList<>();
+    shelfList.add(new Shelf(room3, "Fiction", 200, 1));
+    shelfList.add(new Shelf(room3, "Science", 100, 2));
+    room3.setShelfList(shelfList);
+    Assertions.assertThat(room3.getShelfList()).isEqualTo(shelfList);
+
+    Assertions.assertThat(room1.equals(room2)).isFalse();
+
+    UUID roomID = room1.getRoomID();
+    List<Shelf> shelfList2 = room1.getShelfList();
+    room2.setRoomID(roomID);
+    room2.setShelfList(shelfList2);
+    Assertions.assertThat(room1.equals(room2)).isTrue();
+  }
+
+  @Test
+  void testHashCodeMethod() {
+    Room room1 = new Room();
+    Room room2 = new Room();
+
+    Assertions.assertThat(room1.hashCode()).isNotEqualTo(room2.hashCode());
+
+    UUID roomID = room1.getRoomID();
+    List<Shelf> shelfList2 = room1.getShelfList();
+    room2.setRoomID(roomID);
+    room2.setShelfList(shelfList2);
+    Assertions.assertThat(room1).hasSameHashCodeAs(room2);
   }
 }
