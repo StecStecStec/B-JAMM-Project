@@ -30,6 +30,10 @@ public class Book {
         shelf.addBookOnShelf(this);
     }
 
+    void setBookID(UUID bookID) {
+        this.bookID = bookID;
+    }
+
     public void borrow(Visitor visitor) {
         if(borrowedBy != null) {
             return;
@@ -62,6 +66,6 @@ public class Book {
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookID, bookCondition, title, author, genre, shelf, borrowedBy);
+        return Objects.hash(bookID, bookCondition, title, author, genre, borrowedBy);
     }
 }

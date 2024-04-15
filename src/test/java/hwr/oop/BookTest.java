@@ -2,6 +2,7 @@ package hwr.oop;
 
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
+import java.util.UUID;
 
 public class BookTest {
     @Test
@@ -41,5 +42,54 @@ public class BookTest {
         Assertions.assertThat(book).isNotIn(visitor.getBorrowedBooks());
         Assertions.assertThat(book.getShelf()).isEqualTo(shelf);
         Assertions.assertThat(book).isIn(shelf.getBooksOnShelf());
+    }
+
+    @Test
+    void testEqualsMethod() {
+        Room room = new Room();
+        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Book book1 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+        Book book2 = new Book("Welt", "Peter Hans", "Natur", shelf, 95);
+        Book book3 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+
+        //Comparison with null should return false
+        Assertions.assertThat(book1).isNotNull();
+
+        //Comparison with an object of another class should return false
+        Assertions.assertThat(book1).isNotEqualTo(shelf);
+
+        Assertions.assertThat(book1.equals(book2)).isFalse();
+
+        UUID bookID = book1.getBookID();
+        book3.setBookID(bookID);
+        Assertions.assertThat(book1.equals(book3)).isTrue();
+    }
+
+    @Test
+    void testHashCodeMethod()   {
+        Room room = new Room();
+        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Book book1 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+        Book book2 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+
+        Assertions.assertThat(book1.hashCode()).isNotEqualTo(book2.hashCode());
+
+        UUID bookID = book1.getBookID();
+        book2.setBookID(bookID);
+
+        Assertions.assertThat(book1.getShelf()).hasSameHashCodeAs(book2.getShelf());
+    }
+
+    @Test
+    void setBookCondition_checkThatTheBookConditionIsSetCorrectly() {
+        Room room = new Room();
+        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Book book1 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+
+        Assertions.assertThat(book1.getBookCondition()).isEqualTo(100);
+
+        book1.setBookCondition(95);
+
+        Assertions.assertThat(book1.getBookCondition()).isEqualTo(95);
     }
 }
