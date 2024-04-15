@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class RoomTest {
+class RoomTest {
   @Test
   void createRoom_checkRightAttributesUponCreation() {
     Room room = new Room();
@@ -37,11 +37,11 @@ public class RoomTest {
     Room room2 = new Room();
     Room room3 = new Room();
 
-    //Comparison with null should be return false
-    Assertions.assertThat(room1).isNotNull();
-
-    //Comparison with an object of another class should be return false
-    Assertions.assertThat(room1).isNotEqualTo(new Shelf(room1, "Action", 400, 1));
+    Assertions.assertThat(room1)
+            //Comparison with null should be return false
+            .isNotNull()
+            //Comparison with an object of another class should be return false
+            .isNotEqualTo(new Shelf(room1, "Action", 400, 1));
 
     List<Shelf> shelfList = new ArrayList<>();
     shelfList.add(new Shelf(room3, "Fiction", 200, 1));

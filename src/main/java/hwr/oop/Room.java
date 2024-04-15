@@ -41,7 +41,7 @@ public class Room {
     }
 
     public Room() {
-        this.shelfList = new ArrayList<Shelf>();
+        this.shelfList = new ArrayList<>();
         this.shelfLimit = 5;
         this.roomID = UUID.randomUUID();
     }
