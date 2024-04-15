@@ -27,27 +27,26 @@ public class Book {
         this.shelf = shelf;
         this.bookCondition = bookCondition;
         this.bookID = UUID.randomUUID();
+        shelf.addBookOnShelf(this);
     }
 
-    public int borrow(Visitor visitor) {
+    public void borrow(Visitor visitor) {
         if(borrowedBy != null) {
-            return -1;
+            return;
         }
         borrowedBy = visitor;
         borrowedBy.addBorrowedBook(this);
         shelf.removeBookOnShelf(this);
         shelf = null;
-        return 0;
     }
-    public int returnBook(Shelf returnShelf) {
+    public void returnBook(Shelf returnShelf) {
         if(borrowedBy == null) {
-            return -1;
+            return;
         }
         borrowedBy.removeBorrowedBook(this);
         borrowedBy = null;
         shelf = returnShelf;
         shelf.addBookOnShelf(this);
-        return 0;
     }
     public void setBookCondition(int bookCondition) {
         this.bookCondition = bookCondition;

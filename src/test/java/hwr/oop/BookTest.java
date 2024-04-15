@@ -15,6 +15,7 @@ public class BookTest {
         Assertions.assertThat(book.getBookGenre()).isEqualTo("Natur");
         Assertions.assertThat(book.getShelf()).isEqualTo(shelf);
         Assertions.assertThat(book.getBookCondition()).isEqualTo(100);
+        Assertions.assertThat(book).isIn(shelf.getBooksOnShelf());
     }
     @Test
     void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull(){
