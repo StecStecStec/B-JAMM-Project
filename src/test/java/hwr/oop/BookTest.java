@@ -7,8 +7,8 @@ import java.util.UUID;
 public class BookTest {
     @Test
     void createBook_checkRightAttributes() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400, 1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
         Assertions.assertThat(book.getBookID()).isNotNull();
         Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
@@ -21,10 +21,10 @@ public class BookTest {
 
     @Test
     void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400, 1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
-        Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         Assertions.assertThat(book.getBorrowedBy()).isEqualTo(visitor);
         Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
@@ -34,10 +34,10 @@ public class BookTest {
 
     @Test
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400, 1);
+        Room room = Room.createNewRoom());
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
-        Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         book.returnBook(shelf);
         Assertions.assertThat(book.getBorrowedBy()).isNull();
@@ -48,8 +48,8 @@ public class BookTest {
 
     @Test
     void testEqualsMethod() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book1 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
         Book book2 = new Book("Welt", "Peter Hans", "Natur", shelf, 95);
         Book book3 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
@@ -69,8 +69,8 @@ public class BookTest {
 
     @Test
     void testHashCodeMethod()   {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book1 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
         Book book2 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
 
@@ -84,8 +84,8 @@ public class BookTest {
 
     @Test
     void setBookCondition_checkThatTheBookConditionIsSetCorrectly() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book1 = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
 
         Assertions.assertThat(book1.getBookCondition()).isEqualTo(100);
