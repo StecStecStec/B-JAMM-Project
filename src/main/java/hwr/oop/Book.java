@@ -11,7 +11,6 @@ public class Book {
     private String genre;
     private Shelf shelf;
     private Visitor borrowedBy = null;
-
     public int getBookCondition() {return bookCondition;}
     public UUID getBookID() {return bookID;}
     public Shelf getShelf() {return shelf;}
