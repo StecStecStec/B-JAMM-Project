@@ -21,7 +21,16 @@ public class Book {
     public String getBookGenre() {return genre;}
     public Visitor getBorrowedBy() {return borrowedBy;}
 
-    public Book(String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth){
+    public static Book createNewBook(String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
+        return new Book(UUID.randomUUID(), title, author, genre, shelf, bookCondition, bookWidth);
+    }
+
+    public static Book createCompleteBook(UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
+        return new Book(uuid, title, author, genre, shelf, bookCondition, bookWidth);
+    }
+
+    private Book(UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth){
+        this.bookID = uuid;
         this.bookWidth = bookWidth;
         this.shelf = shelf;
         this.title = title;
@@ -31,6 +40,8 @@ public class Book {
         this.bookID = UUID.randomUUID();
         shelf.addBookOnShelf(this);
     }
+
+
 
     void setBookID(UUID bookID) {
         this.bookID = bookID;
