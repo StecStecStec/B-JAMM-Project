@@ -12,6 +12,7 @@ public class Book {
     private String genre;
     private Shelf shelf;
     private Visitor borrowedBy = null;
+
     public int getBookWidth() {return bookWidth;}
     public int getBookCondition() {return bookCondition;}
     public UUID getBookID() {return bookID;}
@@ -37,7 +38,6 @@ public class Book {
         this.author = author;
         this.genre = genre;
         this.bookCondition = bookCondition;
-        this.bookID = UUID.randomUUID();
         shelf.addBookOnShelf(this);
     }
 
