@@ -33,7 +33,7 @@ public class BookTest {
         Room room = Room.createNewRoom();
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         Assertions.assertThat(book.getBorrowedBy()).isEqualTo(visitor);
         Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
@@ -47,7 +47,7 @@ public class BookTest {
         Room room = Room.createNewRoom();
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         book.returnBook(shelf);
         Assertions.assertThat(book.getBorrowedBy()).isNull();
@@ -63,7 +63,7 @@ public class BookTest {
         Shelf shelf1 = Shelf.createNewShelf(room, "Action", 400, 1);
         Shelf shelf2 = Shelf.createNewShelf(room, "Action", 2, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf1, 100, 3);
-        Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         Assertions.assertThatThrownBy(() -> book.returnBook(shelf2)).hasMessage("Added book to shelf with not enough space.");
     }
