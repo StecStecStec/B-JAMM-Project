@@ -8,7 +8,7 @@ public class BookTest {
     @Test
     void createBook_checkRightAttributes() {
         Room room = Room.createNewRoom();
-        Shelf shelf = new Shelf(room, "Action", 400, 1);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Assertions.assertThat(book.getBookID()).isNotNull();
         Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
@@ -23,16 +23,16 @@ public class BookTest {
 
     @Test
     void createBookFails_checkExceptionRaise() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 2, 1);
-        Assertions.assertThatThrownBy(() -> new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3)).hasMessage("Added book to shelf with not enough space.");
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 2, 1);
+        Assertions.assertThatThrownBy(() -> Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3)).hasMessage("Added book to shelf with not enough space.");
     }
 
     @Test
     void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400, 1);
-        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
+        Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         Assertions.assertThat(book.getBorrowedBy()).isEqualTo(visitor);
@@ -44,9 +44,9 @@ public class BookTest {
 
     @Test
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400, 1);
-        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
+        Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         book.returnBook(shelf);
@@ -59,10 +59,10 @@ public class BookTest {
 
     @Test
     void returnBookFails_checkExceptionRaise() {
-        Room room = new Room();
-        Shelf shelf1 = new Shelf(room, "Action", 400, 1);
-        Shelf shelf2 = new Shelf(room, "Action", 2, 1);
-        Book book = new Book("Welt", "Peter Hans", "Natur", shelf1, 100, 3);
+        Room room = Room.createNewRoom();
+        Shelf shelf1 = Shelf.createNewShelf(room, "Action", 400, 1);
+        Shelf shelf2 = Shelf.createNewShelf(room, "Action", 2, 1);
+        Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf1, 100, 3);
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         Assertions.assertThatThrownBy(() -> book.returnBook(shelf2)).hasMessage("Added book to shelf with not enough space.");
@@ -70,11 +70,11 @@ public class BookTest {
 
     @Test
     void testEqualsMethod() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
-        Book book1 = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = new Book("Welt", "Peter Hans", "Natur", shelf, 95, 3);
-        Book book3 = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Book book1 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book3 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         //Comparison with null should return false
         Assertions.assertThat(book1).isNotNull();
@@ -91,10 +91,10 @@ public class BookTest {
 
     @Test
     void testHashCodeMethod()   {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
-        Book book1 = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Book book1 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         Assertions.assertThat(book1.hashCode()).isNotEqualTo(book2.hashCode());
 
@@ -106,9 +106,9 @@ public class BookTest {
 
     @Test
     void setBookCondition_checkThatTheBookConditionIsSetCorrectly() {
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
-        Book book1 = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Book book1 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         Assertions.assertThat(book1.getBookCondition()).isEqualTo(100);
 

@@ -26,17 +26,14 @@ class VisitorTest{
     @Test
     void addBorrowedBook_checkIfBookAdded() {
         // Create a Visitor and a Book
-<<<<<<< HEAD
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = new Room();
         Shelf shelf = new Shelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-=======
         Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom();
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
->>>>>>> origin/NewTestMutationShelf
 
         // Add the Book to the Visitor's borrowed books list and assert its presence
         visitor.addBorrowedBook(book);
@@ -53,7 +50,7 @@ class VisitorTest{
     @Test
     void removeBorrowedBook_checkIfBookRemoved() {
         // Create a Visitor and a Book
-<<<<<<< HEAD
+
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = new Room();
         Shelf shelf = new Shelf(room, "Action", 400,1);
