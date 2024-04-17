@@ -27,7 +27,7 @@ class VisitorTest{
     void addBorrowedBook_checkIfBookAdded() {
         // Create a Visitor and a Book
         Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
@@ -47,7 +47,7 @@ class VisitorTest{
     void removeBorrowedBook_checkIfBookRemoved() {
         // Create a Visitor and a Book
         Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
@@ -64,7 +64,7 @@ class VisitorTest{
         UUID uuid = UUID.randomUUID();
 
         Visitor visitor = Visitor.createCompleteVisitor("Max","Mustermann","01.01.1999", "max.mustermann@gmx.de",uuid);
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
@@ -78,7 +78,7 @@ class VisitorTest{
     void removeBookToReturn_checkIfBookRemoved() {
         // Create a Visitor and a Book
         Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 

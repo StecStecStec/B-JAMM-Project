@@ -34,16 +34,16 @@ public class Room {
         shelfList.remove(shelf);
     }
 
-    public static Room createNewRoom(){
-        return new Room(UUID.randomUUID());
+    public static Room createNewRoom(int shelfLimit){
+        return new Room(UUID.randomUUID(), shelfLimit);
     }
 
-    public static Room createCompleteNewRoom(UUID uuid){
-        return new Room(uuid);
+    public static Room createCompleteNewRoom(UUID uuid, int shelfLimit){
+        return new Room(uuid, shelfLimit);
     }
 
-    private Room(UUID uuid) {
-        this.shelfLimit = 5;
+    private Room(UUID uuid, int shelfLimit) {
+        this.shelfLimit = shelfLimit;
         this.shelfList = new ArrayList<>(this.shelfLimit);
         this.roomID = uuid;
     }

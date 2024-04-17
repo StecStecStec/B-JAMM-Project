@@ -7,7 +7,7 @@ import java.util.UUID;
 public class BookTest {
     @Test
     void createBook_checkRightAttributes() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Assertions.assertThat(book.getBookID()).isNotNull();
@@ -23,14 +23,14 @@ public class BookTest {
 
     @Test
     void createBookFails_checkExceptionRaise() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 2, 1);
         Assertions.assertThatThrownBy(() -> Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3)).hasMessage("Added book to shelf with not enough space.");
     }
 
     @Test
     void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
@@ -44,7 +44,7 @@ public class BookTest {
 
     @Test
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
@@ -59,7 +59,7 @@ public class BookTest {
 
     @Test
     void returnBookFails_checkExceptionRaise() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf1 = Shelf.createNewShelf(room, "Action", 400, 1);
         Shelf shelf2 = Shelf.createNewShelf(room, "Action", 2, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf1, 100, 3);
@@ -70,7 +70,7 @@ public class BookTest {
 
     @Test
     void testEqualsMethod() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book1 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Book book2 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -91,7 +91,7 @@ public class BookTest {
 
     @Test
     void testHashCodeMethod()   {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book1 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Book book2 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -106,7 +106,7 @@ public class BookTest {
 
     @Test
     void setBookCondition_checkThatTheBookConditionIsSetCorrectly() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book1 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
@@ -116,4 +116,25 @@ public class BookTest {
 
         Assertions.assertThat(book1.getBookCondition()).isEqualTo(95);
     }
+
+    @Test
+    void testBook_testEqualsMethod() {
+        UUID uuid = UUID.randomUUID();
+        Room room = Room.createNewRoom(5);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+
+        Book book1 = Book.createCompleteBook(uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createCompleteBook(uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book3 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+
+        Assertions.assertThat(book1)
+                //Comparison with null should be return false
+                .isNotNull()
+                //Comparison with an object of another class should be return false
+                .isNotEqualTo(Shelf.createNewShelf(room, "Action", 400, 1));
+
+
+        Assertions.assertThat(book1).isNotEqualTo(book3);
+    }
+
 }

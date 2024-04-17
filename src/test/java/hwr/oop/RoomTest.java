@@ -10,14 +10,14 @@ import java.util.UUID;
 class RoomTest {
     @Test
     void createRoom_checkRightAttributesUponCreation() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Assertions.assertThat(room.getRoomID()).isNotNull();
         Assertions.assertThat(room.getShelfLimit()).isEqualTo(5);
     }
 
     @Test
     void appointShelfToRoom_checkThatTheRoomWasCorrectlyAddedToList() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         room.roomAddShelf(shelf);
         Assertions.assertThat(shelf).isIn(room.getShelfList());
@@ -25,7 +25,7 @@ class RoomTest {
 
     @Test
     void removeShelfFromRoom_checkThatTheRoomWasCorrectlyRemovedFromList() {
-        Room room = Room.createNewRoom();
+        Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         room.roomRemoveShelf(shelf);
         Assertions.assertThat(shelf).isNotIn(room.getShelfList());
@@ -35,9 +35,10 @@ class RoomTest {
     void testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Room room1 = Room.createCompleteNewRoom(uuid);
-        Room room2 = Room.createCompleteNewRoom(uuid);
-        Room room3 = Room.createNewRoom();
+        Room room1 = Room.createCompleteNewRoom(uuid, 5);
+        Room room2 = Room.createCompleteNewRoom(uuid, 5);
+        Room room3 = Room.createNewRoom(5);
+        Room room4 = Room.createCompleteNewRoom(uuid, 5);
 
         Assertions.assertThat(room1)
                 //Comparison with null should be return false
@@ -45,27 +46,41 @@ class RoomTest {
                 //Comparison with an object of another class should be return false
                 .isNotEqualTo(Shelf.createNewShelf(room1, "Action", 400, 1));
 
-        Assertions.assertThat(room1.equals(room3)).isFalse();
-        Assertions.assertThat(room1.equals(room1)).isTrue();
 
-    }
-
-    @Test
-    void testShelfLimit() {
-        Room room = Room.createNewRoom();
-        //room.roomAddShelf(Shelf.createNewShelf());
-
+        Assertions.assertThat(room1).isNotEqualTo(room3);
+        Assertions.assertThat(room2).isEqualTo(room4);
 
     }
 
     @Test
     void testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
-        Room room1 = Room.createCompleteNewRoom(uuid);
-        Room room2 = Room.createCompleteNewRoom(uuid);
-        Room room3 = Room.createNewRoom();
+        Room room1 = Room.createCompleteNewRoom(uuid, 5);
+        Room room2 = Room.createCompleteNewRoom(uuid, 5);
+        Room room3 = Room.createNewRoom(5);
 
         Assertions.assertThat(room1.hashCode()).isNotEqualTo(room3.hashCode());
         Assertions.assertThat(room1).hasSameHashCodeAs(room2);
+    }
+
+    @Test
+    void testShelfLimit() {
+        Room room = Room.createNewRoom(5);
+        Shelf shelf1 = Shelf.createNewShelf(room, "Action", 400, 1);
+        Shelf shelf2 = Shelf.createNewShelf(room, "Action", 400, 1);
+        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400, 1);
+        Shelf shelf4 = Shelf.createNewShelf(room, "Action", 400, 1);
+        Shelf shelf5 = Shelf.createNewShelf(room, "Action", 400, 1);
+        Shelf shelf6 = Shelf.createNewShelf(room, "Action", 400, 1);
+
+        room.roomAddShelf(shelf1);
+        room.roomAddShelf(shelf2);
+        room.roomAddShelf(shelf3);
+        room.roomAddShelf(shelf4);
+        room.roomAddShelf(shelf5);
+        room.roomAddShelf(shelf6);
+
+        Assertions.assertThat(room.getShelfList()).hasSize(room.getShelfLimit());
+
     }
 }

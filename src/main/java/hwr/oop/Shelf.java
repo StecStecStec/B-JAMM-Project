@@ -51,10 +51,6 @@ public class Shelf {
         booksOnShelf.remove(book);
     }
 
-    //needed for tests
-    public void setShelfID(UUID shelfID) {
-        this.shelfID = shelfID;
-    }
 
     private Shelf(UUID shelfID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
         this.shelfID = shelfID;
@@ -87,6 +83,6 @@ public class Shelf {
 
     @Override
     public int hashCode() {
-        return Objects.hash(shelfID, roomIn, booksOnShelf, genre, shelfWidth, remainingSpace, boardNumber);
+        return Objects.hash(shelfID, booksOnShelf, genre, shelfWidth, remainingSpace, boardNumber);
     }
 }
