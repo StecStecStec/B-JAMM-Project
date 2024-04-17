@@ -7,9 +7,9 @@ import java.util.UUID;
 public class BookTest {
     @Test
     void createBook_checkRightAttributes() {
-        Room room = new Room();
+        Room room = Room.createNewRoom();
         Shelf shelf = new Shelf(room, "Action", 400, 1);
-        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Assertions.assertThat(book.getBookID()).isNotNull();
         Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
         Assertions.assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
