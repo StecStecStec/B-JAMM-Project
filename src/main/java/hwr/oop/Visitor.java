@@ -15,21 +15,26 @@ public class  Visitor {
     private List<Book> booksToReturn; //warnings
 
     public UUID getVisitorID() {return visitorID;}
-    public void setVisitorID(UUID visitorID) {this.visitorID = visitorID;}
     public String getVisitorName() {return visitorName;}
     public String getVisitorSurname() {return visitorSurname;}
     public String getVisitorBirthday() {return visitorBirthday;}
     public String getVisitorEmailAddress() {return visitorEmailAddress;}
     public List<Book> getBorrowedBooks() {return borrowedBooks;}
-    public void setBorrowedBooks(List<Book> borrowedBooks) {this.borrowedBooks = borrowedBooks;}
     public void addBorrowedBook(Book book) {borrowedBooks.add(book);}
     public void removeBorrowedBook(Book book) {borrowedBooks.remove(book);}
     public List<Book> getBooksToReturn() {return booksToReturn;}
-    public void setBooksToReturn(List<Book> booksToReturn) {this.booksToReturn = booksToReturn;}
     public void addBookToReturn(Book book) {booksToReturn.add(book);}
     public void removeBookToReturn(Book book) {booksToReturn.remove(book);}
 
-    public Visitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
+    public static Visitor createNewVisitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
+        return new Visitor(visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, UUID.randomUUID());
+    }
+
+    public static Visitor createCompleteVisitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID uuid) {
+        return new Visitor(visitorName, visitorSurname, visitorBirthday,visitorEmailAddress, uuid);
+    }
+
+    private Visitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID visitorID) {
         this.visitorName = visitorName;
         this.visitorSurname = visitorSurname;
         this.visitorBirthday = visitorBirthday;
@@ -38,6 +43,7 @@ public class  Visitor {
         this.borrowedBooks = new ArrayList<Book>();
         this.visitorID = UUID.randomUUID();
     }
+
 
     @Override
     public boolean equals(Object o) {
