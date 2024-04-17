@@ -46,7 +46,7 @@ public class Shelf {
     }
 
 
-    public Shelf(UUID shelfID ,Room roomIn, String genre, int shelfWidth, int boardNumber) {
+    private Shelf(UUID shelfID ,Room roomIn, String genre, int shelfWidth, int boardNumber) {
         this.shelfID = shelfID;
         this.roomIn = roomIn;
         this.booksOnShelf = new ArrayList<Book>();
