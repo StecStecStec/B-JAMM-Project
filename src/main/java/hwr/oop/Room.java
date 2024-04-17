@@ -43,8 +43,8 @@ public class Room {
     }
 
     private Room(UUID uuid) {
-        this.shelfList = new ArrayList<>();
         this.shelfLimit = 5;
+        this.shelfList = new ArrayList<>(this.shelfLimit);
         this.roomID = uuid;
     }
 
@@ -60,4 +60,6 @@ public class Room {
     public int hashCode() {
         return Objects.hash(shelfList, shelfLimit, roomID);
     }
+
 }
+

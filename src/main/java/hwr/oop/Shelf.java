@@ -6,12 +6,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Shelf {
-    private UUID shelfID;
-    private Room roomIn;
-    private List<Book> booksOnShelf;
-    private String genre;
-    private int shelfWidth;
-    private int boardNumber;
+    private final UUID shelfID;
+    private final Room roomIn;
+    private final List<Book> booksOnShelf;
+    private final String genre;
+    private final int shelfWidth;
+    private final int boardNumber;
 
     public UUID getShelfID() {
         return shelfID;
@@ -53,6 +53,7 @@ public class Shelf {
         this.genre = genre;
         this.shelfWidth = shelfWidth;
         this.boardNumber = boardNumber;
+        roomIn.roomAddShelf(this);
     }
 
     public static Shelf createNewShelf(Room roomIn, String genre, int shelfWidth, int boardNumber){
@@ -73,6 +74,6 @@ public class Shelf {
 
     @Override
     public int hashCode() {
-        return Objects.hash(shelfID, roomIn, booksOnShelf, genre, shelfWidth, boardNumber);
+        return Objects.hash(shelfID, booksOnShelf, genre, shelfWidth, boardNumber);
     }
 }

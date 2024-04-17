@@ -27,8 +27,8 @@ class VisitorTest{
     void addBorrowedBook_checkIfBookAdded() {
         // Create a Visitor and a Book
         Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
 
         // Add the Book to the Visitor's borrowed books list and assert its presence
@@ -36,13 +36,19 @@ class VisitorTest{
         Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
     }
 
+    @Test
+    void visitorIDCheck(){
+        Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
+
+        Assertions.assertThat(visitor.getVisitorID()).isNotNull();
+    }
     // Test case for removing a borrowed book from a Visitor's list of borrowed books
     @Test
     void removeBorrowedBook_checkIfBookRemoved() {
         // Create a Visitor and a Book
         Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
 
         // Add the Book to the Visitor's borrowed books list, then remove it and assert its absence
@@ -71,9 +77,9 @@ class VisitorTest{
     @Test
     void removeBookToReturn_checkIfBookRemoved() {
         // Create a Visitor and a Book
-        Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = Room.createNewRoom();
-        Shelf shelf = Shelf.createNewRoom(room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
 
         // Add the Book to the Visitor's books to return list, then remove it and assert its absence
@@ -88,7 +94,7 @@ class VisitorTest{
         // Original Visitor object
         UUID uuid1 = UUID.randomUUID();
 
-        Visitor visitor1 = Visitor.createCompleteVisitor("John", "Doe", "1990-01-01", "john.doe@example.com", uuid1).;
+        Visitor visitor1 = Visitor.createCompleteVisitor("John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
 
         // Create Visitor object with same attributes as visitor1
         Visitor visitor2 = Visitor.createCompleteVisitor("John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);

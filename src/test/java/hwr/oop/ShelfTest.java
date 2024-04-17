@@ -68,10 +68,10 @@ public class ShelfTest {
         Shelf shelf2 = Shelf.createCompleteNewShelf(uuid,room, "Action", 400,1);
         Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400,1);
 
-        Assertions.assertThat(shelf1.hashCode()).isNotEqualTo(shelf2.hashCode());
+        Assertions.assertThat(shelf1.hashCode()).isNotEqualTo(shelf3.hashCode());
 
 
-        Assertions.assertThat(shelf1).hasSameHashCodeAs(shelf3);
+        Assertions.assertThat(shelf1).hasSameHashCodeAs(shelf2);
     }
 
 }

@@ -34,7 +34,7 @@ public class BookTest {
 
     @Test
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
-        Room room = Room.createNewRoom());
+        Room room = Room.createNewRoom();
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
         Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");

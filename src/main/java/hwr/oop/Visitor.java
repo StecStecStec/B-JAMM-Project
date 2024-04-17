@@ -41,7 +41,7 @@ public class  Visitor {
         this.visitorEmailAddress = visitorEmailAddress;
         this.booksToReturn = new ArrayList<Book>();
         this.borrowedBooks = new ArrayList<Book>();
-        this.visitorID = UUID.randomUUID();
+        this.visitorID = visitorID;
     }
 
 
