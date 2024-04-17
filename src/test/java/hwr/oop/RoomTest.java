@@ -66,19 +66,16 @@ class RoomTest {
     @Test
     void testShelfLimit() {
         Room room = Room.createNewRoom(5);
-        Shelf shelf1 = Shelf.createNewShelf(room, "Action", 400, 1);
-        Shelf shelf2 = Shelf.createNewShelf(room, "Action", 400, 1);
-        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400, 1);
-        Shelf shelf4 = Shelf.createNewShelf(room, "Action", 400, 1);
-        Shelf shelf5 = Shelf.createNewShelf(room, "Action", 400, 1);
-        Shelf shelf6 = Shelf.createNewShelf(room, "Action", 400, 1);
+        int a = 0;
+        while(a <= room.getShelfLimit()) {
+            Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
+            room.roomAddShelf(shelf);
+            a++;
+        }
 
-        room.roomAddShelf(shelf1);
-        room.roomAddShelf(shelf2);
-        room.roomAddShelf(shelf3);
-        room.roomAddShelf(shelf4);
-        room.roomAddShelf(shelf5);
-        room.roomAddShelf(shelf6);
+        Shelf shelfTemp = Shelf.createNewShelf(room, "Action", 400, 1);
+
+        room.roomAddShelf(shelfTemp);
 
         Assertions.assertThat(room.getShelfList()).hasSize(room.getShelfLimit());
 
