@@ -11,11 +11,14 @@ public class Shelf {
     private List<Book> booksOnShelf;
     private String genre;
     private int shelfWidth;
+    private int remainingSpace;
     private int boardNumber;
 
     public UUID getShelfID() {
         return shelfID;
     }
+
+    public int getRemainingSpace() {return remainingSpace;}
 
     public List<Book> getBooksOnShelf() {
         return booksOnShelf;
@@ -38,10 +41,13 @@ public class Shelf {
     }
 
     public void addBookOnShelf(Book book) {
+        if(remainingSpace < book.getBookWidth()){ throw new IllegalArgumentException("Added book to shelf with not enough space.");}
+        remainingSpace -= book.getBookWidth();
         booksOnShelf.add(book);
     }
 
     public void removeBookOnShelf(Book book) {
+        remainingSpace += book.getBookWidth();
         booksOnShelf.remove(book);
     }
 
@@ -56,6 +62,7 @@ public class Shelf {
         this.booksOnShelf = new ArrayList<Book>();
         this.genre = genre;
         this.shelfWidth = shelfWidth;
+        this.remainingSpace = shelfWidth;
         this.boardNumber = boardNumber;
     }
 
@@ -64,11 +71,11 @@ public class Shelf {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Shelf shelf = (Shelf) o;
-        return shelfWidth == shelf.shelfWidth && boardNumber == shelf.boardNumber && Objects.equals(shelfID, shelf.shelfID) && Objects.equals(roomIn, shelf.roomIn) && Objects.equals(booksOnShelf, shelf.booksOnShelf) && Objects.equals(genre, shelf.genre);
+        return shelfWidth == shelf.shelfWidth && remainingSpace == shelf.remainingSpace && boardNumber == shelf.boardNumber && Objects.equals(shelfID, shelf.shelfID) && Objects.equals(roomIn, shelf.roomIn) && Objects.equals(booksOnShelf, shelf.booksOnShelf) && Objects.equals(genre, shelf.genre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(shelfID, roomIn, booksOnShelf, genre, shelfWidth, boardNumber);
+        return Objects.hash(shelfID, roomIn, booksOnShelf, genre, shelfWidth, remainingSpace, boardNumber);
     }
 }

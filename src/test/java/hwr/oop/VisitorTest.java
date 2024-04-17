@@ -29,7 +29,7 @@ class VisitorTest{
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = new Room();
         Shelf shelf = new Shelf(room, "Action", 400,1);
-        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         // Add the Book to the Visitor's borrowed books list and assert its presence
         visitor.addBorrowedBook(book);
@@ -43,7 +43,7 @@ class VisitorTest{
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = new Room();
         Shelf shelf = new Shelf(room, "Action", 400,1);
-        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         // Add the Book to the Visitor's borrowed books list, then remove it and assert its absence
         visitor.addBorrowedBook(book);
@@ -58,7 +58,7 @@ class VisitorTest{
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = new Room();
         Shelf shelf = new Shelf(room, "Action", 400,1);
-        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         // Add the Book to the Visitor's books to return list and assert its presence
         visitor.addBookToReturn(book);
@@ -72,7 +72,7 @@ class VisitorTest{
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = new Room();
         Shelf shelf = new Shelf(room, "Action", 400,1);
-        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
+        Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         // Add the Book to the Visitor's books to return list, then remove it and assert its absence
         visitor.addBookToReturn(book);
@@ -97,7 +97,7 @@ class VisitorTest{
 
         // Ensure that specific attributes are equal
         List<Book> books1 = new ArrayList<>();
-        books1.add(new Book("Welt", "Peter Hans", "Natur",new Shelf(new Room(), "Acrion", 400, 1),100));
+        books1.add(new Book("Welt", "Peter Hans", "Natur",new Shelf(new Room(), "Acrion", 400, 1),100, 3));
         visitor3.setBooksToReturn(books1);
         Assertions.assertThat(visitor3.getBooksToReturn()).isEqualTo(books1);
 
