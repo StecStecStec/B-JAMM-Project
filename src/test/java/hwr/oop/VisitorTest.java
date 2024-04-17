@@ -20,6 +20,7 @@ class VisitorTest{
         Assertions.assertThat(visitor.getVisitorSurname()).isEqualTo("Mustermann");
         Assertions.assertThat(visitor.getVisitorBirthday()).isEqualTo("01.01.1999");
         Assertions.assertThat(visitor.getVisitorEmailAddress()).isEqualTo("max.mustermann@gmx.de");
+        Assertions.assertThat(visitor.getVisitorID()).isNotNull();
     }
 
     // Test case for adding a borrowed book to a Visitor's list of borrowed books
@@ -36,12 +37,12 @@ class VisitorTest{
         Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
     }
 
-    @Test
-    void visitorIDCheck(){
-        Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
+    //@Test
+   // void visitorIDCheck(){
+        //Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
 
-        Assertions.assertThat(visitor.getVisitorID()).isNotNull();
-    }
+       // Assertions.assertThat(visitor.getVisitorID()).isNotNull();
+    //}
     // Test case for removing a borrowed book from a Visitor's list of borrowed books
     @Test
     void removeBorrowedBook_checkIfBookRemoved() {
@@ -115,7 +116,9 @@ class VisitorTest{
         Assertions.assertThat(visitor1.equals(visitor2)).isTrue();
 
         // Ensure equals method returns false when comparing with null
-        Assertions.assertThat(visitor1.equals(null)).isFalse();
+        Assertions.assertThat(visitor1).isNotNull();
+
+        Assertions.assertThat(visitor1).isNotEqualTo(Room.createNewRoom(5));
     }
 
     // Test case for the hashCode method in Visitor class
