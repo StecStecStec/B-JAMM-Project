@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public class BookTest {
     @Test
-    void createBook_checkRightAttributes(){
+    void createBook_checkRightAttributes() {
         Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Shelf shelf = new Shelf(room, "Action", 400, 1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
         Assertions.assertThat(book.getBookID()).isNotNull();
         Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
@@ -18,10 +18,11 @@ public class BookTest {
         Assertions.assertThat(book.getBookCondition()).isEqualTo(100);
         Assertions.assertThat(book).isIn(shelf.getBooksOnShelf());
     }
+
     @Test
-    void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull(){
+    void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull() {
         Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Shelf shelf = new Shelf(room, "Action", 400, 1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
@@ -30,10 +31,11 @@ public class BookTest {
         Assertions.assertThat(book.getShelf()).isNull();
         Assertions.assertThat(book).isNotIn(shelf.getBooksOnShelf());
     }
+
     @Test
-    void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull(){
+    void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
         Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Shelf shelf = new Shelf(room, "Action", 400, 1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
         Visitor visitor = new Visitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
