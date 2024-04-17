@@ -29,7 +29,6 @@ public class ShelfTest {
         Room room = new Room();
         Shelf shelf = new Shelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
-        shelf.addBookOnShelf(book);
         shelf.removeBookOnShelf(book);
         Assertions.assertThat(book).isNotIn(shelf.getBooksOnShelf());
     }

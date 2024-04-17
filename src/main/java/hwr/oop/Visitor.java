@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Visitor {
+public class  Visitor {
     private UUID visitorID;
     private String visitorName;
     private String visitorSurname;
@@ -15,14 +15,17 @@ public class Visitor {
     private List<Book> booksToReturn; //warnings
 
     public UUID getVisitorID() {return visitorID;}
+    public void setVisitorID(UUID visitorID) {this.visitorID = visitorID;}
     public String getVisitorName() {return visitorName;}
     public String getVisitorSurname() {return visitorSurname;}
     public String getVisitorBirthday() {return visitorBirthday;}
     public String getVisitorEmailAddress() {return visitorEmailAddress;}
     public List<Book> getBorrowedBooks() {return borrowedBooks;}
+    public void setBorrowedBooks(List<Book> borrowedBooks) {this.borrowedBooks = borrowedBooks;}
     public void addBorrowedBook(Book book) {borrowedBooks.add(book);}
     public void removeBorrowedBook(Book book) {borrowedBooks.remove(book);}
     public List<Book> getBooksToReturn() {return booksToReturn;}
+    public void setBooksToReturn(List<Book> booksToReturn) {this.booksToReturn = booksToReturn;}
     public void addBookToReturn(Book book) {booksToReturn.add(book);}
     public void removeBookToReturn(Book book) {booksToReturn.remove(book);}
 
