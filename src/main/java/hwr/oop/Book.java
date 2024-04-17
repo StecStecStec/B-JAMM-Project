@@ -35,21 +35,23 @@ public class Book {
 
     public void borrow(Visitor visitor) {
         if(borrowedBy != null) {
-            return;
+
+        } else {
+            borrowedBy = visitor;
+            borrowedBy.addBorrowedBook(this);
+            shelf.removeBookOnShelf(this);
+            shelf = null;
         }
-        borrowedBy = visitor;
-        borrowedBy.addBorrowedBook(this);
-        shelf.removeBookOnShelf(this);
-        shelf = null;
     }
     public void returnBook(Shelf returnShelf) {
         if(borrowedBy == null) {
-            return;
+
+        } else {
+            borrowedBy.removeBorrowedBook(this);
+            borrowedBy = null;
+            shelf = returnShelf;
+            shelf.addBookOnShelf(this);
         }
-        borrowedBy.removeBorrowedBook(this);
-        borrowedBy = null;
-        shelf = returnShelf;
-        shelf.addBookOnShelf(this);
     }
     public void setBookCondition(int bookCondition) {
         this.bookCondition = bookCondition;
