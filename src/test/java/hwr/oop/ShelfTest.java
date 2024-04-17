@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ShelfTest {
     @Test
     void createShelf_checkRightAssignment(){
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Assertions.assertThat(shelf.getRoomIn()).isEqualTo(room);
         Assertions.assertThat(shelf.getGenre()).isEqualTo("Action");
         Assertions.assertThat(shelf.getShelfWidth()).isEqualTo(400);
@@ -20,8 +20,8 @@ public class ShelfTest {
 
     @Test
     void addBook_checkIfBookAdded(){
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
         shelf.addBookOnShelf(book);
         Assertions.assertThat(book).isIn(shelf.getBooksOnShelf());
@@ -29,8 +29,8 @@ public class ShelfTest {
 
     @Test
     void removeShelf_checkIfBookRemoved(){
-        Room room = new Room();
-        Shelf shelf = new Shelf(room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
         Book book = new Book("Welt", "Peter Hans", "Natur", shelf, 100);
         shelf.removeBookOnShelf(book);
         Assertions.assertThat(book).isNotIn(shelf.getBooksOnShelf());
