@@ -46,15 +46,6 @@ public class Shelf {
     }
 
 
-    public Shelf(Room roomIn, String genre, int shelfWidth, int boardNumber) {
-        this.shelfID = UUID.randomUUID();
-        this.roomIn = roomIn;
-        this.booksOnShelf = new ArrayList<Book>();
-        this.genre = genre;
-        this.shelfWidth = shelfWidth;
-        this.boardNumber = boardNumber;
-    }
-
     public Shelf(UUID shelfID ,Room roomIn, String genre, int shelfWidth, int boardNumber) {
         this.shelfID = shelfID;
         this.roomIn = roomIn;
@@ -62,6 +53,14 @@ public class Shelf {
         this.genre = genre;
         this.shelfWidth = shelfWidth;
         this.boardNumber = boardNumber;
+    }
+
+    public static Shelf createNewShelf(Room roomIn, String genre, int shelfWidth, int boardNumber){
+        return new Shelf(UUID.randomUUID(),roomIn,genre,shelfWidth,boardNumber);
+    }
+
+    public static Shelf createCompleteNewShelf(UUID roomID,Room roomIn, String genre, int shelfWidth, int boardNumber){
+        return new Shelf(roomID,roomIn,genre,shelfWidth,boardNumber);
     }
 
     @Override

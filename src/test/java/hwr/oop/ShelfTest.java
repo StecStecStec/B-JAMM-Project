@@ -39,10 +39,10 @@ public class ShelfTest {
     @Test
     void testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
-        Room room = new Room();
-        Shelf shelf1 = new Shelf(uuid,room, "Action", 400,1);
-        Shelf shelf2 = new Shelf(uuid,room, "Action", 400,1);
-        Shelf shelf3 = new Shelf(room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf1 = Shelf.createCompleteNewShelf(uuid,room, "Action", 400,1);
+        Shelf shelf2 = Shelf.createCompleteNewShelf(uuid,room, "Action", 400,1);
+        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400,1);
 
         Assertions.assertThat(shelf1)
                 //Comparison with null should be return false
@@ -63,10 +63,10 @@ public class ShelfTest {
     void testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Room room = new Room();
-        Shelf shelf1 = new Shelf(uuid,room, "Action", 400,1);
-        Shelf shelf2 = new Shelf(room, "Action", 400,1);
-        Shelf shelf3 = new Shelf(uuid,room, "Action", 400,1);
+        Room room = Room.createNewRoom();
+        Shelf shelf1 = Shelf.createCompleteNewShelf(uuid,room, "Action", 400,1);
+        Shelf shelf2 = Shelf.createCompleteNewShelf(uuid,room, "Action", 400,1);
+        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400,1);
 
         Assertions.assertThat(shelf1.hashCode()).isNotEqualTo(shelf2.hashCode());
 
