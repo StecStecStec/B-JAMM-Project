@@ -38,9 +38,10 @@ public class ShelfTest {
 
     @Test
     void testEqualsMethod() {
+        UUID uuid = UUID.randomUUID();
         Room room = new Room();
-        Shelf shelf1 = new Shelf(room, "Action", 400,1);
-        Shelf shelf2 = new Shelf(room, "Action", 400,1);
+        Shelf shelf1 = new Shelf(uuid,room, "Action", 400,1);
+        Shelf shelf2 = new Shelf(uuid,room, "Action", 400,1);
         Shelf shelf3 = new Shelf(room, "Action", 400,1);
 
         Assertions.assertThat(shelf1)
@@ -51,24 +52,26 @@ public class ShelfTest {
 
 
 
-        Assertions.assertThat(shelf1.equals(shelf2)).isFalse();
+        Assertions.assertThat(shelf1.equals(shelf3)).isFalse();
 
-        UUID shelfID = shelf1.getShelfID();
-        shelf2.setShelfID(shelfID);
+        //UUID shelfID = shelf1.getShelfID();
+        //shelf2.setShelfID(shelfID);
         Assertions.assertThat(shelf1.equals(shelf2)).isTrue();
     }
 
     @Test
     void testHashCodeMethod() {
+        UUID uuid = UUID.randomUUID();
+
         Room room = new Room();
-        Shelf shelf1 = new Shelf(room, "Action", 400,1);
+        Shelf shelf1 = new Shelf(uuid,room, "Action", 400,1);
         Shelf shelf2 = new Shelf(room, "Action", 400,1);
+        Shelf shelf3 = new Shelf(uuid,room, "Action", 400,1);
 
         Assertions.assertThat(shelf1.hashCode()).isNotEqualTo(shelf2.hashCode());
 
-        UUID shelfID = shelf1.getShelfID();
-        shelf2.setShelfID(shelfID);
-        Assertions.assertThat(shelf1).hasSameHashCodeAs(shelf2);
+
+        Assertions.assertThat(shelf1).hasSameHashCodeAs(shelf3);
     }
 
 }

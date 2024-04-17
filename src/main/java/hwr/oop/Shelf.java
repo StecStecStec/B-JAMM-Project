@@ -45,13 +45,18 @@ public class Shelf {
         booksOnShelf.remove(book);
     }
 
-    //needed for tests
-    public void setShelfID(UUID shelfID) {
-        this.shelfID = shelfID;
-    }
 
     public Shelf(Room roomIn, String genre, int shelfWidth, int boardNumber) {
         this.shelfID = UUID.randomUUID();
+        this.roomIn = roomIn;
+        this.booksOnShelf = new ArrayList<Book>();
+        this.genre = genre;
+        this.shelfWidth = shelfWidth;
+        this.boardNumber = boardNumber;
+    }
+
+    public Shelf(UUID shelfID ,Room roomIn, String genre, int shelfWidth, int boardNumber) {
+        this.shelfID = shelfID;
         this.roomIn = roomIn;
         this.booksOnShelf = new ArrayList<Book>();
         this.genre = genre;
