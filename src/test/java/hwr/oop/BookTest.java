@@ -1,5 +1,6 @@
 package hwr.oop;
 
+import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 import java.util.UUID;
@@ -70,38 +71,40 @@ public class BookTest {
 
     @Test
     void testEqualsMethod() {
+
+        UUID uuid = UUID.randomUUID();
+
         Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
-        Book book1 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book3 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book1 = Book.createCompleteBook(uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createCompleteBook(uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book3 = Book.createNewBook("Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
 
-        //Comparison with null should return false
+        // Ensure equals method works correctly for different visitors
+        Assertions.assertThat(book1).isNotEqualTo(book3);
+
+        // Ensure equals method works correctly after setting same attributes
+        Assertions.assertThat(book1.equals(book2)).isTrue();
+
+        // Ensure equals method returns false when comparing with null
         Assertions.assertThat(book1).isNotNull();
-
-        //Comparison with an object of another class should return false
-        Assertions.assertThat(book1).isNotEqualTo(shelf);
-
-        Assertions.assertThat(book1.equals(book2)).isFalse();
-
-        UUID bookID = book1.getBookID();
-        book3.setBookID(bookID);
-        Assertions.assertThat(book1.equals(book3)).isTrue();
     }
 
     @Test
     void testHashCodeMethod()   {
         Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
-        Book book1 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
-        Assertions.assertThat(book1.hashCode()).isNotEqualTo(book2.hashCode());
+        UUID uuid = UUID.randomUUID();
+        Book book1 = Book.createCompleteBook(uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createCompleteBook(uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book3 = Book.createNewBook("Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
 
-        UUID bookID = book1.getBookID();
-        book2.setBookID(bookID);
 
-        Assertions.assertThat(book1.getShelf()).hasSameHashCodeAs(book2.getShelf());
+        Assertions.assertThat(book1).hasSameHashCodeAs(book2);
+
+        Assertions.assertThat(book1.hashCode()).isNotEqualTo(book3.hashCode());
+
     }
 
     @Test
@@ -112,9 +115,7 @@ public class BookTest {
 
         Assertions.assertThat(book1.getBookCondition()).isEqualTo(100);
 
-        book1.setBookCondition(95);
 
-        Assertions.assertThat(book1.getBookCondition()).isEqualTo(95);
     }
 
     @Test
@@ -124,7 +125,6 @@ public class BookTest {
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
 
         Book book1 = Book.createCompleteBook(uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createCompleteBook(uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Book book3 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         Assertions.assertThat(book1)

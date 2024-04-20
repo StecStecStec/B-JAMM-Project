@@ -3,8 +3,6 @@ package hwr.oop;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -37,12 +35,6 @@ class VisitorTest{
         Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
     }
 
-    //@Test
-   // void visitorIDCheck(){
-        //Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-
-       // Assertions.assertThat(visitor.getVisitorID()).isNotNull();
-    //}
     // Test case for removing a borrowed book from a Visitor's list of borrowed books
     @Test
     void removeBorrowedBook_checkIfBookRemoved() {
@@ -105,12 +97,6 @@ class VisitorTest{
 
         // Ensure equals method works correctly for different visitors
         Assertions.assertThat(visitor1).isNotEqualTo(visitor3);
-
-        // Ensure that specific attributes are equal
-        //List<Book> books1 = new ArrayList<>();
-        //books1.add(new Book("Welt", "Peter Hans", "Natur",new Shelf(new Room(), "Acrion", 400, 1),100));
-        //visitor3.addBorrowedBook(new Book("Welt", "Peter Hans", "Natur",new Shelf(new Room(), "Acrion", 400, 1),100));
-        //Assertions.assertThat(visitor3.getBooksToReturn()).isEqualTo(books1);
 
         // Ensure equals method works correctly after setting same attributes
         Assertions.assertThat(visitor1.equals(visitor2)).isTrue();

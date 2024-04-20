@@ -42,11 +42,6 @@ public class Book {
     }
 
 
-
-    void setBookID(UUID bookID) {
-        this.bookID = bookID;
-    }
-
     public void borrow(Visitor visitor) {
         if(borrowedBy != null) {
 
@@ -66,9 +61,6 @@ public class Book {
             shelf = returnShelf;
             shelf.addBookOnShelf(this);
         }
-    }
-    public void setBookCondition(int bookCondition) {
-        this.bookCondition = bookCondition;
     }
 
     @Override
