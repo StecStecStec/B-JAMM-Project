@@ -2,14 +2,16 @@ package hwr.oop;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ShelfTest {
     @Test
-    void createShelf_checkRightAssignment(){
+    void createShelf_checkRightAssignment() {
         Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Assertions.assertThat(shelf.getRoomIn()).isEqualTo(room);
         Assertions.assertThat(shelf.getGenre()).isEqualTo("Action");
         Assertions.assertThat(shelf.getShelfWidth()).isEqualTo(400);
@@ -20,18 +22,18 @@ public class ShelfTest {
     }
 
     @Test
-    void addBook_checkIfBookAdded(){
+    void addBook_checkIfBookAdded() {
         Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Assertions.assertThat(book).isIn(shelf.getBooksOnShelf());
     }
 
     @Test
-    void addBookFails_checkExceptionRaise(){
+    void addBookFails_checkExceptionRaise() {
         Room room = Room.createNewRoom(5);
-        Shelf shelf1 = Shelf.createNewShelf(room, "Action", 3,1);
-        Shelf shelf2 = Shelf.createNewShelf(room, "Action", 2,1);
+        Shelf shelf1 = Shelf.createNewShelf(room, "Action", 3, 1);
+        Shelf shelf2 = Shelf.createNewShelf(room, "Action", 2, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf1, 100, 3);
         Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
@@ -39,9 +41,9 @@ public class ShelfTest {
     }
 
     @Test
-    void removeShelf_checkIfBookRemoved(){
+    void removeShelf_checkIfBookRemoved() {
         Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
         shelf.removeBookOnShelf(book);
         Assertions.assertThat(book).isNotIn(shelf.getBooksOnShelf());
@@ -51,16 +53,15 @@ public class ShelfTest {
     void testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
         Room room = Room.createNewRoom(5);
-        Shelf shelf1 = Shelf.createCompleteNewShelf(uuid,room, "Action", 400,1);
-        Shelf shelf2 = Shelf.createCompleteNewShelf(uuid,room, "Action", 400,1);
-        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400,1);
+        Shelf shelf1 = Shelf.createCompleteNewShelf(uuid, room, "Action", 400, 1);
+        Shelf shelf2 = Shelf.createCompleteNewShelf(uuid, room, "Action", 400, 1);
+        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400, 1);
 
         Assertions.assertThat(shelf1)
                 //Comparison with null should be return false
                 .isNotNull()
                 //Comparison with an object of another class should be return false
                 .isNotEqualTo(room);
-
 
 
         Assertions.assertThat(shelf1.equals(shelf3)).isFalse();
@@ -75,9 +76,9 @@ public class ShelfTest {
         UUID uuid = UUID.randomUUID();
 
         Room room = Room.createNewRoom(5);
-        Shelf shelf1 = Shelf.createCompleteNewShelf(uuid,room, "Action", 400,1);
-        Shelf shelf2 = Shelf.createCompleteNewShelf(uuid,room, "Action", 400,1);
-        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400,1);
+        Shelf shelf1 = Shelf.createCompleteNewShelf(uuid, room, "Action", 400, 1);
+        Shelf shelf2 = Shelf.createCompleteNewShelf(uuid, room, "Action", 400, 1);
+        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400, 1);
 
         Assertions.assertThat(shelf1.hashCode()).isNotEqualTo(shelf3.hashCode());
 

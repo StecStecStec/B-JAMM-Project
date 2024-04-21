@@ -27,7 +27,9 @@ public class Librarian {
         return librarianName;
     }
 
-    public String getPassword() {return password;}
+    public String getPassword() {
+        return password;
+    }
 
     public static Librarian createNewLibrarian(String librarianName, String librarianSurname, String librarianBirthday, String password) {
         return new Librarian(UUID.randomUUID(), librarianName, librarianSurname, librarianBirthday, password);

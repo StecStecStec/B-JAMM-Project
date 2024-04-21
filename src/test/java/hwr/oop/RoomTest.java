@@ -67,7 +67,7 @@ class RoomTest {
     void testShelfLimit() {
         Room room = Room.createNewRoom(5);
         int a = 0;
-        while(a <= room.getShelfLimit()) {
+        while (a <= room.getShelfLimit()) {
             Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
             room.roomAddShelf(shelf);
             a++;

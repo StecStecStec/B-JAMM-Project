@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 import java.util.UUID;
 
-public class BookTest {
+class BookTest {
     @Test
     void createBook_checkRightAttributes() {
         Room room = Room.createNewRoom(5);

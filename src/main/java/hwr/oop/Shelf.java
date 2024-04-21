@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Shelf {
-    private UUID shelfID;
+    private final UUID shelfID;
     private Room roomIn;
     private List<Book> booksOnShelf;
     private String genre;
@@ -18,7 +18,9 @@ public class Shelf {
         return shelfID;
     }
 
-    public int getRemainingSpace() {return remainingSpace;}
+    public int getRemainingSpace() {
+        return remainingSpace;
+    }
 
     public List<Book> getBooksOnShelf() {
         return booksOnShelf;
@@ -41,7 +43,9 @@ public class Shelf {
     }
 
     public void addBookOnShelf(Book book) {
-        if(remainingSpace < book.getBookWidth()){ throw new IllegalArgumentException("Added book to shelf with not enough space.");}
+        if (remainingSpace < book.getBookWidth()) {
+            throw new IllegalArgumentException("Added book to shelf with not enough space.");
+        }
         remainingSpace -= book.getBookWidth();
         booksOnShelf.add(book);
     }
@@ -55,7 +59,7 @@ public class Shelf {
     private Shelf(UUID shelfID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
         this.shelfID = shelfID;
         this.roomIn = roomIn;
-        this.booksOnShelf = new ArrayList<Book>();
+        this.booksOnShelf = new ArrayList<>();
         this.genre = genre;
         this.shelfWidth = shelfWidth;
         this.remainingSpace = shelfWidth;
@@ -64,12 +68,12 @@ public class Shelf {
     }
 
 
-    public static Shelf createNewShelf(Room roomIn, String genre, int shelfWidth, int boardNumber){
-        return new Shelf(UUID.randomUUID(),roomIn,genre,shelfWidth,boardNumber);
+    public static Shelf createNewShelf(Room roomIn, String genre, int shelfWidth, int boardNumber) {
+        return new Shelf(UUID.randomUUID(), roomIn, genre, shelfWidth, boardNumber);
     }
 
-    public static Shelf createCompleteNewShelf(UUID roomID,Room roomIn, String genre, int shelfWidth, int boardNumber){
-        return new Shelf(roomID,roomIn,genre,shelfWidth,boardNumber);
+    public static Shelf createCompleteNewShelf(UUID roomID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
+        return new Shelf(roomID, roomIn, genre, shelfWidth, boardNumber);
     }
 
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Room {
 
-    private final List<Shelf> shelfList;
+    private List<Shelf> shelfList;
     private final int shelfLimit;
     private final UUID roomID;
 
@@ -24,7 +24,7 @@ public class Room {
     }
 
     public void roomAddShelf(Shelf shelf) {
-        if(this.shelfList.size() < this.shelfLimit){
+        if (this.shelfList.size() < this.shelfLimit) {
             shelfList.add(shelf);
         }
         //once interface added, add error message
@@ -34,11 +34,11 @@ public class Room {
         shelfList.remove(shelf);
     }
 
-    public static Room createNewRoom(int shelfLimit){
+    public static Room createNewRoom(int shelfLimit) {
         return new Room(UUID.randomUUID(), shelfLimit);
     }
 
-    public static Room createCompleteNewRoom(UUID uuid, int shelfLimit){
+    public static Room createCompleteNewRoom(UUID uuid, int shelfLimit) {
         return new Room(uuid, shelfLimit);
     }
 
