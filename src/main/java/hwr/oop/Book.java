@@ -13,14 +13,37 @@ public class Book {
     private Shelf shelf;
     private Visitor borrowedBy = null;
 
-    public int getBookWidth() {return bookWidth;}
-    public int getBookCondition() {return bookCondition;}
-    public UUID getBookID() {return bookID;}
-    public Shelf getShelf() {return shelf;}
-    public String getBookTitle() {return title;}
-    public String getBookAuthor() {return author;}
-    public String getBookGenre() {return genre;}
-    public Visitor getBorrowedBy() {return borrowedBy;}
+    public int getBookWidth() {
+        return bookWidth;
+    }
+
+    public int getBookCondition() {
+        return bookCondition;
+    }
+
+    public UUID getBookID() {
+        return bookID;
+    }
+
+    public Shelf getShelf() {
+        return shelf;
+    }
+
+    public String getBookTitle() {
+        return title;
+    }
+
+    public String getBookAuthor() {
+        return author;
+    }
+
+    public String getBookGenre() {
+        return genre;
+    }
+
+    public Visitor getBorrowedBy() {
+        return borrowedBy;
+    }
 
     public static Book createNewBook(String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
         return new Book(UUID.randomUUID(), title, author, genre, shelf, bookCondition, bookWidth);
@@ -30,7 +53,7 @@ public class Book {
         return new Book(uuid, title, author, genre, shelf, bookCondition, bookWidth);
     }
 
-    private Book(UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth){
+    private Book(UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
         this.bookID = uuid;
         this.bookWidth = bookWidth;
         this.shelf = shelf;
@@ -42,33 +65,22 @@ public class Book {
     }
 
 
-
-    void setBookID(UUID bookID) {
-        this.bookID = bookID;
-    }
-
     public void borrow(Visitor visitor) {
-        if(borrowedBy != null) {
-
-        } else {
+        if (borrowedBy == null) {
             borrowedBy = visitor;
             borrowedBy.addBorrowedBook(this);
             shelf.removeBookOnShelf(this);
             shelf = null;
         }
     }
-    public void returnBook(Shelf returnShelf) {
-        if(borrowedBy == null) {
 
-        } else {
+    public void returnBook(Shelf returnShelf) {
+        if (borrowedBy != null) {
             borrowedBy.removeBorrowedBook(this);
             borrowedBy = null;
             shelf = returnShelf;
             shelf.addBookOnShelf(this);
         }
-    }
-    public void setBookCondition(int bookCondition) {
-        this.bookCondition = bookCondition;
     }
 
     @Override

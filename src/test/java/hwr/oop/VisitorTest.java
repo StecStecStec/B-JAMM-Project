@@ -3,12 +3,10 @@ package hwr.oop;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 
-class VisitorTest{
+class VisitorTest {
     // Test case for ensuring correct initialization of Visitor attributes
     @Test
     void createVisitor_checkRightAssignment() {
@@ -29,7 +27,7 @@ class VisitorTest{
         // Create a Visitor and a Book
         Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         // Add the Book to the Visitor's borrowed books list and assert its presence
@@ -37,19 +35,13 @@ class VisitorTest{
         Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
     }
 
-    //@Test
-   // void visitorIDCheck(){
-        //Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-
-       // Assertions.assertThat(visitor.getVisitorID()).isNotNull();
-    //}
     // Test case for removing a borrowed book from a Visitor's list of borrowed books
     @Test
     void removeBorrowedBook_checkIfBookRemoved() {
         // Create a Visitor and a Book
         Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         // Add the Book to the Visitor's borrowed books list, then remove it and assert its absence
@@ -64,9 +56,9 @@ class VisitorTest{
         // Create a Visitor and a Book
         UUID uuid = UUID.randomUUID();
 
-        Visitor visitor = Visitor.createCompleteVisitor("Max","Mustermann","01.01.1999", "max.mustermann@gmx.de",uuid);
+        Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", uuid);
         Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         // Add the Book to the Visitor's books to return list and assert its presence
@@ -80,7 +72,7 @@ class VisitorTest{
         // Create a Visitor and a Book
         Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
 
         // Add the Book to the Visitor's books to return list, then remove it and assert its absence
@@ -106,12 +98,6 @@ class VisitorTest{
         // Ensure equals method works correctly for different visitors
         Assertions.assertThat(visitor1).isNotEqualTo(visitor3);
 
-        // Ensure that specific attributes are equal
-        //List<Book> books1 = new ArrayList<>();
-        //books1.add(new Book("Welt", "Peter Hans", "Natur",new Shelf(new Room(), "Acrion", 400, 1),100));
-        //visitor3.addBorrowedBook(new Book("Welt", "Peter Hans", "Natur",new Shelf(new Room(), "Acrion", 400, 1),100));
-        //Assertions.assertThat(visitor3.getBooksToReturn()).isEqualTo(books1);
-
         // Ensure equals method works correctly after setting same attributes
         Assertions.assertThat(visitor1.equals(visitor2)).isTrue();
 
@@ -131,7 +117,7 @@ class VisitorTest{
         // Create Visitor object with same attributes as visitor1
         Visitor visitor2 = Visitor.createCompleteVisitor("John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
 
-        Visitor visitor3 = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de") ;
+        Visitor visitor3 = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
 
         // Ensure hashCode method returns different values for different visitors | visitor1 and visitor2 have different UUID´s
         Assertions.assertThat(visitor1.hashCode()).isNotEqualTo(visitor3.hashCode());
