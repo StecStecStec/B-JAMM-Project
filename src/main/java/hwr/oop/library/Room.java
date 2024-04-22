@@ -1,5 +1,7 @@
 package hwr.oop.library;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -35,10 +37,12 @@ public class Room {
     }
 
     public static Room createNewRoom(int shelfLimit) {
-        return new Room(UUID.randomUUID(), shelfLimit);
+        UUID uuid = UUID.randomUUID();
+        return createCompleteNewRoom(uuid, shelfLimit);
     }
 
     public static Room createCompleteNewRoom(UUID uuid, int shelfLimit) {
+        saveCsvFile("csvFiles\\csvRoom.csv", uuid, shelfLimit);
         return new Room(uuid, shelfLimit);
     }
 
@@ -46,6 +50,19 @@ public class Room {
         this.shelfLimit = shelfLimit;
         this.shelfList = new ArrayList<>(this.shelfLimit);
         this.roomID = uuid;
+    }
+
+    public static void loadCsvFile(String fileName) {
+
+    }
+
+    public static void saveCsvFile(String fileName, UUID roomID, int shelfLimit) {
+        try (FileOutputStream stream = new FileOutputStream(fileName, true)) {
+            String csvData = roomID.toString() +  ";" + shelfLimit +  ";\n";
+            stream.write(csvData.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -61,5 +78,11 @@ public class Room {
         return Objects.hash(shelfList, shelfLimit, roomID);
     }
 
+    public static void main(String[] args) {
+        int shelfLimit = 7;
+        Room.createNewRoom(shelfLimit);
+    }
 }
+
+
 
