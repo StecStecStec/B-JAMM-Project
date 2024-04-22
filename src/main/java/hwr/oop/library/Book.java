@@ -55,12 +55,14 @@ public class Book {
 
     private Book(UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
         this.bookID = uuid;
-        this.bookWidth = bookWidth;
+        this.bookWidth = Math.max(bookWidth, 0);
         this.shelf = shelf;
         this.title = title;
         this.author = author;
         this.genre = genre;
-        this.bookCondition = bookCondition;
+        if (bookCondition < 0 || bookCondition > 100) {
+            this.bookCondition = bookCondition;
+        }
         shelf.addBookOnShelf(this);
     }
 
