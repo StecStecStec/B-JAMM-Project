@@ -34,18 +34,19 @@ public class Room {
         shelfList.remove(shelf);
     }
 
-    public static Room createNewRoom(int shelfLimit) {
-        return new Room(UUID.randomUUID(), shelfLimit);
+    public static Room createNewRoom(CSVAdapter csvAdapter, int shelfLimit) {
+        return new Room(csvAdapter, UUID.randomUUID(), shelfLimit);
     }
 
-    public static Room createCompleteNewRoom(UUID uuid, int shelfLimit) {
-        return new Room(uuid, shelfLimit);
+    public static Room createCompleteNewRoom(CSVAdapter csvAdapter, UUID uuid, int shelfLimit) {
+        return new Room(csvAdapter, uuid, shelfLimit);
     }
 
-    private Room(UUID uuid, int shelfLimit) {
+    private Room(CSVAdapter csvAdapter, UUID uuid, int shelfLimit) {
         this.shelfLimit = shelfLimit;
         this.shelfList = new ArrayList<>(this.shelfLimit);
         this.roomID = uuid;
+        csvAdapter.addRoom(this);
     }
 
     @Override

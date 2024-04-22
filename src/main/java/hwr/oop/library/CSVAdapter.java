@@ -5,27 +5,35 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CSVAdapter {
     private final String path;
-    private List<Room> roomList;
-    private List<Shelf> shelfList;
-    private List<Book> bookList;
-    private List<Visitor> visitorList;
-    private List<Librarian> librarianList;
+    private List<Room> roomList = new ArrayList<>();
+    private List<Shelf> shelfList = new ArrayList<>();
+    private List<Book> bookList = new ArrayList<>();
+    private List<Visitor> visitorList = new ArrayList<>();
+    private List<Librarian> librarianList = new ArrayList<>();
 
     public CSVAdapter(String path) {
         this.path = path;
     }
 
+    public void addRoom(Room room){roomList.add(room);}
+    public void addShelf(Shelf shelf){shelfList.add(shelf);}
+    public void addBook(Book book){bookList.add(book);}
+    public void addVisitor(Visitor visitor){visitorList.add(visitor);}
+    public void addLibrarian(Librarian librarian){librarianList.add(librarian);}
     /*CSV format:
     1: every variable is split with an ";"
     2: the elements of every list-variable are split with an ","
     3: for each object reference the uuid is saved
+    4: in case a variable is null it is converted to a string named "null"
     Important for loading the csv:
     1. make sure to assign the right variables
     2. make sure that the lists are read correctly
-    3. when converting the ids back to object references make sure to not create the same object twice*/
+    3. when converting the ids back to object references make sure to not create the same object twice
+    4. pay attention on the null strings */
     public void loadCSV() {
         
     }
@@ -38,6 +46,7 @@ public class CSVAdapter {
                 for (Shelf shelf : room.getShelfList()) {
                     shelfIdList.add(shelf.getShelfID().toString());
                 }
+                if (shelfIdList.isEmpty()){shelfIdList.add("null");}
                 writer.write(String.format("%s;%d;%s%n", room.getRoomID().toString(), room.getShelfLimit(), String.join(",", shelfIdList)));
             }
         }
@@ -53,7 +62,8 @@ public class CSVAdapter {
                 for (Book book : shelf.getBooksOnShelf()) {
                     bookIdList.add(book.getBookID().toString());
                 }
-                writer.write(String.format("%s;%s;%s;%d;%d;%d;%s%n", shelf.getShelfID().toString(), shelf.getRoomIn().getRoomID().toString(), shelf.getGenre(), shelf.getShelfWidth(), shelf.getRemainingSpace(), shelf.getBoardNumber(), String.join(",", bookIdList)));
+                if (bookIdList.isEmpty()){bookIdList.add("null");}
+                writer.write(String.format("%s;%s;%s;%d;%d;%s%n", shelf.getShelfID().toString(), shelf.getRoomIn().getRoomID().toString(), shelf.getGenre(), shelf.getShelfWidth(), shelf.getBoardNumber(), String.join(",", bookIdList)));
             }
         }
         finally {
@@ -63,7 +73,12 @@ public class CSVAdapter {
         writer = new BufferedWriter(new FileWriter(path+"Book.csv"));
         try {
             for (Book book : bookList) {
-                writer.write(String.format("%s;%d;%d;%s;%s;%s;%s;%s%n", book.getBookID().toString(), book.getBookCondition(), book.getBookWidth(), book.getBookTitle(), book.getBookAuthor(), book.getBookGenre(), book.getShelf().getShelfID().toString(), book.getBorrowedBy().getVisitorID().toString()));
+                if (book.getShelf() == null){
+                    writer.write(String.format("%s;%d;%d;%s;%s;%s;%s;%s%n", book.getBookID().toString(), book.getBookCondition(), book.getBookWidth(), book.getBookTitle(), book.getBookAuthor(), book.getBookGenre(), "null", book.getBorrowedBy().getVisitorID().toString()));
+                }
+                else {
+                    writer.write(String.format("%s;%d;%d;%s;%s;%s;%s;%s%n", book.getBookID().toString(), book.getBookCondition(), book.getBookWidth(), book.getBookTitle(), book.getBookAuthor(), book.getBookGenre(), book.getShelf().getShelfID().toString(), "null"));
+                }
             }
         }
         finally {
@@ -78,10 +93,12 @@ public class CSVAdapter {
                 for (Book book : visitor.getBorrowedBooks()) {
                     borrowedBookIdList.add(book.getBookID().toString());
                 }
+                if (borrowedBookIdList.isEmpty()){borrowedBookIdList.add("null");}
                 List<String> booksToReturnIdList = new ArrayList<>();
                 for (Book book : visitor.getBooksToReturn()) {
                     booksToReturnIdList.add(book.getBookID().toString());
                 }
+                if (booksToReturnIdList.isEmpty()){booksToReturnIdList.add("null");}
                 writer.write(String.format("%s;%s;%s;%s;%s;%s;%s%n", visitor.getVisitorID().toString(), visitor.getVisitorName(), visitor.getVisitorSurname(), visitor.getVisitorBirthday(), visitor.getVisitorEmailAddress(), String.join(",", borrowedBookIdList), String.join(",", booksToReturnIdList)));
             }
         }
@@ -99,5 +116,17 @@ public class CSVAdapter {
         finally {
             writer.close();
         }
+    }
+    //for testing
+    public static void main(String[] args) throws IOException {
+        CSVAdapter csvAdapter = new CSVAdapter(".\\csvFiles\\");
+        Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
+        Room room = Room.createNewRoom(csvAdapter, 5);
+        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
+        Book book1 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createNewBook(csvAdapter, "TestWelt", "Petest", "Testing", shelf, 90, 5);
+        book1.borrow(visitor);
+        book2.borrow(visitor);
+        csvAdapter.saveCSV();
     }
 }

@@ -26,19 +26,20 @@ public class Librarian {
         return librarianName;
     }
 
-    public static Librarian createNewLibrarian(String librarianName, String librarianSurname, String librarianBirthday) {
-        return new Librarian(UUID.randomUUID(), librarianName, librarianSurname, librarianBirthday);
+    public static Librarian createNewLibrarian(CSVAdapter csvAdapter, String librarianName, String librarianSurname, String librarianBirthday) {
+        return new Librarian(csvAdapter, UUID.randomUUID(), librarianName, librarianSurname, librarianBirthday);
     }
 
-    public static Librarian createCompleteNewLibrarian(UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
-        return new Librarian(uuid, librarianName, librarianSurname, librarianBirthday);
+    public static Librarian createCompleteNewLibrarian(CSVAdapter csvAdapter, UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
+        return new Librarian(csvAdapter, uuid, librarianName, librarianSurname, librarianBirthday);
     }
 
-    private Librarian(UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
+    private Librarian(CSVAdapter csvAdapter, UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
         this.librarianID = uuid;
         this.librarianName = librarianName;
         this.librarianSurname = librarianSurname;
         this.librarianBirthday = librarianBirthday;
+        csvAdapter.addLibrarian(this);
     }
 
     @Override
