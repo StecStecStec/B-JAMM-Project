@@ -1,4 +1,4 @@
-package hwr.oop;
+package hwr.oop.library;
 
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;

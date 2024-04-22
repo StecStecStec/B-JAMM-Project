@@ -1,4 +1,4 @@
-package hwr.oop;
+package hwr.oop.library;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ShelfTest {
+class ShelfTest {
     @Test
     void createShelf_checkRightAssignment() {
         Room room = Room.createNewRoom(5);
