@@ -4,11 +4,11 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Book {
-    private UUID bookID;
+    private final UUID bookID;
     private int bookCondition; //in percentage (0-100)
-    private int bookWidth;
-    private String title;
-    private String author;
+    private final int bookWidth;
+    private final String title;
+    private final String author;
     private String genre;
     private Shelf shelf;
     private Visitor borrowedBy = null;

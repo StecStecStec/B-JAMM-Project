@@ -5,11 +5,10 @@ import java.util.UUID;
 
 public class Librarian {
 
-    private UUID librarianID;
-    private String librarianName;
-    private String librarianSurname;
-    private String librarianBirthday;
-    private final String password;
+    private final UUID librarianID;
+    private final String librarianName;
+    private final String librarianSurname;
+    private final String librarianBirthday;
 
     public UUID getLibrarianID() {
         return librarianID;
@@ -27,10 +26,6 @@ public class Librarian {
         return librarianName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public static Librarian createNewLibrarian(String librarianName, String librarianSurname, String librarianBirthday, String password) {
         return new Librarian(UUID.randomUUID(), librarianName, librarianSurname, librarianBirthday, password);
     }
@@ -44,7 +39,6 @@ public class Librarian {
         this.librarianName = librarianName;
         this.librarianSurname = librarianSurname;
         this.librarianBirthday = librarianBirthday;
-        this.password = password;
     }
 
     @Override

@@ -10,9 +10,9 @@ public class Shelf {
     private Room roomIn;
     private List<Book> booksOnShelf;
     private String genre;
-    private int shelfWidth;
+    private final int shelfWidth;
     private int remainingSpace;
-    private int boardNumber;
+    private final int boardNumber;
 
     public UUID getShelfID() {
         return shelfID;

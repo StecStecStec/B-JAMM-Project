@@ -6,10 +6,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Visitor {
-    private UUID visitorID;
-    private String visitorName;
-    private String visitorSurname;
-    private String visitorBirthday;
+    private final UUID visitorID;
+    private final String visitorName;
+    private final String visitorSurname;
+    private final String visitorBirthday;
     private String visitorEmailAddress;
     private List<Book> borrowedBooks;
     private List<Book> booksToReturn; //warnings

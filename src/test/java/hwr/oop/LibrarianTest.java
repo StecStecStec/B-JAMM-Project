@@ -16,7 +16,6 @@ class LibrarianTest {
         Assertions.assertThat(librarian.getLibrarianName()).isEqualTo("Max");
         Assertions.assertThat(librarian.getLibrarianSurname()).isEqualTo("Mustermann");
         Assertions.assertThat(librarian.getLibrarianBirthday()).isEqualTo("01.01.1999");
-        Assertions.assertThat(librarian.getPassword()).isEqualTo("Hallo1234");
         Assertions.assertThat(librarian.getLibrarianID()).isNotNull();
     }
 
