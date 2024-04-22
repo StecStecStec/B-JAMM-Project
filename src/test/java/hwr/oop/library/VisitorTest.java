@@ -102,9 +102,11 @@ class VisitorTest {
         Assertions.assertThat(visitor1.equals(visitor2)).isTrue();
 
         // Ensure equals method returns false when comparing with null
-        Assertions.assertThat(visitor1).isNotNull();
-
-        Assertions.assertThat(visitor1).isNotEqualTo(Room.createNewRoom(5));
+        Assertions.assertThat(visitor1)
+                //Comparison with null should be return false
+                .isNotNull()
+                //Comparison with an object of another class should be return false
+                .isNotEqualTo(Room.createNewRoom(5));
     }
 
     // Test case for the hashCode method in Visitor class

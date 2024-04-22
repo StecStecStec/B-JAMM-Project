@@ -44,10 +44,9 @@ class RoomTest {
                 //Comparison with null should be return false
                 .isNotNull()
                 //Comparison with an object of another class should be return false
-                .isNotEqualTo(Shelf.createNewShelf(room1, "Action", 400, 1));
-
-
-        Assertions.assertThat(room1).isNotEqualTo(room3);
+                .isNotEqualTo(Shelf.createNewShelf(room1, "Action", 400, 1))
+                //Comparison with same room should be return true
+                .isNotEqualTo(room3);
         Assertions.assertThat(room2).isEqualTo(room4);
 
     }

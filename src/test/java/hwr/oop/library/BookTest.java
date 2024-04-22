@@ -131,10 +131,8 @@ class BookTest {
                 //Comparison with null should be return false
                 .isNotNull()
                 //Comparison with an object of another class should be return false
-                .isNotEqualTo(Shelf.createNewShelf(room, "Action", 400, 1));
-
-
-        Assertions.assertThat(book1).isNotEqualTo(book3);
+                .isNotEqualTo(Shelf.createNewShelf(room, "Action", 400, 1))
+                //Comparisson with same book should be return true
+                .isNotEqualTo(book3);
     }
-
 }

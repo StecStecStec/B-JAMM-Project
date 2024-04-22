@@ -10,7 +10,7 @@ class LibrarianTest {
     @Test
     void createLibrarian_checkRightAssignment() {
         // Create a librarian object with specific attributes
-        Librarian librarian = Librarian.createNewLibrarian("Max", "Mustermann", "01.01.1999", "Hallo1234");
+        Librarian librarian = Librarian.createNewLibrarian("Max", "Mustermann", "01.01.1999");
 
         // Assert that the attributes are assigned correctly
         Assertions.assertThat(librarian.getLibrarianName()).isEqualTo("Max");
@@ -22,9 +22,9 @@ class LibrarianTest {
     @Test
     void testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
-        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01", "Hallo1234");
-        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01", "Hallo1234");
-        Librarian librarian3 = Librarian.createNewLibrarian("Jane", "Doe", "1990-01-01", "Hallo1234");
+        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01");
+        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01");
+        Librarian librarian3 = Librarian.createNewLibrarian("Jane", "Doe", "1990-01-01");
 
         // Ensure equals method works correctly for different librarians
         Assertions.assertThat(librarian1)
@@ -38,9 +38,9 @@ class LibrarianTest {
     @Test
     void testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
-        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01", "Hallo1234");
-        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01", "Hallo1234");
-        Librarian librarian3 = Librarian.createNewLibrarian( "Jane", "Doe", "1990-01-01", "Hallo1234");
+        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01");
+        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01");
+        Librarian librarian3 = Librarian.createNewLibrarian( "Jane", "Doe", "1990-01-01");
 
         Assertions.assertThat(librarian1.hashCode()).isNotEqualTo(librarian3.hashCode());
         Assertions.assertThat(librarian1).hasSameHashCodeAs(librarian2);
