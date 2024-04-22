@@ -13,6 +13,9 @@ public class Book {
     private Shelf shelf;
     private Visitor borrowedBy = null;
 
+    private final int upperBoundary = 100;
+    private final int lowerBoundary = 0;
+
     public int getBookWidth() {
         return bookWidth;
     }
@@ -60,8 +63,10 @@ public class Book {
         this.title = title;
         this.author = author;
         this.genre = genre;
-        if ((bookCondition >= 0 && bookCondition <= 100)) {
+        if (bookCondition >= lowerBoundary && bookCondition <= upperBoundary) {
             this.bookCondition = bookCondition;
+        } else {
+            this.bookCondition = -1;
         }
         shelf.addBookOnShelf(this);
     }
