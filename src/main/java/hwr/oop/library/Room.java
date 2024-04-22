@@ -24,10 +24,10 @@ public class Room {
     }
 
     public void roomAddShelf(Shelf shelf) {
-        if (this.shelfList.size() < this.shelfLimit) {
-            shelfList.add(shelf);
+        if (this.shelfList.size() >= this.shelfLimit) {
+            throw new IllegalArgumentException("Added shelf to room with not enough space.");
         }
-        //once interface added, add error message
+        shelfList.add(shelf);
     }
 
     public void roomRemoveShelf(Shelf shelf) {

@@ -26,15 +26,15 @@ public class Librarian {
         return librarianName;
     }
 
-    public static Librarian createNewLibrarian(String librarianName, String librarianSurname, String librarianBirthday, String password) {
-        return new Librarian(UUID.randomUUID(), librarianName, librarianSurname, librarianBirthday, password);
+    public static Librarian createNewLibrarian(String librarianName, String librarianSurname, String librarianBirthday) {
+        return new Librarian(UUID.randomUUID(), librarianName, librarianSurname, librarianBirthday);
     }
 
-    public static Librarian createCompleteNewLibrarian(UUID uuid, String librarianName, String librarianSurname, String librarianBirthday, String password) {
-        return new Librarian(uuid, librarianName, librarianSurname, librarianBirthday, password);
+    public static Librarian createCompleteNewLibrarian(UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
+        return new Librarian(uuid, librarianName, librarianSurname, librarianBirthday);
     }
 
-    private Librarian(UUID uuid, String librarianName, String librarianSurname, String librarianBirthday, String password) {
+    private Librarian(UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
         this.librarianID = uuid;
         this.librarianName = librarianName;
         this.librarianSurname = librarianSurname;
