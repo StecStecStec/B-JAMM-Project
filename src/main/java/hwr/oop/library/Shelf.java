@@ -9,7 +9,7 @@ public class Shelf {
     private final UUID shelfID;
     private Room roomIn;
     private List<Book> booksOnShelf;
-    private String genre;
+    private final String genre;
     private final int shelfWidth;
     private int remainingSpace;
     private final int boardNumber;
