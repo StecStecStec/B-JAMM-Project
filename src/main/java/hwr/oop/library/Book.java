@@ -60,7 +60,7 @@ public class Book {
         this.title = title;
         this.author = author;
         this.genre = genre;
-        if (bookCondition < 0 || bookCondition > 100) {
+        if ((bookCondition >= 0 && bookCondition <= 100)) {
             this.bookCondition = bookCondition;
         }
         shelf.addBookOnShelf(this);
