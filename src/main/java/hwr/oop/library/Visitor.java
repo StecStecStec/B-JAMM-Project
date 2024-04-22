@@ -1,5 +1,8 @@
 package hwr.oop.library;
 
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -59,10 +62,12 @@ public class Visitor {
     }
 
     public static Visitor createNewVisitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
-        return new Visitor(visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, UUID.randomUUID());
+        UUID visitorID = UUID.randomUUID();
+        return createCompleteVisitor(visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, visitorID);
     }
 
     public static Visitor createCompleteVisitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID uuid) {
+        saveCsvFile("csvFiles\\csvVisitor.csv", uuid, visitorName, visitorSurname, visitorBirthday ,visitorEmailAddress);
         return new Visitor(visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, uuid);
     }
 
@@ -89,4 +94,20 @@ public class Visitor {
     public int hashCode() {
         return Objects.hash(visitorID, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, borrowedBooks, booksToReturn);
     }
+
+    public static void saveCsvFile(String fileName, UUID visitorID, String visitorName, String visitorSurname,  String visitorBirthday, String visitorEmailAddress) {
+        try (FileOutputStream stream = new FileOutputStream(fileName, true)) {
+            String csvData = visitorID.toString() + ";" + visitorName + ";" + visitorSurname + ";"  + visitorBirthday + ";" + visitorEmailAddress + ";\n";
+            stream.write(csvData.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        // Hier den vollständigen Dateipfad inklusive Dateinamen angeben
+        UUID uuid = UUID.randomUUID();
+        createCompleteVisitor("Hands", "Mayer", "2323.232.32.3", "ebenfnef@gmeojöae.ei", uuid);
+    }
 }
+
