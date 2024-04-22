@@ -9,7 +9,7 @@ public class Book {
     private final int bookWidth;
     private final String title;
     private final String author;
-    private String genre;
+    private final String genre;
     private Shelf shelf;
     private Visitor borrowedBy = null;
 
