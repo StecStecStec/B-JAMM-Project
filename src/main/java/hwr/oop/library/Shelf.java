@@ -76,6 +76,10 @@ public class Shelf {
         return new Shelf(csvAdapter, roomID, roomIn, genre, shelfWidth, boardNumber);
     }
 
+    //for CSVAdapter
+    public static Shelf createTempShelf(CSVAdapter tempCsvAdapter, Room tempRoom) {
+        return new Shelf(tempCsvAdapter, UUID.randomUUID(), tempRoom, "temp", 10000, 10000);
+    }
 
     @Override
     public boolean equals(Object o) {

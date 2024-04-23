@@ -42,6 +42,11 @@ public class Room {
         return new Room(csvAdapter, uuid, shelfLimit);
     }
 
+    //for CSVAdapter
+    public static Room createTempRoom(CSVAdapter tempCsvAdapter) {
+        return new Room(tempCsvAdapter, UUID.randomUUID(), 10000);
+    }
+
     private Room(CSVAdapter csvAdapter, UUID uuid, int shelfLimit) {
         this.shelfLimit = shelfLimit;
         this.shelfList = new ArrayList<>(this.shelfLimit);
