@@ -17,16 +17,36 @@ public class CSVAdapter {
         this.path = path;
     }
 
+
+
     public void addRoom(Room room){roomList.add(room);}
     public void addShelf(Shelf shelf){shelfList.add(shelf);}
     public void addBook(Book book){bookList.add(book);}
     public void addVisitor(Visitor visitor){visitorList.add(visitor);}
     public void addLibrarian(Librarian librarian){librarianList.add(librarian);}
+
+    public Shelf getTempShelf() {return tempShelf;}
+    public List<Librarian> getLibrarianList() {return librarianList;}
+    public List<Visitor> getVisitorList() {return visitorList;}
+    public List<Book> getBookList() {return bookList;}
+    public List<Shelf> getShelfList() {return shelfList;}
+    public List<Room> getRoomList() {return roomList;}
+    public String getPath() {return path;}
+
+    public void clear(){
+        roomList.clear();
+        shelfList.clear();
+        bookList.clear();
+        visitorList.clear();
+        librarianList.clear();
+        tempShelf = null;
+    }
+
     /*CSV format:
-    1: every variable is split with an ";"
-    2: the elements of every list-variable are split with an ","
-    3: for each object reference the uuid is saved
-    4: in case a variable is null it is converted to a string named "null" */
+        1: every variable is split with an ";"
+        2: the elements of every list-variable are split with an ","
+        3: for each object reference the uuid is saved
+        4: in case a variable is null it is converted to a string named "null" */
     public void loadCSV() throws FileNotFoundException {
         //Room
         BufferedReader reader = new BufferedReader(new FileReader(path+"Room.csv"));
