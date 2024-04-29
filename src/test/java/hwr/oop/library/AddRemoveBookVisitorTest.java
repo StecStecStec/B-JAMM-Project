@@ -9,7 +9,7 @@ import java.util.UUID;
 class AddRemoveBookVisitorTest {
     @Test
     void addBorrowedBook_checkIfBookAdded() {
-        Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
+        Visitor visitor = Visitor.createCompleteVisitor("Max","Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -19,7 +19,7 @@ class AddRemoveBookVisitorTest {
 
     @Test
     void removeBorrowedBook_checkIfBookRemoved() {
-        Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
+        Visitor visitor = Visitor.createCompleteVisitor("Max","Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -31,7 +31,7 @@ class AddRemoveBookVisitorTest {
     @Test
     void addBookToReturn_checkIfBookAdded() {
         UUID uuid = UUID.randomUUID();
-        Visitor visitor = Visitor.createCompleteVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", uuid);
+        Visitor visitor = Visitor.createCompleteVisitor("Max","Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", uuid);
         Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -41,7 +41,7 @@ class AddRemoveBookVisitorTest {
 
     @Test
     void removeBookToReturn_checkIfBookRemoved() {
-        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max","Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);

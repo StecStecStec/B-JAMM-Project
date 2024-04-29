@@ -38,7 +38,7 @@ class CreateInstancesTest {
 
     @Test
     void createLibrarian_checkRightAssignment() {
-        Librarian librarian = Librarian.createNewLibrarian("Max", "Mustermann", "01.01.1999");
+        Librarian librarian = Librarian.createNewLibrarian("User1", "Max", "Mustermann", "01.01.1999");
         Assertions.assertThat(librarian.getLibrarianName()).isEqualTo("Max");
         Assertions.assertThat(librarian.getLibrarianSurname()).isEqualTo("Mustermann");
         Assertions.assertThat(librarian.getLibrarianBirthday()).isEqualTo("01.01.1999");
@@ -73,7 +73,7 @@ class CreateInstancesTest {
 
     @Test
     void createVisitor_checkRightAssignment() {
-        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max", "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Assertions.assertThat(visitor.getVisitorName()).isEqualTo("Max");
         Assertions.assertThat(visitor.getVisitorSurname()).isEqualTo("Mustermann");
         Assertions.assertThat(visitor.getVisitorBirthday()).isEqualTo("01.01.1999");

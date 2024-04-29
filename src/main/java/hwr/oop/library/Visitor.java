@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class Visitor {
     private final UUID visitorID;
+    private final String visitorUsername;
     private final String visitorName;
     private final String visitorSurname;
     private final String visitorBirthday;
@@ -17,6 +18,8 @@ public class Visitor {
     public UUID getVisitorID() {
         return visitorID;
     }
+
+    public String getVisitorUsername() {return visitorUsername;}
 
     public String getVisitorName() {
         return visitorName;
@@ -58,15 +61,16 @@ public class Visitor {
         booksToReturn.remove(book);
     }
 
-    public static Visitor createNewVisitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
-        return new Visitor(visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, UUID.randomUUID());
+    public static Visitor createNewVisitor(String visitorUsername, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
+        return new Visitor(visitorUsername, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, UUID.randomUUID());
     }
 
-    public static Visitor createCompleteVisitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID uuid) {
-        return new Visitor(visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, uuid);
+    public static Visitor createCompleteVisitor(String visitorUsername, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID uuid) {
+        return new Visitor(visitorUsername, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, uuid);
     }
 
-    private Visitor(String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID visitorID) {
+    private Visitor(String visitorUsername, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID visitorID) {
+        this.visitorUsername = visitorUsername;
         this.visitorName = visitorName;
         this.visitorSurname = visitorSurname;
         this.visitorBirthday = visitorBirthday;

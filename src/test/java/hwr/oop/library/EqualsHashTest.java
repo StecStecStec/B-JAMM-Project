@@ -46,9 +46,9 @@ class EqualsHashTest {
 
         Room room = Room.createNewRoom(5);
 
-        Visitor visitor1 = Visitor.createCompleteVisitor("John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
-        Visitor visitor2 = Visitor.createCompleteVisitor("John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
-        Visitor visitor3 = Visitor.createNewVisitor("Jane", "Doe", "1990-01-01", "jane.doe@example.com");
+        Visitor visitor1 = Visitor.createCompleteVisitor("John", "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
+        Visitor visitor2 = Visitor.createCompleteVisitor("John","John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
+        Visitor visitor3 = Visitor.createNewVisitor("Jane","Jane", "Doe", "1990-01-01", "jane.doe@example.com");
 
         Assertions.assertThat(visitor1)
                 .isEqualTo(visitor1)
@@ -62,9 +62,9 @@ class EqualsHashTest {
     void visitor_testHashCodeMethod() {
         UUID uuid1 = UUID.randomUUID();
 
-        Visitor visitor1 = Visitor.createCompleteVisitor("John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
-        Visitor visitor2 = Visitor.createCompleteVisitor("John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
-        Visitor visitor3 = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor1 = Visitor.createCompleteVisitor("John","John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
+        Visitor visitor2 = Visitor.createCompleteVisitor("John", "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
+        Visitor visitor3 = Visitor.createNewVisitor("Max", "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
 
         Assertions.assertThat(visitor1.hashCode()).isNotEqualTo(visitor3.hashCode());
         Assertions.assertThat(visitor1).hasSameHashCodeAs(visitor2);
@@ -106,7 +106,7 @@ class EqualsHashTest {
     void room_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Visitor visitor = Visitor.createNewVisitor("John", "Doe", "1990-01-01", "john.doe@example.com");
+        Visitor visitor = Visitor.createNewVisitor("User1", "John", "Doe", "1990-01-01", "john.doe@example.com");
 
         Room room1 = Room.createCompleteNewRoom(uuid, 5);
         Room room2 = Room.createCompleteNewRoom(uuid, 5);
@@ -138,9 +138,9 @@ class EqualsHashTest {
 
         Room room = Room.createNewRoom(5);
 
-        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01");
-        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01");
-        Librarian librarian3 = Librarian.createNewLibrarian("John", "Doe", "1990-01-01");
+        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid,"User1", "John", "Doe", "1990-01-01");
+        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "User1", "John", "Doe", "1990-01-01");
+        Librarian librarian3 = Librarian.createNewLibrarian("User1", "John", "Doe", "1990-01-01");
 
         Assertions.assertThat(librarian1)
                 .isEqualTo(librarian1)
@@ -154,9 +154,9 @@ class EqualsHashTest {
     void librarian_testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01");
-        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "John", "Doe", "1990-01-01");
-        Librarian librarian3 = Librarian.createNewLibrarian("Jane", "Doe", "1990-01-01");
+        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid, "User1", "John", "Doe", "1990-01-01");
+        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "User", "John", "Doe", "1990-01-01");
+        Librarian librarian3 = Librarian.createNewLibrarian("User2", "Jane", "Doe", "1990-01-01");
 
         Assertions.assertThat(librarian1.hashCode()).isNotEqualTo(librarian3.hashCode());
         Assertions.assertThat(librarian1).hasSameHashCodeAs(librarian2);

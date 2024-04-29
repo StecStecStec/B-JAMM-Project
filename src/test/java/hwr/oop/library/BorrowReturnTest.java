@@ -11,7 +11,7 @@ class BorrowReturnTest {
         Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max","Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         Assertions.assertThat(book.getBorrowedBy()).isEqualTo(visitor);
         Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
@@ -25,8 +25,8 @@ class BorrowReturnTest {
         Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Visitor visitor1 = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
-        Visitor visitor2 = Visitor.createNewVisitor("Maxa", "Mustermanna", "02.01.1999", "maxa.mustermanna@gmx.de");
+        Visitor visitor1 = Visitor.createNewVisitor("Max","Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor2 = Visitor.createNewVisitor("Maxa","Maxa", "Mustermanna", "02.01.1999", "maxa.mustermanna@gmx.de");
         book.borrow(visitor1);
         book.borrow(visitor2);
         Assertions.assertThat(book.getBorrowedBy()).isNotEqualTo(visitor2);
@@ -38,7 +38,7 @@ class BorrowReturnTest {
         Room room = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max","Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         book.returnBook(shelf);
         Assertions.assertThat(book.getBorrowedBy()).isNull();
@@ -54,7 +54,7 @@ class BorrowReturnTest {
         Shelf shelf1 = Shelf.createNewShelf(room, "Action", 400, 1);
         Shelf shelf2 = Shelf.createNewShelf(room, "Action", 2, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf1, 100, 3);
-        Visitor visitor = Visitor.createNewVisitor("Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Visitor visitor = Visitor.createNewVisitor("Max","Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         Assertions.assertThatThrownBy(() -> book.returnBook(shelf2)).hasMessage("Added book to shelf with not enough space.");
     }

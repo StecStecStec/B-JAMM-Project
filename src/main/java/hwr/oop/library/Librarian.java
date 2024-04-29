@@ -6,12 +6,17 @@ import java.util.UUID;
 public class Librarian {
 
     private final UUID librarianID;
+    private final String username;
     private final String librarianName;
     private final String librarianSurname;
     private final String librarianBirthday;
 
     public UUID getLibrarianID() {
         return librarianID;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getLibrarianBirthday() {
@@ -26,16 +31,17 @@ public class Librarian {
         return librarianName;
     }
 
-    public static Librarian createNewLibrarian(String librarianName, String librarianSurname, String librarianBirthday) {
-        return new Librarian(UUID.randomUUID(), librarianName, librarianSurname, librarianBirthday);
+    public static Librarian createNewLibrarian(String username, String librarianName, String librarianSurname, String librarianBirthday) {
+        return new Librarian(UUID.randomUUID(),username, librarianName, librarianSurname, librarianBirthday);
     }
 
-    public static Librarian createCompleteNewLibrarian(UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
-        return new Librarian(uuid, librarianName, librarianSurname, librarianBirthday);
+    public static Librarian createCompleteNewLibrarian(UUID uuid,String username, String librarianName, String librarianSurname, String librarianBirthday) {
+        return new Librarian(uuid, username, librarianName, librarianSurname, librarianBirthday);
     }
 
-    private Librarian(UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
+    private Librarian(UUID uuid,String username, String librarianName, String librarianSurname, String librarianBirthday) {
         this.librarianID = uuid;
+        this.username = username;
         this.librarianName = librarianName;
         this.librarianSurname = librarianSurname;
         this.librarianBirthday = librarianBirthday;
