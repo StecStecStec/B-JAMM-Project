@@ -6,17 +6,19 @@ import org.junit.jupiter.api.Test;
 class AddRemoveBookShelfTest {
     @Test
     void addBook_checkIfBookAdded() {
-        Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
-        Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        CSVAdapter csvAdapter = new CSVAdapter("");
+        Room room = Room.createNewRoom(csvAdapter, 5);
+        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Assertions.assertThat(book).isIn(shelf.getBooksOnShelf());
     }
 
     @Test
     void removeShelf_checkIfBookRemoved() {
-        Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
-        Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        CSVAdapter csvAdapter = new CSVAdapter("");
+        Room room = Room.createNewRoom(csvAdapter, 5);
+        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         shelf.removeBookOnShelf(book);
         Assertions.assertThat(book).isNotIn(shelf.getBooksOnShelf());
     }

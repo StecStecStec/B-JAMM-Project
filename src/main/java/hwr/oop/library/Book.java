@@ -48,15 +48,15 @@ public class Book {
         return borrowedBy;
     }
 
-    public static Book createNewBook(String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(UUID.randomUUID(), title, author, genre, shelf, bookCondition, bookWidth);
+    public static Book createNewBook(CSVAdapter csvAdapter, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
+        return new Book(csvAdapter, UUID.randomUUID(), title, author, genre, shelf, bookCondition, bookWidth);
     }
 
-    public static Book createCompleteBook(UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(uuid, title, author, genre, shelf, bookCondition, bookWidth);
+    public static Book createCompleteBook(CSVAdapter csvAdapter, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
+        return new Book(csvAdapter, uuid, title, author, genre, shelf, bookCondition, bookWidth);
     }
 
-    private Book(UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
+    private Book(CSVAdapter csvAdapter, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
         this.bookID = uuid;
         this.bookWidth = Math.max(bookWidth, 0);
         this.shelf = shelf;
@@ -69,8 +69,8 @@ public class Book {
             this.bookCondition = -1;
         }
         shelf.addBookOnShelf(this);
+        csvAdapter.addBook(this);
     }
-
 
     public void borrow(Visitor visitor) {
         if (borrowedBy == null) {

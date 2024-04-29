@@ -7,7 +7,6 @@ import java.util.UUID;
 
 public class Visitor {
     private final UUID visitorID;
-    private final String visitorUsername;
     private final String visitorName;
     private final String visitorSurname;
     private final String visitorBirthday;
@@ -18,8 +17,6 @@ public class Visitor {
     public UUID getVisitorID() {
         return visitorID;
     }
-
-    public String getVisitorUsername() {return visitorUsername;}
 
     public String getVisitorName() {
         return visitorName;
@@ -61,16 +58,15 @@ public class Visitor {
         booksToReturn.remove(book);
     }
 
-    public static Visitor createNewVisitor(String visitorUsername, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
-        return new Visitor(visitorUsername, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, UUID.randomUUID());
+    public static Visitor createNewVisitor(CSVAdapter csvAdapter, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
+        return new Visitor(csvAdapter, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, UUID.randomUUID());
     }
 
-    public static Visitor createCompleteVisitor(String visitorUsername, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID uuid) {
-        return new Visitor(visitorUsername, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, uuid);
+    public static Visitor createCompleteVisitor(CSVAdapter csvAdapter, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID uuid) {
+        return new Visitor(csvAdapter, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, uuid);
     }
 
-    private Visitor(String visitorUsername, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID visitorID) {
-        this.visitorUsername = visitorUsername;
+    private Visitor(CSVAdapter csvAdapter, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID visitorID) {
         this.visitorName = visitorName;
         this.visitorSurname = visitorSurname;
         this.visitorBirthday = visitorBirthday;
@@ -78,8 +74,8 @@ public class Visitor {
         this.booksToReturn = new ArrayList<>();
         this.borrowedBooks = new ArrayList<>();
         this.visitorID = visitorID;
+        csvAdapter.addVisitor(this);
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -56,7 +56,7 @@ public class Shelf {
     }
 
 
-    private Shelf(UUID shelfID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
+    private Shelf(CSVAdapter csvAdapter, UUID shelfID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
         this.shelfID = shelfID;
         this.roomIn = roomIn;
         this.booksOnShelf = new ArrayList<>();
@@ -65,17 +65,21 @@ public class Shelf {
         this.remainingSpace = shelfWidth;
         this.boardNumber = boardNumber;
         roomIn.roomAddShelf(this);
+        csvAdapter.addShelf(this);
     }
 
-
-    public static Shelf createNewShelf(Room roomIn, String genre, int shelfWidth, int boardNumber) {
-        return new Shelf(UUID.randomUUID(), roomIn, genre, shelfWidth, boardNumber);
+    public static Shelf createNewShelf(CSVAdapter csvAdapter, Room roomIn, String genre, int shelfWidth, int boardNumber) {
+        return new Shelf(csvAdapter, UUID.randomUUID(), roomIn, genre, shelfWidth, boardNumber);
     }
 
-    public static Shelf createCompleteNewShelf(UUID roomID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
-        return new Shelf(roomID, roomIn, genre, shelfWidth, boardNumber);
+    public static Shelf createCompleteNewShelf(CSVAdapter csvAdapter, UUID roomID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
+        return new Shelf(csvAdapter, roomID, roomIn, genre, shelfWidth, boardNumber);
     }
 
+    //for CSVAdapter
+    public static Shelf createTempShelf(CSVAdapter tempCsvAdapter, Room tempRoom) {
+        return new Shelf(tempCsvAdapter, UUID.randomUUID(), tempRoom, "temp", 10000, 10000);
+    }
 
     @Override
     public boolean equals(Object o) {

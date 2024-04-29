@@ -2,6 +2,7 @@ package hwr.oop.library;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.csv.Csv;
 
 import java.util.UUID;
 
@@ -10,12 +11,13 @@ class EqualsHashTest {
     void book_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        CSVAdapter csvAdapter = new CSVAdapter("");
+        Room room = Room.createNewRoom(csvAdapter, 5);
+        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400,1);
 
-        Book book1 = Book.createCompleteBook(uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createCompleteBook(uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book3 = Book.createNewBook("Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
+        Book book1 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book3 = Book.createNewBook(csvAdapter, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
 
         Assertions.assertThat(book1)
                 .isEqualTo(book1)
@@ -29,12 +31,13 @@ class EqualsHashTest {
     void book_testHashCodeMethod()   {
         UUID uuid = UUID.randomUUID();
 
-        Room room = Room.createNewRoom(5);
-        Shelf shelf = Shelf.createNewShelf(room, "Action", 400,1);
+        CSVAdapter csvAdapter = new CSVAdapter("");
+        Room room = Room.createNewRoom(csvAdapter, 5);
+        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400,1);
 
-        Book book1 = Book.createCompleteBook(uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createCompleteBook(uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book3 = Book.createNewBook("Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
+        Book book1 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book3 = Book.createNewBook(csvAdapter, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
 
         Assertions.assertThat(book1).hasSameHashCodeAs(book2);
         Assertions.assertThat(book1.hashCode()).isNotEqualTo(book3.hashCode());
@@ -44,11 +47,12 @@ class EqualsHashTest {
     void visitor_testEqualsMethod() {
         UUID uuid1 = UUID.randomUUID();
 
-        Room room = Room.createNewRoom(5);
+        CSVAdapter csvAdapter = new CSVAdapter("");
+        Room room = Room.createNewRoom(csvAdapter, 5);
 
-        Visitor visitor1 = Visitor.createCompleteVisitor("John", "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
-        Visitor visitor2 = Visitor.createCompleteVisitor("John","John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
-        Visitor visitor3 = Visitor.createNewVisitor("Jane","Jane", "Doe", "1990-01-01", "jane.doe@example.com");
+        Visitor visitor1 = Visitor.createCompleteVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
+        Visitor visitor2 = Visitor.createCompleteVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
+        Visitor visitor3 = Visitor.createNewVisitor(csvAdapter, "Jane", "Doe", "1990-01-01", "jane.doe@example.com");
 
         Assertions.assertThat(visitor1)
                 .isEqualTo(visitor1)
@@ -62,9 +66,11 @@ class EqualsHashTest {
     void visitor_testHashCodeMethod() {
         UUID uuid1 = UUID.randomUUID();
 
-        Visitor visitor1 = Visitor.createCompleteVisitor("John","John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
-        Visitor visitor2 = Visitor.createCompleteVisitor("John", "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
-        Visitor visitor3 = Visitor.createNewVisitor("Max", "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        CSVAdapter csvAdapter = new CSVAdapter("");
+
+        Visitor visitor1 = Visitor.createCompleteVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
+        Visitor visitor2 = Visitor.createCompleteVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
+        Visitor visitor3 = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
 
         Assertions.assertThat(visitor1.hashCode()).isNotEqualTo(visitor3.hashCode());
         Assertions.assertThat(visitor1).hasSameHashCodeAs(visitor2);
@@ -74,11 +80,12 @@ class EqualsHashTest {
     void shelf_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Room room = Room.createNewRoom(5);
+        CSVAdapter csvAdapter = new CSVAdapter("");
+        Room room = Room.createNewRoom(csvAdapter, 5);
 
-        Shelf shelf1 = Shelf.createCompleteNewShelf(uuid, room, "Action", 400, 1);
-        Shelf shelf2 = Shelf.createCompleteNewShelf(uuid, room, "Action", 400, 1);
-        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400, 1);
+        Shelf shelf1 = Shelf.createCompleteNewShelf(csvAdapter, uuid, room, "Action", 400, 1);
+        Shelf shelf2 = Shelf.createCompleteNewShelf(csvAdapter, uuid, room, "Action", 400, 1);
+        Shelf shelf3 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
 
         Assertions.assertThat(shelf1)
                 .isEqualTo(shelf1)
@@ -92,11 +99,12 @@ class EqualsHashTest {
     void shelf_testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Room room = Room.createNewRoom(5);
+        CSVAdapter csvAdapter = new CSVAdapter("");
+        Room room = Room.createNewRoom(csvAdapter, 5);
 
-        Shelf shelf1 = Shelf.createCompleteNewShelf(uuid, room, "Action", 400, 1);
-        Shelf shelf2 = Shelf.createCompleteNewShelf(uuid, room, "Action", 400, 1);
-        Shelf shelf3 = Shelf.createNewShelf(room, "Action", 400, 1);
+        Shelf shelf1 = Shelf.createCompleteNewShelf(csvAdapter, uuid, room, "Action", 400, 1);
+        Shelf shelf2 = Shelf.createCompleteNewShelf(csvAdapter, uuid, room, "Action", 400, 1);
+        Shelf shelf3 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
 
         Assertions.assertThat(shelf1.hashCode()).isNotEqualTo(shelf3.hashCode());
         Assertions.assertThat(shelf1).hasSameHashCodeAs(shelf2);
@@ -106,11 +114,12 @@ class EqualsHashTest {
     void room_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Visitor visitor = Visitor.createNewVisitor("User1", "John", "Doe", "1990-01-01", "john.doe@example.com");
+        CSVAdapter csvAdapter = new CSVAdapter("");
+        Visitor visitor = Visitor.createNewVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com");
 
-        Room room1 = Room.createCompleteNewRoom(uuid, 5);
-        Room room2 = Room.createCompleteNewRoom(uuid, 5);
-        Room room3 = Room.createNewRoom(5);
+        Room room1 = Room.createCompleteNewRoom(csvAdapter, uuid, 5);
+        Room room2 = Room.createCompleteNewRoom(csvAdapter, uuid, 5);
+        Room room3 = Room.createNewRoom(csvAdapter, 5);
 
         Assertions.assertThat(room1)
                 .isEqualTo(room1)
@@ -124,9 +133,11 @@ class EqualsHashTest {
     void room_testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Room room1 = Room.createCompleteNewRoom(uuid, 5);
-        Room room2 = Room.createCompleteNewRoom(uuid, 5);
-        Room room3 = Room.createNewRoom(5);
+        CSVAdapter csvAdapter = new CSVAdapter("");
+
+        Room room1 = Room.createCompleteNewRoom(csvAdapter, uuid, 5);
+        Room room2 = Room.createCompleteNewRoom(csvAdapter, uuid, 5);
+        Room room3 = Room.createNewRoom(csvAdapter, 5);
 
         Assertions.assertThat(room1.hashCode()).isNotEqualTo(room3.hashCode());
         Assertions.assertThat(room1).hasSameHashCodeAs(room2);
@@ -136,11 +147,12 @@ class EqualsHashTest {
     void librarian_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Room room = Room.createNewRoom(5);
+        CSVAdapter csvAdapter = new CSVAdapter("");
+        Room room = Room.createNewRoom(csvAdapter, 5);
 
-        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid,"User1", "John", "Doe", "1990-01-01");
-        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "User1", "John", "Doe", "1990-01-01");
-        Librarian librarian3 = Librarian.createNewLibrarian("User1", "John", "Doe", "1990-01-01");
+        Librarian librarian1 = Librarian.createCompleteNewLibrarian(csvAdapter, uuid, "John", "Doe", "1990-01-01");
+        Librarian librarian2 = Librarian.createCompleteNewLibrarian(csvAdapter, uuid, "John", "Doe", "1990-01-01");
+        Librarian librarian3 = Librarian.createNewLibrarian(csvAdapter, "John", "Doe", "1990-01-01");
 
         Assertions.assertThat(librarian1)
                 .isEqualTo(librarian1)
@@ -154,9 +166,11 @@ class EqualsHashTest {
     void librarian_testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
 
-        Librarian librarian1 = Librarian.createCompleteNewLibrarian(uuid, "User1", "John", "Doe", "1990-01-01");
-        Librarian librarian2 = Librarian.createCompleteNewLibrarian(uuid, "User", "John", "Doe", "1990-01-01");
-        Librarian librarian3 = Librarian.createNewLibrarian("User2", "Jane", "Doe", "1990-01-01");
+        CSVAdapter csvAdapter = new CSVAdapter("");
+
+        Librarian librarian1 = Librarian.createCompleteNewLibrarian(csvAdapter, uuid, "John", "Doe", "1990-01-01");
+        Librarian librarian2 = Librarian.createCompleteNewLibrarian(csvAdapter, uuid, "John", "Doe", "1990-01-01");
+        Librarian librarian3 = Librarian.createNewLibrarian(csvAdapter, "Jane", "Doe", "1990-01-01");
 
         Assertions.assertThat(librarian1.hashCode()).isNotEqualTo(librarian3.hashCode());
         Assertions.assertThat(librarian1).hasSameHashCodeAs(librarian2);
