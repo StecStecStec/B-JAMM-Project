@@ -1,5 +1,6 @@
 package hwr.oop.library;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -16,7 +17,7 @@ class CLI {
 
     }
 
-    public void handle(List<String> arguments) {
+    public void handle(List<String> arguments) throws FileNotFoundException {
         String result = switch (arguments.get(0)) {
             case "createVisitor" -> {
                 if (check(arguments, 5, "createVisitor")) {
@@ -25,19 +26,24 @@ class CLI {
                     String birthday = arguments.get(3);
                     String email = arguments.get(4);
 
-                    Visitor visitor = Visitor.createNewVisitor(new CSVAdapter(), surname, birthday, email);
+                    Visitor.createNewVisitor(new CSVAdapter("csvFiles\\"),name, surname, birthday, email);
                     yield "Visitor created";
                 } else {
                     yield "Visitor not created";
                 }
             }
             case "viewBorrowedBooks" -> {
-                CSVAdapter csvAdapter = new CSVAdapter("csvFies\\csvVisitor.csv");
-                csvAdapter.
-            }
+                CSVAdapter csvAdapter = new CSVAdapter("csvFiles\\");
+                csvAdapter.loadCSV();
+                out.println(csvAdapter.getVisitorList());
+                out.println(csvAdapter.getBookList());
+                yield "";
 
+            }
                 default -> throw new IllegalStateException("Unexpected value: " + arguments.get(0));
         };
+
+        out.println(result);
 
     }
 
