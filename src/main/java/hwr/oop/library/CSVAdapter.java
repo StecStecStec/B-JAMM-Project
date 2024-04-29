@@ -17,8 +17,6 @@ public class CSVAdapter {
         this.path = path;
     }
 
-
-
     public void addRoom(Room room){roomList.add(room);}
     public void addShelf(Shelf shelf){shelfList.add(shelf);}
     public void addBook(Book book){bookList.add(book);}
@@ -47,8 +45,99 @@ public class CSVAdapter {
         2: the elements of every list-variable are split with an ","
         3: for each object reference the uuid is saved
         4: in case a variable is null it is converted to a string named "null" */
+
     public void loadCSV() throws FileNotFoundException {
-        //Room
+        loadRoom();
+        loadShelf();
+        loadBook();
+        loadVisitor();
+        loadLibrarian();
+    }
+
+    public void saveCSV() throws IOException {
+        saveRoom();
+        saveShelf();
+        saveBook();
+        saveVisitor();
+        saveLibrarian();
+    }
+    private void saveRoom() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Room.csv"));
+        try {
+            for (Room room : roomList) {
+                writer.write(String.format("%s;%d%n", room.getRoomID().toString(), room.getShelfLimit()));
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.close();
+    }
+    private void saveShelf() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Shelf.csv"));
+        try {
+            for (Shelf shelf : shelfList) {
+                writer.write(String.format("%s;%s;%s;%d;%d%n", shelf.getShelfID().toString(), shelf.getRoomIn().getRoomID().toString(), shelf.getGenre(), shelf.getShelfWidth(), shelf.getBoardNumber()));
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.close();
+    }
+    private void saveBook() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Book.csv"));
+        try {
+            for (Book book : bookList) {
+                if (book.getShelf() == null){
+                    writer.write(String.format("%s;%d;%d;%s;%s;%s;%s;%s%n", book.getBookID().toString(), book.getBookCondition(), book.getBookWidth(), book.getBookTitle(), book.getBookAuthor(), book.getBookGenre(), "null", book.getBorrowedBy().getVisitorID().toString()));
+                }
+                else {
+                    writer.write(String.format("%s;%d;%d;%s;%s;%s;%s;%s%n", book.getBookID().toString(), book.getBookCondition(), book.getBookWidth(), book.getBookTitle(), book.getBookAuthor(), book.getBookGenre(), book.getShelf().getShelfID().toString(), "null"));
+                }
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.close();
+    }
+    private void saveVisitor() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Visitor.csv"));
+        try {
+            for (Visitor visitor : visitorList) {
+                List<String> borrowedBookIdList = new ArrayList<>();
+                for (Book book : visitor.getBorrowedBooks()) {
+                    borrowedBookIdList.add(book.getBookID().toString());
+                }
+                if (borrowedBookIdList.isEmpty()){borrowedBookIdList.add("null");}
+                List<String> booksToReturnIdList = new ArrayList<>();
+                for (Book book : visitor.getBooksToReturn()) {
+                    booksToReturnIdList.add(book.getBookID().toString());
+                }
+                if (booksToReturnIdList.isEmpty()){booksToReturnIdList.add("null");}
+                writer.write(String.format("%s;%s;%s;%s;%s;%s;%s%n", visitor.getVisitorID().toString(), visitor.getVisitorName(), visitor.getVisitorSurname(), visitor.getVisitorBirthday(), visitor.getVisitorEmailAddress(), String.join(",", borrowedBookIdList), String.join(",", booksToReturnIdList)));
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.close();
+    }
+    private void saveLibrarian() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Librarian.csv"));
+        try{
+            for (Librarian librarian : librarianList) {
+                writer.write(String.format("%s;%s;%s;%s%n", librarian.getLibrarianID().toString(), librarian.getLibrarianName(), librarian.getLibrarianSurname(), librarian.getLibrarianBirthday()));
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.close();
+    }
+
+    private void loadRoom() throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader(path+"Room.csv"));
         String line;
         try{
@@ -62,9 +151,10 @@ public class CSVAdapter {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Shelf
-        reader = new BufferedReader(new FileReader(path+"Shelf.csv"));
+    }
+    private void loadShelf() throws FileNotFoundException {
+        BufferedReader reader = new BufferedReader(new FileReader(path+"Shelf.csv"));
+        String line;
         try{
             while ((line = reader.readLine()) != null){
                 String[] variables = line.split(";");
@@ -86,11 +176,12 @@ public class CSVAdapter {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Book
-        reader = new BufferedReader(new FileReader(path+"Book.csv"));
-        try{
-            while ((line = reader.readLine()) != null){
+    }
+    private void loadBook() throws FileNotFoundException {
+        BufferedReader reader = new BufferedReader(new FileReader(path + "Book.csv"));
+        String line;
+        try {
+            while ((line = reader.readLine()) != null) {
                 String[] variables = line.split(";");
                 UUID uuid = UUID.fromString(variables[0]);
                 int bookCondition = Integer.parseInt(variables[1]);
@@ -98,23 +189,22 @@ public class CSVAdapter {
                 String bookTitle = variables[3];
                 String bookAuthor = variables[4];
                 String bookGenre = variables[5];
-                if(Objects.equals(variables[6], "null")){ // borrowed book
+                if (Objects.equals(variables[6], "null")) { // borrowed book
                     /* In this case the book is borrowed but we cant create a book without assigning it to a shelf.
                     Therefore, temp objects are created that are completely separate and are not saved.
                     To reaccess the book we only need to save the temp shelf.
                     The book gets borrowed when loading the visitors. */
-                    if(tempShelf == null){
+                    if (tempShelf == null) {
                         CSVAdapter tempCsvAdapter = new CSVAdapter("");
                         Room tempRoom = Room.createTempRoom(tempCsvAdapter);
                         tempShelf = Shelf.createTempShelf(tempCsvAdapter, tempRoom);
                     }
                     Book.createCompleteBook(this, uuid, bookTitle, bookAuthor, bookGenre, tempShelf, bookCondition, bookWidth);
-                }
-                else{ // book on shelf
+                } else { // book on shelf
                     UUID shelfId = UUID.fromString(variables[6]);
                     Shelf inShelf = null;
-                    for (Shelf shelf : shelfList){
-                        if (shelf.getShelfID().equals(shelfId)){
+                    for (Shelf shelf : shelfList) {
+                        if (shelf.getShelfID().equals(shelfId)) {
                             inShelf = shelf;
                             break;
                         }
@@ -122,13 +212,13 @@ public class CSVAdapter {
                     Book.createCompleteBook(this, uuid, bookTitle, bookAuthor, bookGenre, inShelf, bookCondition, bookWidth);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Visitor
-        reader = new BufferedReader(new FileReader(path+"Visitor.csv"));
+    }
+    private void loadVisitor() throws FileNotFoundException {
+        BufferedReader reader = new BufferedReader(new FileReader(path+"Visitor.csv"));
+        String line;
         try{
             while ((line = reader.readLine()) != null){
                 String[] variables = line.split(";");
@@ -138,7 +228,7 @@ public class CSVAdapter {
                 String birthday = variables[3];
                 String email = variables[4];
                 Visitor visitor = Visitor.createCompleteVisitor(this, name, surname, birthday, email, uuid);
-                List<String> borrowedBooksStringIds = new ArrayList<>();
+                List<String> borrowedBooksStringIds;
                 List<Book> borrowedBooks = new ArrayList<>();
                 //borrowed books
                 if(!Objects.equals(variables[5], "null")) {
@@ -171,9 +261,10 @@ public class CSVAdapter {
         catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Librarian
-        reader = new BufferedReader(new FileReader(path+"Librarian.csv"));
+    }
+    private void loadLibrarian() throws FileNotFoundException {
+        BufferedReader reader = new BufferedReader(new FileReader(path+"Librarian.csv"));
+        String line;
         try{
             while ((line = reader.readLine()) != null){
                 String[] variables = line.split(";");
@@ -189,82 +280,6 @@ public class CSVAdapter {
         }
     }
 
-    public void saveCSV() throws IOException {
-        //Room
-        BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Room.csv"));
-        try {
-            for (Room room : roomList) {
-                writer.write(String.format("%s;%d%n", room.getRoomID().toString(), room.getShelfLimit()));
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        writer.close();
-
-        //Shelf
-        writer = new BufferedWriter(new FileWriter(path+"Shelf.csv"));
-        try {
-            for (Shelf shelf : shelfList) {
-                writer.write(String.format("%s;%s;%s;%d;%d%n", shelf.getShelfID().toString(), shelf.getRoomIn().getRoomID().toString(), shelf.getGenre(), shelf.getShelfWidth(), shelf.getBoardNumber()));
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        writer.close();
-
-        //Book
-        writer = new BufferedWriter(new FileWriter(path+"Book.csv"));
-        try {
-            for (Book book : bookList) {
-                if (book.getShelf() == null){
-                    writer.write(String.format("%s;%d;%d;%s;%s;%s;%s;%s%n", book.getBookID().toString(), book.getBookCondition(), book.getBookWidth(), book.getBookTitle(), book.getBookAuthor(), book.getBookGenre(), "null", book.getBorrowedBy().getVisitorID().toString()));
-                }
-                else {
-                    writer.write(String.format("%s;%d;%d;%s;%s;%s;%s;%s%n", book.getBookID().toString(), book.getBookCondition(), book.getBookWidth(), book.getBookTitle(), book.getBookAuthor(), book.getBookGenre(), book.getShelf().getShelfID().toString(), "null"));
-                }
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        writer.close();
-
-        //Visitor
-        writer = new BufferedWriter(new FileWriter(path+"Visitor.csv"));
-        try {
-            for (Visitor visitor : visitorList) {
-                List<String> borrowedBookIdList = new ArrayList<>();
-                for (Book book : visitor.getBorrowedBooks()) {
-                    borrowedBookIdList.add(book.getBookID().toString());
-                }
-                if (borrowedBookIdList.isEmpty()){borrowedBookIdList.add("null");}
-                List<String> booksToReturnIdList = new ArrayList<>();
-                for (Book book : visitor.getBooksToReturn()) {
-                    booksToReturnIdList.add(book.getBookID().toString());
-                }
-                if (booksToReturnIdList.isEmpty()){booksToReturnIdList.add("null");}
-                writer.write(String.format("%s;%s;%s;%s;%s;%s;%s%n", visitor.getVisitorID().toString(), visitor.getVisitorName(), visitor.getVisitorSurname(), visitor.getVisitorBirthday(), visitor.getVisitorEmailAddress(), String.join(",", borrowedBookIdList), String.join(",", booksToReturnIdList)));
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        writer.close();
-
-        //Librarian
-        writer = new BufferedWriter(new FileWriter(path+"Librarian.csv"));
-        try{
-            for (Librarian librarian : librarianList) {
-                writer.write(String.format("%s;%s;%s;%s%n", librarian.getLibrarianID().toString(), librarian.getLibrarianName(), librarian.getLibrarianSurname(), librarian.getLibrarianBirthday()));
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        writer.close();
-    }
     //for testing
     public static void main(String[] args) throws IOException {
         CSVAdapter csvAdapter = new CSVAdapter(".\\csvFiles\\");
