@@ -1,7 +1,6 @@
 package hwr.oop.library;
 
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
@@ -11,10 +10,6 @@ class CLI {
 
     public CLI(OutputStream out) {
         this.out = new PrintStream(out);
-    }
-
-    public CLI(List<String> argList) {
-
     }
 
     public void handle(List<String> arguments) throws FileNotFoundException {
@@ -34,9 +29,7 @@ class CLI {
             }
             case "viewBorrowedBooks" -> {
                 CSVAdapter csvAdapter = new CSVAdapter("csvFiles\\");
-                csvAdapter.loadCSV();
-                out.println(csvAdapter.getVisitorList());
-                out.println(csvAdapter.getBookList());
+                csvAdapter.loadCSV();out.println(csvAdapter.getVisitorList());
                 yield "";
 
             }
@@ -53,21 +46,11 @@ class CLI {
         String options = "createVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments,"/*Visitor*/ + ", viewOpenPaymentsLibrarian" /*Librarian*/;
         if (arguments.size() != limit) {
             String result = switch (option) {
-                case "createVisitor", "createLibrarian", "deleteVisitor", "deleteLibrarian" -> {
-                    yield "Usage: [option] [Name] [Surname] [Birthday] [Email]" + options;
-                }
-                case "addBook", "deleteBook" -> {
-                    yield "Usage: [option] [Title] [Genre]" + options;
-                }
-                case "searchBook", "returnBook", "restoreBook" ->{
-                    yield "Usage: [option] [Title]" + options;
-                }
-                case "viewBoorowedBookS", "viewOpenPayments", "viewOpenPaymentsLibrarian" -> {
-                    yield "Usage: [option] [Email]" + options;
-                }
-                default -> {
-                    yield "Invalid option";
-                }
+                case "createVisitor", "createLibrarian", "deleteVisitor", "deleteLibrarian" -> "Usage: [option] [Name] [Surname] [Birthday] [Email]" + options;
+                case "addBook", "deleteBook" -> "Usage: [option] [Title] [Genre]" + options;
+                case "searchBook", "returnBook", "restoreBook" -> "Usage: [option] [Title]" + options;
+                case "viewBoorowedBookS", "viewOpenPayments", "viewOpenPaymentsLibrarian" -> "Usage: [option] [Email]" + options;
+                default -> "Invalid option";
             };
 
             out.println(result);
