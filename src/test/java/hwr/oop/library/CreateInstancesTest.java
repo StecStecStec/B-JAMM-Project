@@ -11,13 +11,20 @@ class CreateInstancesTest {
         CSVAdapter csvAdapter = new CSVAdapter("");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Shelf shelf1 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 2);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 50, 3);
+        Book book1 = Book.createNewBook(csvAdapter,"Welt", "Peter Hans", "Natur", shelf1, 110, 31);
+        Book book2 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, -110, 31);
+        Book book3 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 0, 31);
         Assertions.assertThat(book.getBookID()).isNotNull();
         Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
         Assertions.assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
         Assertions.assertThat(book.getBookGenre()).isEqualTo("Natur");
         Assertions.assertThat(book.getShelf()).isEqualTo(shelf);
-        Assertions.assertThat(book.getBookCondition()).isEqualTo(100);
+        Assertions.assertThat(book.getBookCondition()).isEqualTo(50);
+        Assertions.assertThat(book1.getBookCondition()).isEqualTo(-1);
+        Assertions.assertThat(book2.getBookCondition()).isEqualTo(-1);
+        Assertions.assertThat(book3.getBookCondition()).isZero();
         Assertions.assertThat(book.getBookWidth()).isEqualTo(3);
         Assertions.assertThat(book).isIn(shelf.getBooksOnShelf())
                                    .isIn(csvAdapter.getBookList());
