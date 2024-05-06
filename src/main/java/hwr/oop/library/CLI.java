@@ -144,8 +144,12 @@ class CLI {
                     csvAdapter.loadCSV();
                     int i = 0;
 
+                    out.println("BookID\t\t\t\t\tTitle\tAuthor\tGenre");
                     while (i < csvAdapter.getBookList().size()) {
-                        out.println(csvAdapter.getBookList().get(i).getBookTitle());
+                        out.print(csvAdapter.getBookList().get(i).getBookID() + "\t");
+                        out.print(csvAdapter.getBookList().get(i).getBookTitle() + "\t");
+                        out.print(csvAdapter.getBookList().get(i).getBookAuthor() + "\t");
+                        out.print(csvAdapter.getBookList().get(i).getBookGenre() + "\n");
                         i++;
                     }
                     csvAdapter.saveCSV();
@@ -156,7 +160,7 @@ class CLI {
 
             }
             case deleteBook -> {
-                if (check(arguments, 6, deleteBook)) {
+                if (check(arguments, 2, deleteBook)) {
                     csvAdapter.loadCSV();
                     int i = 0;
                     UUID uuid = UUID.fromString(arguments.get(1));
@@ -166,12 +170,12 @@ class CLI {
                             Book book = csvAdapter.getBookList().get(i);
                             csvAdapter.deleteBook(book);
                             csvAdapter.saveCSV();
-                            yield "Book added";
+                            yield "Book deleted";
                         }
                         i++;
                     }
                     csvAdapter.saveCSV();
-                    yield "No Shelf found";
+                    yield "No Book found";
                 } else {
                     yield "Invalid Input";
                 }
