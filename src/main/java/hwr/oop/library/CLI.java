@@ -276,15 +276,17 @@ class CLI {
                     csvAdapter.loadCSV();
                     int i = 0;
 
-                    out.println("BookID\t\t\t\t\tTitle\tAuthor\tGenre\tBorrowed by");
+                    out.println("BookID\t\t\t\t\tTitle\tAuthor\tGenre\tBorrowed by\tEmail");
                     while (i < csvAdapter.getBookList().size()) {
                         if (csvAdapter.getBookList().get(i).getBorrowedBy() != null && csvAdapter.getBookList().get(i).getShelf() == null) {
                             out.print(csvAdapter.getBookList().get(i).getBookID() + "\t");
                             out.print(csvAdapter.getBookList().get(i).getBookTitle() + "\t");
                             out.print(csvAdapter.getBookList().get(i).getBookAuthor() + "\t");
-                            out.print(csvAdapter.getBookList().get(i).getBookGenre() + "\n");
-                            out.print(csvAdapter.getBookList().get(i).getBorrowedBy() + "\t");
+                            out.print(csvAdapter.getBookList().get(i).getBookGenre() + "\t");
+                            out.print(csvAdapter.getBookList().get(i).getBorrowedBy().getVisitorName() + " " + csvAdapter.getBookList().get(i).getBorrowedBy().getVisitorSurname() + "\t");
+                            out.print(csvAdapter.getBookList().get(i).getBorrowedBy().getVisitorEmailAddress() + "\n");
                         }
+                        i++;
                     }
 
                     csvAdapter.saveCSV();
@@ -293,12 +295,12 @@ class CLI {
                     yield "Invalid Input";
                 }
             }
-            case viewOpenPayments -> {
+            /*case viewOpenPayments -> {
                 yield "Invalid Input";
             }
             case viewOpenPaymentsLibrarian -> {
                 yield "Invalid Input";
-            }
+            }*/
             default -> throw new IllegalStateException("Unexpected value: " + arguments.get(0));
         };
 
@@ -318,10 +320,10 @@ class CLI {
                 case addBook, deleteBook ->
                         "Usage: [option] [Title] [Author] [Genre] [BookCondition] [BookWidth]\n" + options;
                 case searchBook, restoreBook -> "Usage: [option] [Title]\n" + options;
-                case viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian, deleteVisitor ->
+                case viewOpenPayments, viewOpenPaymentsLibrarian, deleteVisitor ->
                         "Usage: [option] [Email]\n" + options;
                 case returnBook -> "Usage: [option] [BookID]\n" + options;
-                case viewBooks -> "Usage: [option]\n" + option;
+                case viewBooks, viewBorrowedBooks -> "Usage: [option]\n" + option;
                 case borrowBook -> "Usage: [option] [BookID] [Email]\n" + options;
                 default -> "Invalid option";
             };
