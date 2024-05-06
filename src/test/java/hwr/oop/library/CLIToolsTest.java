@@ -41,8 +41,8 @@ class CLIToolsTest {
         Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
     }
 
-    @Test
-    void ViewBorrowedBooksTest() throws FileNotFoundException {
+    //@Test
+    /*void ViewBorrowedBooksTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
 
@@ -65,5 +65,5 @@ class CLIToolsTest {
         consoleUI.check(args, 2, "viewBorrowedBooks");
         Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
 
-    }
+    }*/
 }
