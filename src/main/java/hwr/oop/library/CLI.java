@@ -112,7 +112,30 @@ class CLI {
 
             }
             case addBook -> {
-                yield "Invalid Input";
+                if (check(arguments, 6, addBook)) {
+                    csvAdapter.loadCSV();
+                    int i = 0;
+                    String title = arguments.get(1);
+                    String author = arguments.get(2);
+                    String genre = arguments.get(3);
+                    int bookCondition = Integer.parseInt(arguments.get(4));
+                    int bookWidth = Integer.parseInt(arguments.get(5));
+
+                    while (i < csvAdapter.getShelfList().size()) {
+                        if (Objects.equals(csvAdapter.getShelfList().get(i).getGenre(), genre)) {
+                            Shelf shelf = csvAdapter.getShelfList().get(i);
+                            Book.createNewBook(csvAdapter, title, author, genre, shelf, bookCondition, bookWidth);
+                            csvAdapter.saveCSV();
+                            yield "Book added";
+                        }
+                        i++;
+                    }
+                    csvAdapter.saveCSV();
+                    yield "No Shelf found";
+                } else {
+                    yield "Invalid Input";
+                }
+
             }
             case deleteBook -> {
                 yield "Invalid Input";
@@ -151,7 +174,7 @@ class CLI {
                 case createVisitor, createLibrarian ->
                         "Usage: [option] [Name] [Surname] [Birthday] [Email]\n" + options;
                 case deleteLibrarian -> "Usage: [option] [Name] [Surname] [Birthday]\n" + options;
-                case addBook, deleteBook -> "Usage: [option] [Title] [Genre]\n" + options;
+                case addBook, deleteBook -> "Usage: [option] [Title] [Author] [Genre] [BookCondition] [BookWidth]\n" + options;
                 case searchBook, returnBook, restoreBook -> "Usage: [option] [Title]\n" + options;
                 case viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian, deleteVisitor ->
                         "Usage: [option] [Email]\n" + options;
