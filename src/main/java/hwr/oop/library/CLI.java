@@ -8,7 +8,17 @@ import java.util.List;
 class CLI {
     private PrintStream out = System.out;
     private final String createVisitor = "createVisitor";
+    private final String createLibrarian  = "createLibrarian";
+    private final String deleteVisitor = "deleteVisitor";
+    private final String deleteLibrarian = "deleteLibrarian";
+    private final String addBook = "addBook";
+    private final String deleteBook = "deleteBook";
+    private final String searchBook = "searchBook";
+    private final String returnBook = "returnBook";
+    private final String restoreBook = "restoreBook";
     private final String viewBorrowedBooks = "viewBorrowedBooks";
+    private final String viewOpenPayments = "viewOpenPayments"; //Visitor
+    private final String viewOpenPaymentsLibrarian = "viewOpenPaymentsLibrarian";
 
     public CLI(OutputStream out) {
         this.out = new PrintStream(out);
@@ -31,13 +41,42 @@ class CLI {
                     yield "No Visitor created";
                 }
             }
+            case createLibrarian -> {
+
+            }
+            case deleteVisitor -> {
+
+            }
+            case deleteLibrarian -> {
+
+            }
+            case addBook -> {
+
+            }
+            case deleteBook -> {
+
+            }
+            case searchBook -> {
+
+            }
+            case returnBook -> {
+
+            }
+            case restoreBook -> {
+
+            }
             case viewBorrowedBooks -> {
                 csvAdapter.loadCSV();
                 out.println(csvAdapter.getVisitorList());
                 yield "";
+            }
+            case viewOpenPayments -> {
 
             }
-                default -> throw new IllegalStateException("Unexpected value: " + arguments.get(0));
+            case viewOpenPaymentsLibrarian -> {
+
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + arguments.get(0));
         };
 
         out.println(result);
