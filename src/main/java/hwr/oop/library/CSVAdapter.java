@@ -45,12 +45,17 @@ public class CSVAdapter {
         3: for each object reference the uuid is saved
         4: in case a variable is null it is converted to a string named "null" */
 
-    public void loadCSV() throws FileNotFoundException {
-        loadRoom();
-        loadShelf();
-        loadBook();
-        loadVisitor();
-        loadLibrarian();
+    public void loadCSV() {
+        try{
+            loadRoom();
+            loadShelf();
+            loadBook();
+            loadVisitor();
+            loadLibrarian();
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void saveCSV() {
@@ -137,8 +142,7 @@ public class CSVAdapter {
     }
 
     private void loadRoom() {
-        try{
-            BufferedReader reader = new BufferedReader(new FileReader(path+"Room.csv"));
+        try(BufferedReader reader = new BufferedReader(new FileReader(path+"Room.csv"))){
             String line;
             while ((line = reader.readLine()) != null){
                 String[] variables = line.split(";");
@@ -146,15 +150,13 @@ public class CSVAdapter {
                 int shelfLimit = Integer.parseInt(variables[1]);
                 Room.createCompleteNewRoom(this, uuid, shelfLimit);
             }
-            reader.close();
         }
         catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     private void loadShelf() {
-        try{
-            BufferedReader reader = new BufferedReader(new FileReader(path+"Shelf.csv"));
+        try(BufferedReader reader = new BufferedReader(new FileReader(path+"Shelf.csv"))){
             String line;
             while ((line = reader.readLine()) != null){
                 String[] variables = line.split(";");
@@ -172,15 +174,13 @@ public class CSVAdapter {
                 int boardNumber = Integer.parseInt(variables[4]);
                 Shelf.createCompleteNewShelf(this, uuid, inRoom, genre, shelfWidth, boardNumber);
             }
-            reader.close();
         }
         catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     private void loadBook() throws FileNotFoundException {
-        try{
-            BufferedReader reader = new BufferedReader(new FileReader(path+"Book.csv"));
+        try(BufferedReader reader = new BufferedReader(new FileReader(path+"Book.csv"))){
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] variables = line.split(";");
@@ -213,14 +213,12 @@ public class CSVAdapter {
                     Book.createCompleteBook(this, uuid, bookTitle, bookAuthor, bookGenre, inShelf, bookCondition, bookWidth);
                 }
             }
-            reader.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
     private void loadVisitor() throws FileNotFoundException {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(path+"Visitor.csv"));
+        try(BufferedReader reader = new BufferedReader(new FileReader(path+"Visitor.csv"))){
             String line;
             while ((line = reader.readLine()) != null){
                 String[] variables = line.split(";");
@@ -250,7 +248,6 @@ public class CSVAdapter {
                     }
                 }
             }
-            reader.close();
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -266,8 +263,7 @@ public class CSVAdapter {
     }
 
     private void loadLibrarian() throws FileNotFoundException {
-        try{
-            BufferedReader reader = new BufferedReader(new FileReader(path+"Librarian.csv"));
+        try(BufferedReader reader = new BufferedReader(new FileReader(path+"Librarian.csv"))){
             String line;
             while ((line = reader.readLine()) != null){
                 String[] variables = line.split(";");
@@ -277,24 +273,9 @@ public class CSVAdapter {
                 String birthday = variables[3];
                 Librarian.createCompleteNewLibrarian(this, uuid, name, surname, birthday);
             }
-            reader.close();
         }
         catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    //for testing
-    public static void main(String[] args) throws IOException {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\csvFiles\\");
-        csvAdapter.loadCSV();
-        Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book1 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createNewBook(csvAdapter, "TestWelt", "Petest", "Testing", shelf, 90, 5);
-        book1.borrow(visitor);
-        book2.borrow(visitor);
-        csvAdapter.saveCSV();
     }
 }
