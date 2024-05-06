@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 class CSVAdapterTest {
     @Test
     void loadClearAndSaveCSV(){
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book1 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);

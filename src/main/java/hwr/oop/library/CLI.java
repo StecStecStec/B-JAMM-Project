@@ -256,7 +256,6 @@ class CLI {
                     int i = 0;
 
                     UUID uuid = UUID.fromString(arguments.get(1));
-
                     while (i < csvAdapter.getBookList().size()) {
                         if (csvAdapter.getBookList().get(i).getBookID().equals(uuid)) {
                             Book book = csvAdapter.getBookList().get(i);
@@ -273,7 +272,26 @@ class CLI {
                 }
             }
             case viewBorrowedBooks -> {
-                yield "Invalid Input";
+                if (check(arguments, 1, viewBorrowedBooks)) {
+                    csvAdapter.loadCSV();
+                    int i = 0;
+
+                    out.println("BookID\t\t\t\t\tTitle\tAuthor\tGenre\tBorrowed by");
+                    while (i < csvAdapter.getBookList().size()) {
+                        if (csvAdapter.getBookList().get(i).getBorrowedBy() != null && csvAdapter.getBookList().get(i).getShelf() == null) {
+                            out.print(csvAdapter.getBookList().get(i).getBookID() + "\t");
+                            out.print(csvAdapter.getBookList().get(i).getBookTitle() + "\t");
+                            out.print(csvAdapter.getBookList().get(i).getBookAuthor() + "\t");
+                            out.print(csvAdapter.getBookList().get(i).getBookGenre() + "\n");
+                            out.print(csvAdapter.getBookList().get(i).getBorrowedBy() + "\t");
+                        }
+                    }
+
+                    csvAdapter.saveCSV();
+                    yield "Borrowed books viewed";
+                } else {
+                    yield "Invalid Input";
+                }
             }
             case viewOpenPayments -> {
                 yield "Invalid Input";
