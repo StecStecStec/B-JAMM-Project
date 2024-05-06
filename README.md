@@ -1,6 +1,4 @@
-# HWR OOP Lecture Project Template
-
-[TODO]: # (Change README.md Headline to better fit to your project!)
+# HWR OOP Lecture: Library Project by B-JAMM
 
 This repository contains a student project created for an ongoing lecture on object-oriented
 programming with Java/Kotlin at HWR Berlin (summer term 2024).
@@ -41,17 +39,29 @@ just build
 
 ## Abstract
 
-[TODO]: # (Write a short description of your project.)
-[TODO]: # (State most important features.)
+[TODO]: # (The main target in this project is to craete a library managemant system in which visitors can borrow books.)
+[TODO]: # (The most important features are: "borrow Book", "return Book" and "load Library")
 [TODO]: # (State the most interesting problems you encountered during the project.)
 
 ## Feature List
 
 [TODO]: # (For each feature implemented, add a row to the table!)
 
-| Number | Feature | Tests |
-|--------|---------|-------|
-| 1      | /       | /     |
+| Number | Feature            | Tests                    |
+|--------|--------------------|--------------------------|
+| 1      | borrow             | BorrowReturnTest         |
+| 2      | returnBook         | BorrowReturnTest         |
+| 3      | createNewLibrarian | CreateInstancesTest      |
+| 4      | createNewRoom      | CreateInstancesTest      |
+| 5      | createNewShelf     | CreateInstancesTest      |
+| 6      | createNewVisitor   | CreateInstancesTest      |
+| 7      | addBookOnShelf     | AddRemoveBookShelfTest   |
+| 8      | removeBookOnShelf  | AddRemoveBookShelfTest   |
+| 9      | addBookToReturn    | AddRemoveBookVisitorTest |
+| 10     | removeBookToReturn | AddRemoveBookVisitorTest |
+| 11     | loadCSV            |                          |
+| 12     | saveCSV            |                          |
+| 13     | handleCLIQuery     |                          |
 
 ## Additional Dependencies
 
@@ -61,57 +71,3 @@ just build
 |--------|-----------------|------------------------|----------------------|
 | 1      | /               | /                      | /                    |
 
-## Instructions
-
-[TODO]: # (Remove these instructions once you finished your fork's setup.)
-
-Use a fork of this repository to do implement your project.
-
-Remember to add this repository as a second remote repository (upstream) and pull from the correct
-remotes.
-This is necessary, because we might apply changes to this template during the next month.
-
-The following section describes how to add multiple remote repositories to your local repository,
-which is cloned from the fork.
-
-### Multiple remote repositories
-
-Your local repository should have a reference to both the fork (your own remote repository)
-and the original remote repository.
-To configure your git remote repositories, use the `git remote` command set.
-
-1. Clone your fork and go enter the repository.
-
-```
-git clone <fork-url>
-cd <created-folder>
-```
-
-2. Now your fork is configured as primary remote repository (origin).
-   Next to origin, you should add the original repository as a second remote repository (upstream).
-
-```
-git remote add upstream <repository-url>
-```
-
-3. Verify that both remotes are configured correctly.
-   The following command should list both remotes: origin and upstream.
-
-```
-git remote -v
-```
-
-4. To fetch changes from all remote repositories, use:
-
-```
-git fetch --all
-```
-
-5. If there are interesting changes (in e.g. the `main` branch) to merge into your branch, use:
-
-```
-git pull upstream main
-```
-
-[maven]: https://maven.apache.org/
-[just]: https://github.com/casey/just
