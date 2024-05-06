@@ -233,7 +233,7 @@ class CLI {
 
                     UUID uuid = UUID.fromString(arguments.get(1));
                     while (i < csvAdapter.getBookList().size()) {
-                        if (Objects.equals(csvAdapter.getBookList().get(i).getBookID(), uuid)) {
+                        if (csvAdapter.getBookList().get(i).getBookID().equals(uuid)) {
                             while (j < csvAdapter.getShelfList().size()) {
                                 if (Objects.equals(csvAdapter.getShelfList().get(j).getGenre(), csvAdapter.getBookList().get(i).getBookGenre())) {
                                     Shelf shelf = csvAdapter.getShelfList().get(j);
@@ -251,7 +251,26 @@ class CLI {
                 }
             }
             case restoreBook -> {
-                yield "Invalid Input";
+                if (check(arguments, 2, restoreBook)) {
+                    csvAdapter.loadCSV();
+                    int i = 0;
+
+                    UUID uuid = UUID.fromString(arguments.get(1));
+
+                    while (i < csvAdapter.getBookList().size()) {
+                        if (csvAdapter.getBookList().get(i).getBookID().equals(uuid)) {
+                            Book book = csvAdapter.getBookList().get(i);
+                            book.restoreBook();
+                            csvAdapter.saveCSV();
+                            yield "Book restored";
+                        }
+                        i++;
+                    }
+
+                    yield "Book wasn't found";
+                } else {
+                    yield "Invalid Input";
+                }
             }
             case viewBorrowedBooks -> {
                 yield "Invalid Input";

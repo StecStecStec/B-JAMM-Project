@@ -81,6 +81,10 @@ public class Book {
         }
     }
 
+    public void restoreBook () {
+        this.bookCondition = 100;
+    }
+
     public void returnBook(Shelf returnShelf) {
         if (borrowedBy != null) {
             borrowedBy.removeBorrowedBook(this);
