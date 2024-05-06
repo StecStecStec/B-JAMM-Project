@@ -36,4 +36,4 @@ build/
 
 ### csv ###
 /src/test/csvTestFiles
-/src/main/csvFiles
+/csvFiles
