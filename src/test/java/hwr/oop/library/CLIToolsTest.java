@@ -12,11 +12,11 @@ import java.util.List;
 
 class CLIToolsTest {
 
-  // @Test
+  @Test
     void CreateVisitorTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter("src\\main\\csvFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter("src\\test\\resources\\csvTestFiles\\");
 
 
         List<String> args = new ArrayList<>();
@@ -40,6 +40,9 @@ class CLIToolsTest {
         consoleUI.check(args, 5, "create Visitor");
         Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
     }
+
+    
+
 
     //@Test
     /*void ViewBorrowedBooksTest() throws FileNotFoundException {
