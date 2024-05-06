@@ -59,26 +59,10 @@ public class Visitor {
     }
 
     public static Visitor createNewVisitor(CSVAdapter csvAdapter, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
-        int i = 0;
-        while (i < csvAdapter.getVisitorList().size()) {
-            if (csvAdapter.getVisitorList().get(i).getVisitorEmailAddress().equals(visitorEmailAddress)) {
-                System.out.println("Mail already exists");
-                return null;
-            }
-            i++;
-        }
         return new Visitor(csvAdapter, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, UUID.randomUUID());
     }
 
     public static Visitor createCompleteVisitor(CSVAdapter csvAdapter, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID uuid) {
-        int i = 0;
-        while (i < csvAdapter.getVisitorList().size()) {
-            if (csvAdapter.getVisitorList().get(i).getVisitorEmailAddress().equals(visitorEmailAddress)) {
-                System.out.println("Mail already exists");
-                return null;
-            }
-            i++;
-        }
         return new Visitor(csvAdapter, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, uuid);
     }
 

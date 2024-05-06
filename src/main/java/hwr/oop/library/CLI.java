@@ -31,15 +31,22 @@ class CLI {
         String result = switch (arguments.get(0)) {
             case createVisitor -> {
                 if (check(arguments, 5, createVisitor)) {
-                    csvAdapter.loadCSV();
+                    int i = 0;
                     String name = arguments.get(1);
                     String surname = arguments.get(2);
                     String birthday = arguments.get(3);
                     String email = arguments.get(4);
 
+                    while (i < csvAdapter.getVisitorList().size()) {
+                        if (Objects.equals(csvAdapter.getVisitorList().get(i).getVisitorEmailAddress(), email)) {
+                            yield "Mail already exists";
+                        }
+                        i++;
+
+                    }
+                    
                     Visitor.createNewVisitor(csvAdapter, name, surname, birthday, email);
                     out.println(csvAdapter.getVisitorList());
-                    csvAdapter.saveCSV();
                     yield "Visitor created";
                 } else {
                     yield "Invalid Input";
@@ -47,13 +54,20 @@ class CLI {
             }
             case createLibrarian -> {
                 if (check(arguments, 4, createLibrarian)) {
-                    csvAdapter.loadCSV();
+                    int i = 0;
                     String name = arguments.get(1);
                     String surname = arguments.get(2);
                     String birthday = arguments.get(3);
 
+                    while (i < csvAdapter.getLibrarianList().size()) {
+                        if (Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianName(), name) && Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianSurname(), surname)) {
+                            yield "Librarian already exists";
+                        }
+                        i++;
+
+                    }
+
                     Librarian.createNewLibrarian(csvAdapter, name, surname, birthday);
-                    csvAdapter.saveCSV();
                     yield "Librarian created";
                 } else {
                     yield "Invalid Input";
@@ -77,7 +91,7 @@ class CLI {
             }
             case deleteLibrarian -> {
                 int i = 0;
-                if (check(arguments, 2, deleteLibrarian)) {
+                if (check(arguments, 4, deleteLibrarian)) {
                     csvAdapter.loadCSV();
                     String name = arguments.get(1);
                     String surname = arguments.get(2);

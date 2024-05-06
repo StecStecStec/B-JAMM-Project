@@ -9,8 +9,10 @@ public class MainLibrary {
     public static void main(String[] args) throws FileNotFoundException {
         List<String> argList = Arrays.asList(args);
         CSVAdapter csvAdapter = new CSVAdapter("src\\main\\csvFiles\\");
+        csvAdapter.loadCSV();
         CLI cli = new CLI(System.out);
         cli.handle(argList, csvAdapter);
+        csvAdapter.saveCSV();
     }
 }
 
