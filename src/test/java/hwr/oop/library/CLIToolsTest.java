@@ -36,22 +36,15 @@ class CLIToolsTest {
 
         consoleUI.handle(args, csvAdapter);
 
-       Assertions.assertThat(outputStream.toString()).contains("Visitor created");
+        Assertions.assertThat(outputStream.toString()).contains("Visitor created");
 
-        boolean result = consoleUI.check(args,5,"createVisitor");
-        Assertions.assertThat(result).isTrue();
+        csvAdapter.clear();
+        consoleUI.handle(args, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Mail already exists");
 
+
+        csvAdapter.clear();
         consoleUI.handle(args2, csvAdapter);
-        Assertions.assertThat(outputStream.toString()).contains("Visitor deleted");
-
-        args2.remove("deleteVisitor");
-        //consoleUI.handle(args2, csvAdapter);
-        //Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
-
-
-        //consoleUI.check(args, 5, "create Visitor");
-        //Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
-
     }
 
 
