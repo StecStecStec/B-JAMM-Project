@@ -30,14 +30,15 @@ class CLI {
         String result = switch (arguments.get(0)) {
             case createVisitor -> {
                 if (check(arguments, 5, createVisitor)) {
+                    csvAdapter.loadCSV();
                     String name = arguments.get(1);
                     String surname = arguments.get(2);
                     String birthday = arguments.get(3);
                     String email = arguments.get(4);
 
-                    Visitor visitor = Visitor.createNewVisitor(csvAdapter, name, surname, birthday, email);
+                    Visitor.createNewVisitor(csvAdapter, name, surname, birthday, email);
                     out.println(csvAdapter.getVisitorList());
-                    //csvAdapter.saveCSV();
+                    csvAdapter.saveCSV();
                     yield "Visitor created";
                 } else {
                     yield "No Visitor created";
