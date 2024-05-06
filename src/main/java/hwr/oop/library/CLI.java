@@ -8,7 +8,7 @@ import java.util.List;
 class CLI {
     private PrintStream out = System.out;
     private final String createVisitor = "createVisitor";
-    private final String createLibrarian  = "createLibrarian";
+    private final String createLibrarian = "createLibrarian";
     private final String deleteVisitor = "deleteVisitor";
     private final String deleteLibrarian = "deleteLibrarian";
     private final String addBook = "addBook";
@@ -35,8 +35,7 @@ class CLI {
                     String birthday = arguments.get(3);
                     String email = arguments.get(4);
 
-                    Visitor visitor2 = Visitor.createNewVisitor(csvAdapter,name, surname, birthday, email);
-                    out.println(visitor2.getVisitorID());
+                    Visitor visitor = Visitor.createNewVisitor(csvAdapter, name, surname, birthday, email);
                     out.println(csvAdapter.getVisitorList());
                     //csvAdapter.saveCSV();
                     yield "Visitor created";
@@ -45,7 +44,17 @@ class CLI {
                 }
             }
             case createLibrarian -> {
-                yield "";
+                if (check(arguments, 5, createLibrarian)) {
+                    String name = arguments.get(1);
+                    String surname = arguments.get(2);
+                    String birthday = arguments.get(4);
+
+                    Librarian librarian = Librarian.createNewLibrarian(csvAdapter, name, surname, birthday);
+                    out.println(csvAdapter.getVisitorList());
+                    yield "Librarian created";
+                } else {
+                    yield "No Librarian created";
+                }
             }
             case deleteVisitor -> {
                 yield "";
@@ -69,8 +78,6 @@ class CLI {
                 yield "";
             }
             case viewBorrowedBooks -> {
-                csvAdapter.loadCSV();
-                out.println(csvAdapter.getVisitorList());
                 yield "";
             }
             case viewOpenPayments -> {
@@ -92,10 +99,12 @@ class CLI {
         String options = "createVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments,"/*Visitor*/ + " viewOpenPaymentsLibrarian" /*Librarian*/;
         if (arguments.size() != limit) {
             String result = switch (option) {
-                case createVisitor, "createLibrarian", "deleteVisitor", "deleteLibrarian" -> "Usage: [option] [Name] [Surname] [Birthday] [Email]\n" + options;
-                case "addBook", "deleteBook" -> "Usage: [option] [Title] [Genre]\n" + options;
-                case "searchBook", "returnBook", "restoreBook" -> "Usage: [option] [Title]\n" + options;
-                case viewBorrowedBooks, "viewOpenPayments", "viewOpenPaymentsLibrarian" -> "Usage: [option] [Email]\n" + options;
+                case createVisitor, createLibrarian, deleteVisitor, deleteLibrarian ->
+                        "Usage: [option] [Name] [Surname] [Birthday] [Email]\n" + options;
+                case addBook, deleteBook -> "Usage: [option] [Title] [Genre]\n" + options;
+                case searchBook, returnBook, restoreBook -> "Usage: [option] [Title]\n" + options;
+                case viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian ->
+                        "Usage: [option] [Email]\n" + options;
                 default -> "Invalid option";
             };
 
