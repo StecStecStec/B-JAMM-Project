@@ -86,7 +86,7 @@ public class Shelf {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Shelf shelf = (Shelf) o;
-        return shelfWidth == shelf.shelfWidth && remainingSpace == shelf.remainingSpace && boardNumber == shelf.boardNumber && Objects.equals(shelfID, shelf.shelfID) && Objects.equals(roomIn, shelf.roomIn) && Objects.equals(booksOnShelf, shelf.booksOnShelf) && Objects.equals(genre, shelf.genre);
+        return shelfWidth == shelf.shelfWidth && remainingSpace == shelf.remainingSpace && boardNumber == shelf.boardNumber && Objects.equals(shelfID, shelf.shelfID) && Objects.equals(booksOnShelf, shelf.booksOnShelf) && Objects.equals(genre, shelf.genre);
     }
 
     @Override
