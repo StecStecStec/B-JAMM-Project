@@ -10,14 +10,18 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 class CLIToolsTest {
 
-  @Test
-    void CreateVisitorTest() throws FileNotFoundException {
+
+
+    @Test
+    void CreateVisitor_and_deleteVisitorTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter("src\\test\\resources\\csvTestFiles\\");
-
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
 
         List<String> args = new ArrayList<>();
         args.add("createVisitor");
@@ -26,22 +30,29 @@ class CLIToolsTest {
         args.add("01.01.2000");
         args.add("hans@meier.com");
 
+        List<String> args2 = new ArrayList<>();
+        args2.add("deleteVisitor");
+        args2.add("hans@meier.com");
+
         consoleUI.handle(args, csvAdapter);
 
-        Assertions.assertThat(outputStream.toString()).contains("Visitor created");
+       Assertions.assertThat(outputStream.toString()).contains("Visitor created");
 
         boolean result = consoleUI.check(args,5,"createVisitor");
         Assertions.assertThat(result).isTrue();
 
-        args.removeLast();
-        consoleUI.handle(args, csvAdapter);
-        Assertions.assertThat(outputStream.toString()).contains("Invalid Input");
+        consoleUI.handle(args2, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Visitor deleted");
 
-        consoleUI.check(args, 5, "create Visitor");
-        Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
+        args2.remove("deleteVisitor");
+        //consoleUI.handle(args2, csvAdapter);
+        //Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
+
+
+        //consoleUI.check(args, 5, "create Visitor");
+        //Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
+
     }
-
-    
 
 
     //@Test

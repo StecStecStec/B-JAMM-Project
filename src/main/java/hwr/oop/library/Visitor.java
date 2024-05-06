@@ -87,6 +87,6 @@ public class Visitor {
 
     @Override
     public int hashCode() {
-        return Objects.hash(visitorID, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, borrowedBooks, booksToReturn);
+        return Objects.hash(visitorID, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress);
     }
 }
