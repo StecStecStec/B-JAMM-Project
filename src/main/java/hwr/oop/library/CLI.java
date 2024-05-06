@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Objects;
 
 class CLI {
     private PrintStream out = System.out;
@@ -41,51 +42,81 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Visitor created";
                 } else {
-                    yield "No Visitor created";
+                    yield "Invalid Input";
                 }
             }
             case createLibrarian -> {
-                if (check(arguments, 5, createLibrarian)) {
+                if (check(arguments, 4, createLibrarian)) {
+                    csvAdapter.loadCSV();
                     String name = arguments.get(1);
                     String surname = arguments.get(2);
-                    String birthday = arguments.get(4);
+                    String birthday = arguments.get(3);
 
-                    Librarian librarian = Librarian.createNewLibrarian(csvAdapter, name, surname, birthday);
-                    out.println(csvAdapter.getVisitorList());
+                    Librarian.createNewLibrarian(csvAdapter, name, surname, birthday);
+                    csvAdapter.saveCSV();
                     yield "Librarian created";
                 } else {
-                    yield "No Librarian created";
+                    yield "Invalid Input";
                 }
             }
             case deleteVisitor -> {
-                yield "";
+                if (check(arguments, 2, deleteVisitor)) {
+                    csvAdapter.loadCSV();
+                    String mail = arguments.get(1);
+                    int i = 0;
+                    while (i < csvAdapter.getVisitorList().size()) {
+                        if (Objects.equals(csvAdapter.getVisitorList().get(i).getVisitorEmailAddress(), mail)) {
+                            csvAdapter.deleteVisitor(csvAdapter.getVisitorList().get(i));
+                        }
+                        i++;
+                    }
+                    yield "Visitor deleted";
+                } else {
+                    yield "Invalid Input";
+                }
             }
             case deleteLibrarian -> {
-                yield "";
+                int i = 0;
+                if (check(arguments, 2, deleteLibrarian)) {
+                    csvAdapter.loadCSV();
+                    String name = arguments.get(1);
+                    String surname = arguments.get(2);
+                    String birthday = arguments.get(3);
+                    while (i < csvAdapter.getLibrarianList().size()) {
+                        if (Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianName(), name) && Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianSurname(), surname) && Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianBirthday(), birthday)) {
+                            csvAdapter.deleteLibrarian(csvAdapter.getLibrarianList().get(i));
+                        }
+                        i++;
+                    }
+                    yield "Librarian deleted";
+                } else {
+                    yield "Invalid Input";
+                }
+
             }
             case addBook -> {
-                yield "";
+                yield "Invalid Input";
             }
             case deleteBook -> {
-                yield "";
+                yield "Invalid Input";
             }
             case searchBook -> {
-                yield "";
+                yield "Invalid Input";
             }
             case returnBook -> {
-                yield "";
+                yield "Invalid Input";
             }
             case restoreBook -> {
-                yield "";
+                yield "Invalid Input";
             }
             case viewBorrowedBooks -> {
-                yield "";
+                yield "Invalid Input";
             }
             case viewOpenPayments -> {
-                yield "";
+                yield "Invalid Input";
             }
             case viewOpenPaymentsLibrarian -> {
-                yield "";
+                yield "Invalid Input";
             }
             default -> throw new IllegalStateException("Unexpected value: " + arguments.get(0));
         };
@@ -100,11 +131,12 @@ class CLI {
         String options = "createVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments,"/*Visitor*/ + " viewOpenPaymentsLibrarian" /*Librarian*/;
         if (arguments.size() != limit) {
             String result = switch (option) {
-                case createVisitor, createLibrarian, deleteVisitor, deleteLibrarian ->
+                case createVisitor, createLibrarian ->
                         "Usage: [option] [Name] [Surname] [Birthday] [Email]\n" + options;
+                case deleteLibrarian -> "Usage: [option] [Name] [Surname] [Birthday]\n" + options;
                 case addBook, deleteBook -> "Usage: [option] [Title] [Genre]\n" + options;
                 case searchBook, returnBook, restoreBook -> "Usage: [option] [Title]\n" + options;
-                case viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian ->
+                case viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian, deleteVisitor ->
                         "Usage: [option] [Email]\n" + options;
                 default -> "Invalid option";
             };

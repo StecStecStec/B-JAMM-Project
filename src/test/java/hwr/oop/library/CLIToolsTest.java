@@ -35,7 +35,7 @@ class CLIToolsTest {
 
         args.removeLast();
         consoleUI.handle(args, csvAdapter);
-        Assertions.assertThat(outputStream.toString()).contains("No Visitor created");
+        Assertions.assertThat(outputStream.toString()).contains("Invalid Input");
 
         consoleUI.check(args, 5, "create Visitor");
         Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
