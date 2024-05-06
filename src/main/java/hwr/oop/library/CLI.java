@@ -17,6 +17,7 @@ class CLI {
     private final String viewBooks = "viewBooks";
     private final String deleteBook = "deleteBook";
     private final String searchBook = "searchBook";
+    private final String borrowBook = "borrowBook";
     private final String returnBook = "returnBook";
     private final String restoreBook = "restoreBook";
     private final String viewBorrowedBooks = "viewBorrowedBooks";
@@ -181,10 +182,73 @@ class CLI {
                 }
             }
             case searchBook -> {
+                if (check(arguments, 2, searchBook)) {
+                    csvAdapter.loadCSV();
+                    int i = 0;
+
+                    out.println("BookID\t\t\t\t\tTitle\tAuthor\tGenre");
+                    while (i < csvAdapter.getBookList().size()) {
+                        if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), arguments.get(1))) {
+                            out.print(csvAdapter.getBookList().get(i).getBookID() + "\t");
+                            out.print(csvAdapter.getBookList().get(i).getBookTitle() + "\t");
+                            out.print(csvAdapter.getBookList().get(i).getBookAuthor() + "\t");
+                            out.print(csvAdapter.getBookList().get(i).getBookGenre() + "\n");
+                        }
+                        i++;
+                    }
+                    csvAdapter.saveCSV();
+                    yield "Books searched";
+                }
                 yield "Invalid Input";
             }
+            case borrowBook -> {
+                if (check(arguments, 3, borrowBook)) {
+                    csvAdapter.loadCSV();
+                    UUID uuid = UUID.fromString(arguments.get(1));
+                    String email = arguments.get(2);
+                    int i = 0;
+                    int j = 0;
+                    while (i < csvAdapter.getBookList().size()) {
+                        if (Objects.equals(csvAdapter.getBookList().get(i).getBookID(), uuid)) {
+                            while (j < csvAdapter.getVisitorList().size()) {
+                                if (Objects.equals(csvAdapter.getVisitorList().get(j).getVisitorEmailAddress(), email)) {
+                                    csvAdapter.getBookList().get(i).borrow(csvAdapter.getVisitorList().get(j));
+                                }
+                                j++;
+                            }
+                        }
+                        i++;
+                    }
+                    csvAdapter.saveCSV();
+                    yield "Book borrowed";
+                } else {
+                    yield "Invalid Input";
+                }
+            }
             case returnBook -> {
-                yield "Invalid Input";
+                if (check(arguments, 2, returnBook)) {
+                    csvAdapter.loadCSV();
+                    int i = 0;
+                    int j = 0;
+
+                    UUID uuid = UUID.fromString(arguments.get(1));
+                    while (i < csvAdapter.getBookList().size()) {
+                        if (Objects.equals(csvAdapter.getBookList().get(i).getBookID(), uuid)) {
+                            while (j < csvAdapter.getShelfList().size()) {
+                                if (Objects.equals(csvAdapter.getShelfList().get(j).getGenre(), csvAdapter.getBookList().get(i).getBookGenre())) {
+                                    Shelf shelf = csvAdapter.getShelfList().get(j);
+                                    csvAdapter.getBookList().get(i).returnBook(shelf);
+                                }
+                                j++;
+                            }
+                        }
+                        i++;
+                    }
+                    csvAdapter.saveCSV();
+                    yield "Book returned";
+                } else {
+                    yield "Invalid Input";
+                }
             }
             case restoreBook -> {
                 yield "Invalid Input";
@@ -214,11 +278,14 @@ class CLI {
                 case createVisitor, createLibrarian ->
                         "Usage: [option] [Name] [Surname] [Birthday] [Email]\n" + options;
                 case deleteLibrarian -> "Usage: [option] [Name] [Surname] [Birthday]\n" + options;
-                case addBook, deleteBook -> "Usage: [option] [Title] [Author] [Genre] [BookCondition] [BookWidth]\n" + options;
-                case searchBook, returnBook, restoreBook -> "Usage: [option] [Title]\n" + options;
+                case addBook, deleteBook ->
+                        "Usage: [option] [Title] [Author] [Genre] [BookCondition] [BookWidth]\n" + options;
+                case searchBook, restoreBook -> "Usage: [option] [Title]\n" + options;
                 case viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian, deleteVisitor ->
                         "Usage: [option] [Email]\n" + options;
+                case returnBook -> "Usage: [option] [BookID]\n" + options;
                 case viewBooks -> "Usage: [option]\n" + option;
+                case borrowBook -> "Usage: [option] [BookID] [Email]\n" + options;
                 default -> "Invalid option";
             };
 
