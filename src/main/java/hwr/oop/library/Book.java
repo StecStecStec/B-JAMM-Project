@@ -13,6 +13,9 @@ public class Book {
     private Shelf shelf;
     private Visitor borrowedBy = null;
 
+    private final int upperBoundary = 100;
+    private final int lowerBoundary = 0;
+
     public int getBookWidth() {
         return bookWidth;
     }
@@ -55,12 +58,16 @@ public class Book {
 
     private Book(UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
         this.bookID = uuid;
-        this.bookWidth = bookWidth;
+        this.bookWidth = Math.max(bookWidth, 0);
         this.shelf = shelf;
         this.title = title;
         this.author = author;
         this.genre = genre;
-        this.bookCondition = bookCondition;
+        if (bookCondition >= lowerBoundary && bookCondition <= upperBoundary) {
+            this.bookCondition = bookCondition;
+        } else {
+            this.bookCondition = -1;
+        }
         shelf.addBookOnShelf(this);
     }
 

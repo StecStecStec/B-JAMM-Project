@@ -9,8 +9,12 @@ class CreateInstancesTest {
     @Test
     void createBook_checkRightAssignment() {
         Room room = Room.createNewRoom(5);
+        Room room2 = Room.createNewRoom(5);
         Shelf shelf = Shelf.createNewShelf(room, "Action", 400, 1);
+        Shelf shelf2 = Shelf.createNewShelf(room2, "Action", 400, 1);
         Book book = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf2, -10000, 10);
+        Book book3 = Book.createNewBook("Welt", "Peter Hans", "Natur", shelf2, 0, 10);
         Assertions.assertThat(book.getBookID()).isNotNull();
         Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
         Assertions.assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
@@ -20,6 +24,8 @@ class CreateInstancesTest {
         Assertions.assertThat(book.getBookWidth()).isEqualTo(3);
         Assertions.assertThat(book).isIn(shelf.getBooksOnShelf());
         Assertions.assertThat(shelf.getRemainingSpace()).isEqualTo(397);
+        Assertions.assertThat(book2.getBookCondition()).isEqualTo(-1);
+        Assertions.assertThat(book3.getBookCondition()).isZero();
     }
 
     @Test
