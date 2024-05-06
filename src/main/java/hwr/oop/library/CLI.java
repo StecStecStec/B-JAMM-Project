@@ -35,35 +35,38 @@ class CLI {
                     String birthday = arguments.get(3);
                     String email = arguments.get(4);
 
-                    Visitor.createNewVisitor(csvAdapter,name, surname, birthday, email);
+                    Visitor visitor2 = Visitor.createNewVisitor(csvAdapter,name, surname, birthday, email);
+                    out.println(visitor2.getVisitorID());
+                    out.println(csvAdapter.getVisitorList());
+                    //csvAdapter.saveCSV();
                     yield "Visitor created";
                 } else {
                     yield "No Visitor created";
                 }
             }
             case createLibrarian -> {
-
+                yield "";
             }
             case deleteVisitor -> {
-
+                yield "";
             }
             case deleteLibrarian -> {
-
+                yield "";
             }
             case addBook -> {
-
+                yield "";
             }
             case deleteBook -> {
-
+                yield "";
             }
             case searchBook -> {
-
+                yield "";
             }
             case returnBook -> {
-
+                yield "";
             }
             case restoreBook -> {
-
+                yield "";
             }
             case viewBorrowedBooks -> {
                 csvAdapter.loadCSV();
@@ -71,10 +74,10 @@ class CLI {
                 yield "";
             }
             case viewOpenPayments -> {
-
+                yield "";
             }
             case viewOpenPaymentsLibrarian -> {
-
+                yield "";
             }
             default -> throw new IllegalStateException("Unexpected value: " + arguments.get(0));
         };
