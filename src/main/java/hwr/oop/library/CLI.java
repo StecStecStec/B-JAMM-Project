@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 class CLI {
     private PrintStream out = System.out;
@@ -13,6 +14,7 @@ class CLI {
     private final String deleteVisitor = "deleteVisitor";
     private final String deleteLibrarian = "deleteLibrarian";
     private final String addBook = "addBook";
+    private final String viewBooks = "viewBooks";
     private final String deleteBook = "deleteBook";
     private final String searchBook = "searchBook";
     private final String returnBook = "returnBook";
@@ -137,8 +139,42 @@ class CLI {
                 }
 
             }
+            case viewBooks -> {
+                if (check(arguments, 1, viewBooks)) {
+                    csvAdapter.loadCSV();
+                    int i = 0;
+
+                    while (i < csvAdapter.getBookList().size()) {
+                        out.println(csvAdapter.getBookList().get(i).getBookTitle());
+                        i++;
+                    }
+                    csvAdapter.saveCSV();
+                    yield "Books viewed";
+                } else {
+                    yield "Invalid Input";
+                }
+
+            }
             case deleteBook -> {
-                yield "Invalid Input";
+                if (check(arguments, 6, deleteBook)) {
+                    csvAdapter.loadCSV();
+                    int i = 0;
+                    UUID uuid = UUID.fromString(arguments.get(1));
+
+                    while (i < csvAdapter.getShelfList().size()) {
+                        if (Objects.equals(csvAdapter.getBookList().get(i).getBookID(), uuid)) {
+                            Book book = csvAdapter.getBookList().get(i);
+                            csvAdapter.deleteBook(book);
+                            csvAdapter.saveCSV();
+                            yield "Book added";
+                        }
+                        i++;
+                    }
+                    csvAdapter.saveCSV();
+                    yield "No Shelf found";
+                } else {
+                    yield "Invalid Input";
+                }
             }
             case searchBook -> {
                 yield "Invalid Input";
@@ -178,6 +214,7 @@ class CLI {
                 case searchBook, returnBook, restoreBook -> "Usage: [option] [Title]\n" + options;
                 case viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian, deleteVisitor ->
                         "Usage: [option] [Email]\n" + options;
+                case viewBooks -> "Usage: [option]\n" + option;
                 default -> "Invalid option";
             };
 

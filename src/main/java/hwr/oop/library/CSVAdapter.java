@@ -24,6 +24,7 @@ public class CSVAdapter {
     public void addLibrarian(Librarian librarian){librarianList.add(librarian);}
     public void deleteVisitor(Visitor visitor){visitorList.remove(visitor);}
     public void deleteLibrarian(Librarian librarian){librarianList.remove(librarian);}
+    public void deleteBook (Book book){bookList.remove(book);}
 
     public List<Librarian> getLibrarianList() {return librarianList;}
     public List<Visitor> getVisitorList() {return visitorList;}
