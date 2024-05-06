@@ -85,11 +85,13 @@ class CLI {
                     while (i < csvAdapter.getVisitorList().size()) {
                         if (Objects.equals(csvAdapter.getVisitorList().get(i).getVisitorEmailAddress(), mail)) {
                             csvAdapter.deleteVisitor(csvAdapter.getVisitorList().get(i));
+                            csvAdapter.saveCSV();
+                            yield "Visitor deleted";
                         }
                         i++;
                     }
                     csvAdapter.saveCSV();
-                    yield "Visitor deleted";
+                    yield "Visitor wasn't found";
                 } else {
                     yield "Invalid Input";
                 }
@@ -104,11 +106,13 @@ class CLI {
                     while (i < csvAdapter.getLibrarianList().size()) {
                         if (Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianName(), name) && Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianSurname(), surname) && Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianBirthday(), birthday)) {
                             csvAdapter.deleteLibrarian(csvAdapter.getLibrarianList().get(i));
+                            csvAdapter.saveCSV();
+                            yield "Librarian deleted";
                         }
                         i++;
                     }
                     csvAdapter.saveCSV();
-                    yield "Librarian deleted";
+                    yield "Librarian wasn't found";
                 } else {
                     yield "Invalid Input";
                 }

@@ -3,6 +3,7 @@ package hwr.oop.library;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.csv.Csv;
+import org.junit.platform.engine.support.descriptor.FileSystemSource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -32,7 +33,7 @@ class CLIToolsTest {
 
         List<String> args2 = new ArrayList<>();
         args2.add("deleteVisitor");
-        args2.add("hans@meier.com");
+        args2.add("ha@meier.com");
 
         consoleUI.handle(args, csvAdapter);
 
@@ -42,9 +43,107 @@ class CLIToolsTest {
         consoleUI.handle(args, csvAdapter);
         Assertions.assertThat(outputStream.toString()).contains("Mail already exists");
 
+        csvAdapter.clear();
+        consoleUI.handle(args2, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Visitor wasn't found");
+
+        csvAdapter.clear();
+        args2.set(1, "hans@meier.com");
+        consoleUI.handle(args2, csvAdapter);
+
+        csvAdapter.clear();
+        args.removeLast();
+        consoleUI.handle(args, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Invalid Input");
+
+        csvAdapter.clear();
+        args2.removeLast();
+        consoleUI.handle(args2, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Invalid Input");
+    }
+
+    @Test
+    void CreateVisitor_and_deleteLibrarianTest() throws FileNotFoundException {
+        final OutputStream outputStream = new ByteArrayOutputStream();
+        final var consoleUI = new CLI(outputStream);
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+
+        List<String> args = new ArrayList<>();
+        args.add("createLibrarian");
+        args.add("Hans");
+        args.add("Meier");
+        args.add("01.01.2000");
+
+        List<String> args2 = new ArrayList<>();
+        args2.add("deleteLibrarian");
+        args2.add("Hans");
+        args2.add("Meier");
+        args2.add("02.01.2000");
+
+
+        consoleUI.handle(args, csvAdapter);
+
+        Assertions.assertThat(outputStream.toString()).contains("Librarian created");
+
+        csvAdapter.clear();
+        consoleUI.handle(args, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Librarian already exists");
 
         csvAdapter.clear();
         consoleUI.handle(args2, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Librarian wasn't found");
+
+        csvAdapter.clear();
+        args2.set(3, "01.01.2000");
+        consoleUI.handle(args2, csvAdapter);
+
+        csvAdapter.clear();
+        args.removeLast();
+        consoleUI.handle(args, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Invalid Input");
+
+        csvAdapter.clear();
+        args2.removeLast();
+        consoleUI.handle(args2, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Invalid Input");
+    }
+
+    @Test
+    void add_and_delete_Book() throws FileNotFoundException {
+        final OutputStream outputStream = new ByteArrayOutputStream();
+        final var consoleUI = new CLI(outputStream);
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+
+        List<String> args = new ArrayList<>();
+        args.add("addBook");
+        args.add("Planes");
+        args.add("Meier");
+        args.add("Action");
+        args.add("100");
+        args.add("20");
+
+        consoleUI.handle(args, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Book added");
+        consoleUI.handle(args, csvAdapter);
+        String uuid = csvAdapter.getBookList().getLast().getBookID().toString();
+
+        List<String> args2 = new ArrayList<>();
+        args2.add("deleteBook");
+        args2.add(uuid);
+
+        csvAdapter.clear();
+        args.set(3,"Roman");
+        consoleUI.handle(args, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("No Shelf found");
+
+        csvAdapter.clear();
+        consoleUI.handle(args2, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Book deleted");
+
+
+
+        csvAdapter.clear();
+
     }
 
 
