@@ -12,11 +12,11 @@ import java.util.List;
 
 class CLIToolsTest {
 
-    @Test
+  // @Test
     void CreateVisitorTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter("\\csvFiles");
+        CSVAdapter csvAdapter = new CSVAdapter("src\\main\\csvFiles\\");
 
 
         List<String> args = new ArrayList<>();

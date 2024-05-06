@@ -27,10 +27,10 @@ class CLI {
 
     public void handle(List<String> arguments, CSVAdapter csvAdapter) throws FileNotFoundException {
 
-
         String result = switch (arguments.get(0)) {
             case createVisitor -> {
                 if (check(arguments, 5, createVisitor)) {
+                    csvAdapter.loadCSV();
                     int i = 0;
                     String name = arguments.get(1);
                     String surname = arguments.get(2);
@@ -42,11 +42,11 @@ class CLI {
                             yield "Mail already exists";
                         }
                         i++;
-
                     }
-                    
+
                     Visitor.createNewVisitor(csvAdapter, name, surname, birthday, email);
                     out.println(csvAdapter.getVisitorList());
+                    csvAdapter.saveCSV();
                     yield "Visitor created";
                 } else {
                     yield "Invalid Input";
@@ -55,6 +55,7 @@ class CLI {
             case createLibrarian -> {
                 if (check(arguments, 4, createLibrarian)) {
                     int i = 0;
+                    csvAdapter.loadCSV();
                     String name = arguments.get(1);
                     String surname = arguments.get(2);
                     String birthday = arguments.get(3);
@@ -64,10 +65,10 @@ class CLI {
                             yield "Librarian already exists";
                         }
                         i++;
-
                     }
 
                     Librarian.createNewLibrarian(csvAdapter, name, surname, birthday);
+                    csvAdapter.saveCSV();
                     yield "Librarian created";
                 } else {
                     yield "Invalid Input";
@@ -84,6 +85,7 @@ class CLI {
                         }
                         i++;
                     }
+                    csvAdapter.saveCSV();
                     yield "Visitor deleted";
                 } else {
                     yield "Invalid Input";
@@ -102,6 +104,7 @@ class CLI {
                         }
                         i++;
                     }
+                    csvAdapter.saveCSV();
                     yield "Librarian deleted";
                 } else {
                     yield "Invalid Input";
