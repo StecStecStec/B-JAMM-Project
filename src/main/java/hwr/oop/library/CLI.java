@@ -216,6 +216,8 @@ class CLI {
                             while (j < csvAdapter.getVisitorList().size()) {
                                 if (Objects.equals(csvAdapter.getVisitorList().get(j).getVisitorEmailAddress(), email)) {
                                     csvAdapter.getBookList().get(i).borrow(csvAdapter.getVisitorList().get(j));
+                                    csvAdapter.saveCSV();
+                                    yield "Book borrowed";
                                 }
                                 j++;
                             }
@@ -223,7 +225,7 @@ class CLI {
                         i++;
                     }
                     csvAdapter.saveCSV();
-                    yield "Book borrowed";
+                    yield "Book wasn't found";
                 } else {
                     yield "Invalid Input";
                 }
