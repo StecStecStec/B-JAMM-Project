@@ -48,7 +48,6 @@ class CLI {
                     }
 
                     Visitor.createNewVisitor(csvAdapter, name, surname, birthday, email);
-                    out.println(csvAdapter.getVisitorList());
                     csvAdapter.saveCSV();
                     yield "Visitor created";
                 } else {

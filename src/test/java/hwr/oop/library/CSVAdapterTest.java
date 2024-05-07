@@ -45,5 +45,13 @@ class CSVAdapterTest {
         Assertions.assertThat(visitor1).isEqualTo(csvAdapter.getVisitorList().getFirst());
         Assertions.assertThat(visitor2).isEqualTo(csvAdapter.getVisitorList().getLast());
         Assertions.assertThat(librarian).isEqualTo(csvAdapter.getLibrarianList().getFirst());
+
+        csvAdapter.deleteVisitor(visitor1);
+        csvAdapter.deleteVisitor(visitor2);
+        csvAdapter.deleteLibrarian(librarian);
+        csvAdapter.deleteBook(book1);
+        csvAdapter.deleteBook(book2);
+        csvAdapter.saveCSV();
+
     }
 }

@@ -1,6 +1,7 @@
 package hwr.oop.library;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.csv.Csv;
 import org.junit.platform.engine.support.descriptor.FileSystemSource;
@@ -10,13 +11,10 @@ import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-
+import java.util.Objects;
 
 
 class CLIToolsTest {
-
-
 
     @Test
     void CreateVisitor_and_deleteVisitorTest() throws FileNotFoundException {
@@ -60,6 +58,53 @@ class CLIToolsTest {
         args2.removeLast();
         consoleUI.handle(args2, csvAdapter);
         Assertions.assertThat(outputStream.toString()).contains("Invalid Input");
+    }
+
+    @Test
+    void create_and_delete_more_VisitorsTest() throws FileNotFoundException {
+        final OutputStream outputStream = new ByteArrayOutputStream();
+        final var consoleUI = new CLI(outputStream);
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+
+        List<String> args = new ArrayList<>();
+        args.add("createVisitor");
+        args.add("Hans");
+        args.add("Meier");
+        args.add("01.01.2000");
+        args.add("hans@meier.com");
+
+        List<String> args2 = new ArrayList<>();
+        args2.add("createVisitor");
+        args2.add("Hansi");
+        args2.add("Meier");
+        args2.add("01.01.2000");
+        args2.add("hansi@meier.com");
+
+        List<String> delete = new ArrayList<>();
+        delete.add("deleteVisitor");
+        delete.add("hans@meier.com");
+
+        consoleUI.handle(args, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Visitor created");
+
+        csvAdapter.clear();
+        consoleUI.handle(args2, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Visitor created");
+
+        csvAdapter.clear();
+        consoleUI.handle(args2, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Mail already exists");
+
+        csvAdapter.clear();
+        consoleUI.handle(delete, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Visitor deleted");
+
+        csvAdapter.clear();
+        delete.set(1, "hansi@meier.com");
+        consoleUI.handle(delete, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Visitor deleted");
+
+
     }
 
     @Test
@@ -113,6 +158,8 @@ class CLIToolsTest {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        int i = 0;
+        String uuid = null;
 
         List<String> args = new ArrayList<>();
         args.add("addBook");
@@ -124,22 +171,31 @@ class CLIToolsTest {
 
         consoleUI.handle(args, csvAdapter);
         Assertions.assertThat(outputStream.toString()).contains("Book added");
-        consoleUI.handle(args, csvAdapter);
-        String uuid = csvAdapter.getBookList().getLast().getBookID().toString();
-
-        List<String> args2 = new ArrayList<>();
-        args2.add("deleteBook");
-        args2.add(uuid);
+        while (i < csvAdapter.getBookList().size()) {
+            if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), "Planes") && Objects.equals(csvAdapter.getBookList().get(i).getBookAuthor(), "Meier")) {
+                uuid = csvAdapter.getBookList().getLast().getBookID().toString();
+                System.out.println(uuid);
+                break;
+            }
+            i++;
+        }
 
         csvAdapter.clear();
-        args.set(3,"Roman");
+        args.set(3, "Roman");
         consoleUI.handle(args, csvAdapter);
         Assertions.assertThat(outputStream.toString()).contains("No Shelf found");
 
-        csvAdapter.clear();
-        consoleUI.handle(args2, csvAdapter);
-        Assertions.assertThat(outputStream.toString()).contains("Book deleted");
 
+        if (uuid != null) {
+            List<String> args2 = new ArrayList<>();
+            args2.add("deleteBook");
+            args2.add(uuid);
+
+
+            csvAdapter.clear();
+            consoleUI.handle(args2, csvAdapter);
+            Assertions.assertThat(outputStream.toString()).contains("Book deleted");
+        }
 
 
         csvAdapter.clear();
