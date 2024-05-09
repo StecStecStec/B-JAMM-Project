@@ -1,10 +1,7 @@
 package hwr.oop.library;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.csv.Csv;
-import org.junit.platform.engine.support.descriptor.FileSystemSource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -12,7 +9,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 
 class CLIToolsTest {
 
@@ -331,29 +327,23 @@ class CLIToolsTest {
     }
 
 
-    //@Test
-    /*void ViewBorrowedBooksTest() throws FileNotFoundException {
+    @Test
+        void ViewBorrowedBooksInvalidInputTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
 
-        //doesn't find files
-        CSVAdapter csvAdapter = new CSVAdapter("\\csvFiles");
-        //Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Hans", "Meier", "01.01.2000", "hans@meier.com");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
 
         List<String> args = new ArrayList<>();
-        args.add("viewBorrowedBooks");
-        args.add("hans@meier.com");
+        args.add("viewBorrowedBooks"); // gültiger Befehl
+        args.add("invalid_email"); // ungültige E-Mail
 
         consoleUI.handle(args, csvAdapter);
 
-        boolean result = consoleUI.check(args,2,"viewBorrowedBooks");
-        Assertions.assertThat(result).isTrue();
-        Assertions.assertThat(outputStream.toString()).contains(csvAdapter.getVisitorList().toString());
+        Assertions.assertThat(outputStream.toString()).contains("Invalid Input");
 
-        args.removeLast();
-        consoleUI.handle(args, csvAdapter);
-        consoleUI.check(args, 2, "viewBorrowedBooks");
-        Assertions.assertThat(outputStream.toString()).contains("Usage: [option] [Email]\ncreateVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments, viewOpenPaymentsLibrarian");
+    }
 
-    }*/
+
+
 }
