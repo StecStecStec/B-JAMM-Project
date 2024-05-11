@@ -8,7 +8,7 @@ import java.util.UUID;
 class BorrowReturnTest {
     @Test
     void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -23,7 +23,7 @@ class BorrowReturnTest {
 
     @Test
     void borrowBookFails_checkIfBorrowedBookIsNotBorrowable() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -37,7 +37,7 @@ class BorrowReturnTest {
 
     @Test
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -53,7 +53,7 @@ class BorrowReturnTest {
 
     @Test
     void returnBookFails_checkExceptionRaise() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf1 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Shelf shelf2 = Shelf.createNewShelf(csvAdapter, room, "Action", 2, 1);

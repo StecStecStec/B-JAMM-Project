@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class AddRemoveBookShelfTest {
     @Test
     void addBook_checkIfBookAdded() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -15,7 +15,7 @@ class AddRemoveBookShelfTest {
 
     @Test
     void removeShelf_checkIfBookRemoved() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);

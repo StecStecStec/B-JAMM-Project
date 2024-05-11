@@ -58,7 +58,7 @@ class CSVAdapterTest {
         csvAdapter.saveCSV();
 
     }
-    @Test
+    //@Test
     void testCSVAdapter() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);

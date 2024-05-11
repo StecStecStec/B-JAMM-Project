@@ -9,7 +9,7 @@ import java.util.UUID;
 class AddRemoveBookVisitorTest {
     @Test
     void addBorrowedBook_checkIfBookAdded() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
@@ -20,7 +20,7 @@ class AddRemoveBookVisitorTest {
 
     @Test
     void removeBorrowedBook_checkIfBookRemoved() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
@@ -32,7 +32,7 @@ class AddRemoveBookVisitorTest {
 
     @Test
     void addBookToReturn_checkIfBookAdded() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
@@ -43,7 +43,7 @@ class AddRemoveBookVisitorTest {
 
     @Test
     void removeBookToReturn_checkIfBookRemoved() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);

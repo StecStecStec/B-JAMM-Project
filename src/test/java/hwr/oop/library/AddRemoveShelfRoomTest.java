@@ -6,7 +6,7 @@ import org.assertj.core.api.Assertions;
 class AddRemoveShelfRoomTest {
     @Test
     void addShelfToRoom_checkThatTheRoomWasCorrectlyAddedToList() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         room.roomAddShelf(shelf);
@@ -15,7 +15,7 @@ class AddRemoveShelfRoomTest {
 
     @Test
     void removeShelfFromRoom_checkThatTheRoomWasCorrectlyRemovedFromList() {
-        CSVAdapter csvAdapter = new CSVAdapter("");
+        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         room.roomRemoveShelf(shelf);
