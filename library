@@ -1,4 +1,3 @@
 #!/bin/bash
 
-# TODO Instead of Example#main, start your own application entry point
-java -cp target/B_JAMM_Projects-0.1.0.jar hwr.oop.Example $@
+java -cp target/B_JAMM_Projects-0.1.0.jar hwr.oop.library.MainLibrary $@
