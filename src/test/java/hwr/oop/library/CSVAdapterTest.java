@@ -63,8 +63,6 @@ class CSVAdapterTest {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
 
-
-
         assertThrows(RuntimeException.class, () -> {
 
             CSVAdapter csvAdapter = new CSVAdapter("invalid_path_to_file.csv");
