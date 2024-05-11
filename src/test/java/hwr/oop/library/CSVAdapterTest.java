@@ -3,7 +3,11 @@ package hwr.oop.library;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.OutputStream;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CSVAdapterTest {
     @Test
@@ -54,4 +58,22 @@ class CSVAdapterTest {
         csvAdapter.saveCSV();
 
     }
+    @Test
+    void testCSVAdapter() throws FileNotFoundException {
+        final OutputStream outputStream = new ByteArrayOutputStream();
+        final var consoleUI = new CLI(outputStream);
+
+
+        // Testfall: Eine Methode, die eine bestimmte Ausnahme auslöst
+        assertThrows(RuntimeException.class, () -> {
+            // Erstellen Sie eine Instanz von CSVAdapter und übergeben Sie einen ungültigen Dateipfad
+            CSVAdapter csvAdapter = new CSVAdapter("invalid_path_to_file.csv");
+            // Eine Methode aufrufen, die eine FileNotFoundException auslösen könnte
+            csvAdapter.loadCSV();
+            csvAdapter.saveCSV();
+        });
+
+
+    }
 }
+

@@ -59,9 +59,9 @@ just build
 | 8      | removeBookOnShelf  | AddRemoveBookShelfTest   |
 | 9      | addBookToReturn    | AddRemoveBookVisitorTest |
 | 10     | removeBookToReturn | AddRemoveBookVisitorTest |
-| 11     | loadCSV            |                          |
-| 12     | saveCSV            |                          |
-| 13     | handleCLIQuery     |                          |
+| 11     | loadCSV            | CSVAdapterTest           |
+| 12     | saveCSV            | CSVAdapterTest           |
+| 13     | handleCLIQuery     | CLIToolsTest             |
 
 ## Additional Dependencies
 
