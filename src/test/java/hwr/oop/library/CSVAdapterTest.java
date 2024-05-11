@@ -58,17 +58,16 @@ class CSVAdapterTest {
         csvAdapter.saveCSV();
 
     }
-    //@Test
+    @Test
     void testCSVAdapter() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
 
 
-        // Testfall: Eine Methode, die eine bestimmte Ausnahme auslöst
+
         assertThrows(RuntimeException.class, () -> {
-            // Erstellen Sie eine Instanz von CSVAdapter und übergeben Sie einen ungültigen Dateipfad
+
             CSVAdapter csvAdapter = new CSVAdapter("invalid_path_to_file.csv");
-            // Eine Methode aufrufen, die eine FileNotFoundException auslösen könnte
             csvAdapter.loadCSV();
             csvAdapter.saveCSV();
         });
