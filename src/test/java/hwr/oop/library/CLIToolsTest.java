@@ -535,7 +535,7 @@ class CLIToolsTest {
         csvAdapter.clear();
         List<String> args3 = new ArrayList<>();
         args3.add("restoreBook");
-        args3.add("acb45dff-660b-4701-9852-b89873580ec1"); // Falscher UUID-Wert
+        args3.add("acb45dff-660b-4701-9852-b89873580ec1");
         consoleUI.handle(args3, csvAdapter);
         Assertions.assertThat(outputStream.toString()).contains("Book wasn't found");
 
