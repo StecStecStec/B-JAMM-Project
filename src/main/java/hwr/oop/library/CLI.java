@@ -324,10 +324,10 @@ class CLI {
                 case deleteLibrarian -> "Usage: [option] [Name] [Surname] [Birthday]\n" + options;
                 case addBook, deleteBook ->
                         "Usage: [option] [Title] [Author] [Genre] [BookCondition] [BookWidth]\n" + options;
-                case searchBook, restoreBook -> "Usage: [option] [Title]\n" + options;
+                case searchBook -> "Usage: [option] [Title]\n" + options;
                 case viewOpenPayments, viewOpenPaymentsLibrarian, deleteVisitor ->
                         "Usage: [option] [Email]\n" + options;
-                case returnBook -> "Usage: [option] [BookID]\n" + options;
+                case returnBook, restoreBook -> "Usage: [option] [BookID]\n" + options;
                 case viewBooks, viewBorrowedBooks -> "Usage: [option]\n" + option;
                 case borrowBook -> "Usage: [option] [BookID] [Email]\n" + options;
                 default -> "Invalid option";

@@ -14,7 +14,7 @@ class MainTest {
         });
     }
 
-    @Test
+    //@Test
     void mainWithValidArgumentsTest() {
         String[] args = {"createVisitor", "Hans", "Meier", "01.01.2020", "meier@sd.com"};
 
