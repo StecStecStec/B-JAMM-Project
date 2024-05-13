@@ -16,6 +16,7 @@ class CreateInstancesTest {
         Book book1 = Book.createNewBook(csvAdapter,"Welt", "Peter Hans", "Natur", shelf1, 110, 31);
         Book book2 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, -110, 31);
         Book book3 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 0, 31);
+        Book book4 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 100, 31);
         Assertions.assertThat(book.getBookID()).isNotNull();
         Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
         Assertions.assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
@@ -25,6 +26,7 @@ class CreateInstancesTest {
         Assertions.assertThat(book1.getBookCondition()).isEqualTo(-1);
         Assertions.assertThat(book2.getBookCondition()).isEqualTo(-1);
         Assertions.assertThat(book3.getBookCondition()).isZero();
+        Assertions.assertThat(book4.getBookCondition()).isEqualTo(100);
         Assertions.assertThat(book.getBookWidth()).isEqualTo(3);
         Assertions.assertThat(book).isIn(shelf.getBooksOnShelf())
                                    .isIn(csvAdapter.getBookList());
