@@ -253,7 +253,7 @@ class CLIToolsTest {
         Assertions.assertThat(outputStream.toString()).contains("Book added");
         while (i < csvAdapter.getBookList().size()) {
             if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), "Planes") && Objects.equals(csvAdapter.getBookList().get(i).getBookAuthor(), "Meier")) {
-                uuid = csvAdapter.getBookList().getLast().getBookID().toString();
+                uuid = csvAdapter.getBookList().get(i).getBookID().toString();
                 break;
             }
             i++;
@@ -337,7 +337,7 @@ class CLIToolsTest {
 
         while (i < csvAdapter.getBookList().size()) {
             if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), "Plas") && Objects.equals(csvAdapter.getBookList().get(i).getBookAuthor(), "Meier")) {
-                uuid = csvAdapter.getBookList().getLast().getBookID().toString();
+                uuid = csvAdapter.getBookList().get(i).getBookID().toString();
                 break;
             }
             i++;
@@ -375,7 +375,7 @@ class CLIToolsTest {
         consoleUI.handle(args, csvAdapter);
         while (i < csvAdapter.getBookList().size()) {
             if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), "Planes") && Objects.equals(csvAdapter.getBookList().get(i).getBookAuthor(), "Meier")) {
-                uuid = csvAdapter.getBookList().getLast().getBookID().toString();
+                uuid = csvAdapter.getBookList().get(i).getBookID().toString();
                 break;
             }
             i++;
@@ -384,14 +384,23 @@ class CLIToolsTest {
         csvAdapter.clear();
         consoleUI.handle(args2, csvAdapter);
 
+        List<String> args2_1 = new ArrayList<>();
+        args2_1.add("createVisitor");
+        args2_1.add("Lach");
+        args2_1.add("Mustermann");
+        args2_1.add("02.01.1998");
+        args2_1.add("l.de");
+
         csvAdapter.clear();
+        consoleUI.handle(args2_1,csvAdapter);
+
         List<String> args3 = new ArrayList<>();
         args3.add("createVisitor");
         args3.add("Max");
         args3.add("Mustermann");
         args3.add("01.01.1999");
         args3.add("email.de");
-
+        csvAdapter.clear();
         consoleUI.handle(args3, csvAdapter);
 
         csvAdapter.clear();
@@ -427,6 +436,16 @@ class CLIToolsTest {
         argsViewBorrowedBooks.add("viewBorrowedBooks");
         consoleUI.handle(argsViewBorrowedBooks, csvAdapter);
 
+        String output = outputStream.toString();
+        int count = 0;
+        int index = output.indexOf("Meier");
+
+        while (index != -1) {
+            count++;
+            index = output.indexOf("Meier", index + 1);
+        }
+
+        Assertions.assertThat(count).isEqualTo(2);
         Assertions.assertThat(outputStream.toString()).contains("Borrowed books viewed");
 
         csvAdapter.clear();
@@ -490,7 +509,7 @@ class CLIToolsTest {
         args.add("Planes");
         args.add("Meier");
         args.add("Action");
-        args.add("100");
+        args.add("50");
         args.add("20");
 
         List<String> args2 = new ArrayList<>();
@@ -499,7 +518,7 @@ class CLIToolsTest {
         consoleUI.handle(args, csvAdapter);
         while (i < csvAdapter.getBookList().size()) {
             if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), "Planes") && Objects.equals(csvAdapter.getBookList().get(i).getBookAuthor(), "Meier")) {
-                uuid = csvAdapter.getBookList().getLast().getBookID().toString();
+                uuid = csvAdapter.getBookList().get(i).getBookID().toString();
                 break;
             }
             i++;
@@ -509,9 +528,14 @@ class CLIToolsTest {
         consoleUI.handle(args2, csvAdapter);
 
         csvAdapter.clear();
+        args2.add("abcdef");
+        consoleUI.handle(args2, csvAdapter);
+        Assertions.assertThat(outputStream.toString()).contains("Invalid Input");
+
+        csvAdapter.clear();
         List<String> args3 = new ArrayList<>();
         args3.add("restoreBook");
-        args3.add("acb45dff-660b-4701-9852-b89873580ec1");
+        args3.add("acb45dff-660b-4701-9852-b89873580ec1"); // Falscher UUID-Wert
         consoleUI.handle(args3, csvAdapter);
         Assertions.assertThat(outputStream.toString()).contains("Book wasn't found");
 
@@ -520,6 +544,7 @@ class CLIToolsTest {
         args4.add("restoreBook");
         args4.add(uuid);
         consoleUI.handle(args4, csvAdapter);
+        Assertions.assertThat(csvAdapter.getBookList().getFirst().getBookCondition()).isEqualTo(100);
         Assertions.assertThat(outputStream.toString()).contains("Book restored");
 
         csvAdapter.clear();
