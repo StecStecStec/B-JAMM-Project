@@ -1,9 +1,10 @@
 package hwr.oop.library;
 
-import org.assertj.core.api.Assertions;
+import hwr.oop.library.persistance.CSVAdapter;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CreateInstancesTest {
     @Test
@@ -17,20 +18,20 @@ class CreateInstancesTest {
         Book book2 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, -110, 31);
         Book book3 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 0, 31);
         Book book4 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 100, 31);
-        Assertions.assertThat(book.getBookID()).isNotNull();
-        Assertions.assertThat(book.getBookTitle()).isEqualTo("Welt");
-        Assertions.assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
-        Assertions.assertThat(book.getBookGenre()).isEqualTo("Natur");
-        Assertions.assertThat(book.getShelf()).isEqualTo(shelf);
-        Assertions.assertThat(book.getBookCondition()).isEqualTo(50);
-        Assertions.assertThat(book1.getBookCondition()).isEqualTo(-1);
-        Assertions.assertThat(book2.getBookCondition()).isEqualTo(-1);
-        Assertions.assertThat(book3.getBookCondition()).isZero();
-        Assertions.assertThat(book4.getBookCondition()).isEqualTo(100);
-        Assertions.assertThat(book.getBookWidth()).isEqualTo(3);
-        Assertions.assertThat(book).isIn(shelf.getBooksOnShelf())
+        assertThat(book.getBookID()).isNotNull();
+        assertThat(book.getBookTitle()).isEqualTo("Welt");
+        assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
+        assertThat(book.getBookGenre()).isEqualTo("Natur");
+        assertThat(book.getShelf()).isEqualTo(shelf);
+        assertThat(book.getBookCondition()).isEqualTo(50);
+        assertThat(book1.getBookCondition()).isEqualTo(-1);
+        assertThat(book2.getBookCondition()).isEqualTo(-1);
+        assertThat(book3.getBookCondition()).isZero();
+        assertThat(book4.getBookCondition()).isEqualTo(100);
+        assertThat(book.getBookWidth()).isEqualTo(3);
+        assertThat(book).isIn(shelf.getBooksOnShelf())
                                    .isIn(csvAdapter.getBookList());
-        Assertions.assertThat(shelf.getRemainingSpace()).isEqualTo(397);
+        assertThat(shelf.getRemainingSpace()).isEqualTo(397);
     }
 
     @Test
@@ -39,35 +40,35 @@ class CreateInstancesTest {
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 1, 1);
         Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 1);
-        Assertions.assertThatThrownBy(() -> Book.createNewBook(csvAdapter, "Welt2", "Peter Hans", "Natur", shelf, 100, 1)).hasMessage("Added book to shelf with not enough space.");
+        assertThatThrownBy(() -> Book.createNewBook(csvAdapter, "Welt2", "Peter Hans", "Natur", shelf, 100, 1)).hasMessage("Added book to shelf with not enough space.");
     }
 
     @Test
     void createLibrarian_checkRightAssignment() {
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Librarian librarian = Librarian.createNewLibrarian(csvAdapter, "Max", "Mustermann", "01.01.1999");
-        Assertions.assertThat(librarian.getLibrarianName()).isEqualTo("Max");
-        Assertions.assertThat(librarian.getLibrarianSurname()).isEqualTo("Mustermann");
-        Assertions.assertThat(librarian.getLibrarianBirthday()).isEqualTo("01.01.1999");
-        Assertions.assertThat(librarian.getLibrarianID()).isNotNull();
-        Assertions.assertThat(librarian).isIn(csvAdapter.getLibrarianList());
+        assertThat(librarian.getLibrarianName()).isEqualTo("Max");
+        assertThat(librarian.getLibrarianSurname()).isEqualTo("Mustermann");
+        assertThat(librarian.getLibrarianBirthday()).isEqualTo("01.01.1999");
+        assertThat(librarian.getLibrarianID()).isNotNull();
+        assertThat(librarian).isIn(csvAdapter.getLibrarianList());
     }
 
     @Test
     void createRoom_checkRightAssignment() {
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
-        Assertions.assertThat(room.getRoomID()).isNotNull();
-        Assertions.assertThat(room.getShelfLimit()).isEqualTo(5);
-        Assertions.assertThat(room).isIn(csvAdapter.getRoomList());
+        assertThat(room.getRoomID()).isNotNull();
+        assertThat(room.getShelfLimit()).isEqualTo(5);
+        assertThat(room).isIn(csvAdapter.getRoomList());
     }
 
     @Test
     void createTempRoom_checkRightAssignment() {
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createTempRoom(csvAdapter);
-        Assertions.assertThat(room.getRoomID()).isNotNull();
-        Assertions.assertThat(room.getShelfLimit()).isEqualTo(10000);
+        assertThat(room.getRoomID()).isNotNull();
+        assertThat(room.getShelfLimit()).isEqualTo(10000);
     }
 
     @Test
@@ -75,12 +76,12 @@ class CreateInstancesTest {
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Assertions.assertThat(shelf.getRoomIn()).isEqualTo(room);
-        Assertions.assertThat(shelf.getGenre()).isEqualTo("Action");
-        Assertions.assertThat(shelf.getShelfWidth()).isEqualTo(400);
-        Assertions.assertThat(shelf.getBoardNumber()).isEqualTo(1);
-        Assertions.assertThat(shelf.getShelfID()).isNotNull();
-        Assertions.assertThat(shelf).isIn(room.getShelfList())
+        assertThat(shelf.getRoomIn()).isEqualTo(room);
+        assertThat(shelf.getGenre()).isEqualTo("Action");
+        assertThat(shelf.getShelfWidth()).isEqualTo(400);
+        assertThat(shelf.getBoardNumber()).isEqualTo(1);
+        assertThat(shelf.getShelfID()).isNotNull();
+        assertThat(shelf).isIn(room.getShelfList())
                                     .isIn(csvAdapter.getShelfList());
     }
 
@@ -89,7 +90,7 @@ class CreateInstancesTest {
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 1);
         Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Assertions.assertThatThrownBy(() -> Shelf.createNewShelf(csvAdapter, room, "Action", 2, 1)).hasMessage("Added shelf to room with not enough space.");
+        assertThatThrownBy(() -> Shelf.createNewShelf(csvAdapter, room, "Action", 2, 1)).hasMessage("Added shelf to room with not enough space.");
     }
 
     @Test
@@ -97,29 +98,29 @@ class CreateInstancesTest {
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createTempRoom(csvAdapter);
         Shelf shelf = Shelf.createTempShelf(csvAdapter, room);
-        Assertions.assertThat(shelf.getRoomIn()).isEqualTo(room);
-        Assertions.assertThat(shelf.getGenre()).isEqualTo("temp");
-        Assertions.assertThat(shelf.getShelfWidth()).isEqualTo(10000);
-        Assertions.assertThat(shelf.getBoardNumber()).isEqualTo(10000);
-        Assertions.assertThat(shelf.getShelfID()).isNotNull();
-        Assertions.assertThat(shelf).isIn(room.getShelfList());
+        assertThat(shelf.getRoomIn()).isEqualTo(room);
+        assertThat(shelf.getGenre()).isEqualTo("temp");
+        assertThat(shelf.getShelfWidth()).isEqualTo(10000);
+        assertThat(shelf.getBoardNumber()).isEqualTo(10000);
+        assertThat(shelf.getShelfID()).isNotNull();
+        assertThat(shelf).isIn(room.getShelfList());
     }
 
     @Test
     void createVisitor_checkRightAssignment() {
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
-        Assertions.assertThat(visitor.getVisitorName()).isEqualTo("Max");
-        Assertions.assertThat(visitor.getVisitorSurname()).isEqualTo("Mustermann");
-        Assertions.assertThat(visitor.getVisitorBirthday()).isEqualTo("01.01.1999");
-        Assertions.assertThat(visitor.getVisitorEmailAddress()).isEqualTo("max.mustermann@gmx.de");
-        Assertions.assertThat(visitor.getVisitorID()).isNotNull();
-        Assertions.assertThat(visitor).isIn(csvAdapter.getVisitorList());
+        assertThat(visitor.getVisitorName()).isEqualTo("Max");
+        assertThat(visitor.getVisitorSurname()).isEqualTo("Mustermann");
+        assertThat(visitor.getVisitorBirthday()).isEqualTo("01.01.1999");
+        assertThat(visitor.getVisitorEmailAddress()).isEqualTo("max.mustermann@gmx.de");
+        assertThat(visitor.getVisitorID()).isNotNull();
+        assertThat(visitor).isIn(csvAdapter.getVisitorList());
     }
 
     @Test
     void createCSVAdapter_checkRightAssignment() {
         CSVAdapter csvAdapter = new CSVAdapter("test/path");
-        Assertions.assertThat(csvAdapter.getPath()).isEqualTo("test/path");
+        assertThat(csvAdapter.getPath()).isEqualTo("test/path");
     }
 }

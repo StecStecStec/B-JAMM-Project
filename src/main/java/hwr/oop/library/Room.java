@@ -1,5 +1,7 @@
 package hwr.oop.library;
 
+import hwr.oop.library.persistance.CSVAdapter;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;

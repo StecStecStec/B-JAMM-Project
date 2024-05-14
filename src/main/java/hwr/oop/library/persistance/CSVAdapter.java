@@ -1,10 +1,12 @@
-package hwr.oop.library;
+package hwr.oop.library.persistance;
+
+import hwr.oop.library.*;
 
 import java.io.*;
 import java.util.*;
 import java.util.ArrayList;
 
-public class CSVAdapter {
+public class CSVAdapter implements persistance {
     private final String path;
     private List<Room> roomList = new ArrayList<>();
     private List<Shelf> shelfList = new ArrayList<>();
@@ -17,22 +19,37 @@ public class CSVAdapter {
         this.path = path;
     }
 
+    @Override
     public void addRoom(Room room){roomList.add(room);}
+    @Override
     public void addShelf(Shelf shelf){shelfList.add(shelf);}
+    @Override
     public void addBook(Book book){bookList.add(book);}
+    @Override
     public void addVisitor(Visitor visitor){visitorList.add(visitor);}
+    @Override
     public void addLibrarian(Librarian librarian){librarianList.add(librarian);}
+    @Override
     public void deleteVisitor(Visitor visitor){visitorList.remove(visitor);}
+    @Override
     public void deleteLibrarian(Librarian librarian){librarianList.remove(librarian);}
-    public void deleteBook (Book book){bookList.remove(book);}
+    @Override
+    public void deleteBook(Book book){bookList.remove(book);}
 
+    @Override
     public List<Librarian> getLibrarianList() {return librarianList;}
+    @Override
     public List<Visitor> getVisitorList() {return visitorList;}
+    @Override
     public List<Book> getBookList() {return bookList;}
+    @Override
     public List<Shelf> getShelfList() {return shelfList;}
+    @Override
     public List<Room> getRoomList() {return roomList;}
+    @Override
     public String getPath() {return path;}
 
+    @Override
     public void clear(){
         roomList.clear();
         shelfList.clear();
@@ -48,6 +65,7 @@ public class CSVAdapter {
         3: for each object reference the uuid is saved
         4: in case a variable is null it is converted to a string named "null" */
 
+    @Override
     public void loadCSV() {
         try{
             loadRoom();
@@ -61,6 +79,7 @@ public class CSVAdapter {
         }
     }
 
+    @Override
     public void saveCSV() {
         saveRoom();
         saveShelf();

@@ -39,13 +39,13 @@ just build
 
 ## Abstract
 
-[TODO]: # (The main target in this project is to craete a library managemant system in which visitors can borrow books.)
-[TODO]: # (The most important features are: "borrow Book", "return Book" and "load Library")
-[TODO]: # (State the most interesting problems you encountered during the project.)
+(The main target in this project is to craete a library managemant system in which visitors can borrow books.)
+(The most important features are: "borrow Book", "return Book" and "load Library")
+(State the most interesting problems you encountered during the project.)
 
 ## Feature List
 
-[TODO]: # (For each feature implemented, add a row to the table!)
+(For each feature implemented, add a row to the table!)
 
 | Number | Feature            | Tests                    |
 |--------|--------------------|--------------------------|

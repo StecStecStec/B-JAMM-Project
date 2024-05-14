@@ -1,5 +1,7 @@
 package hwr.oop.library;
 
+import hwr.oop.library.persistance.CSVAdapter;
+
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -9,7 +11,7 @@ import java.util.UUID;
 
 class CLI {
     private PrintStream out = System.out;
-    private final String createVisitor = "createVisitor";
+    private static final String CREATE_VISITOR = "createVisitor";
     private final String createLibrarian = "createLibrarian";
     private final String deleteVisitor = "deleteVisitor";
     private final String deleteLibrarian = "deleteLibrarian";
@@ -31,8 +33,8 @@ class CLI {
     public void handle(List<String> arguments, CSVAdapter csvAdapter) throws FileNotFoundException {
 
         String result = switch (arguments.get(0)) {
-            case createVisitor -> {
-                if (check(arguments, 5, createVisitor)) {
+            case CREATE_VISITOR -> {
+                if (check(arguments, 5, CREATE_VISITOR)) {
                     csvAdapter.loadCSV();
                     int i = 0;
                     String name = arguments.get(1);
@@ -319,7 +321,7 @@ class CLI {
         String options = "createVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, borrowBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments,"/*Visitor*/ + " viewOpenPaymentsLibrarian" /*Librarian*/;
         if (arguments.size() != limit) {
             String result = switch (option) {
-                case createVisitor, createLibrarian ->
+                case CREATE_VISITOR, createLibrarian ->
                         "Usage: [option] [Name] [Surname] [Birthday] [Email]\n" + options;
                 case deleteLibrarian -> "Usage: [option] [Name] [Surname] [Birthday]\n" + options;
                 case addBook, deleteBook ->
