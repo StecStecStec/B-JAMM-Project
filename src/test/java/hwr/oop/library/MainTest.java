@@ -16,17 +16,13 @@ class MainTest {
         });
     }
 
-    //@Test
+    @Test
     void mainWithValidArgumentsTest() {
-        String[] args = {"createVisitor", "Hans", "Meier", "01.01.2020", "meier@sd.com"};
+        String[] args = {"viewBooks"};
 
+        MainLibrary mainLibrary = new MainLibrary();
         Assertions.assertDoesNotThrow(() -> {
             MainLibrary.main(args);
-        });
-
-        String[] args2 = {"deleteVisitor", "meier@sd.com"};
-        Assertions.assertDoesNotThrow(() -> {
-            MainLibrary.main(args2);
         });
     }
 

@@ -2,35 +2,35 @@ package hwr.oop.library;
 
 import hwr.oop.library.persistance.CSVAdapter;
 
-import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
+@SuppressWarnings("java:S106")
 class CLI {
     private PrintStream out = System.out;
     private static final String CREATE_VISITOR = "createVisitor";
-    private final String createLibrarian = "createLibrarian";
-    private final String deleteVisitor = "deleteVisitor";
-    private final String deleteLibrarian = "deleteLibrarian";
-    private final String addBook = "addBook";
-    private final String viewBooks = "viewBooks";
-    private final String deleteBook = "deleteBook";
-    private final String searchBook = "searchBook";
-    private final String borrowBook = "borrowBook";
-    private final String returnBook = "returnBook";
-    private final String restoreBook = "restoreBook";
-    private final String viewBorrowedBooks = "viewBorrowedBooks";
-    private final String viewOpenPayments = "viewOpenPayments"; //Visitor
-    private final String viewOpenPaymentsLibrarian = "viewOpenPaymentsLibrarian";
+    private static final String CREATE_LIBRARIAN = "createLibrarian";
+    private static final String DELETE_VISITOR = "deleteVisitor";
+    private static final String DELETE_LIBRARIAN = "deleteLibrarian";
+    private static final String ADD_BOOK = "addBook";
+    private static final String VIEW_BOOKS = "viewBooks";
+    private static final String DELETE_BOOK = "deleteBook";
+    private static final String SEARCH_BOOK = "searchBook";
+    private static final String BORROW_BOOK = "borrowBook";
+    private static final String RETURN_BOOK = "returnBook";
+    private static final String RESTORE_BOOK = "restoreBook";
+    private static final String VIEW_BORROWED_BOOKS = "viewBorrowedBooks";
+    private static final String VIEW_OPEN_PAYMENTS = "viewOpenPayments"; //Visitor
+    private static final String VIEW_OPEN_PAYMENTS_LIBRARIAN = "viewOpenPaymentsLibrarian";
+    private static final String INVALID_INPUT = "Invalid input";
 
     public CLI(OutputStream out) {
         this.out = new PrintStream(out);
     }
 
-    public void handle(List<String> arguments, CSVAdapter csvAdapter) throws FileNotFoundException {
+    public void handle(List<String> arguments, CSVAdapter csvAdapter) {
 
         String result = switch (arguments.get(0)) {
             case CREATE_VISITOR -> {
@@ -53,11 +53,11 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Visitor created";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
             }
-            case createLibrarian -> {
-                if (check(arguments, 4, createLibrarian)) {
+            case CREATE_LIBRARIAN -> {
+                if (check(arguments, 4, CREATE_LIBRARIAN)) {
                     int i = 0;
                     csvAdapter.loadCSV();
                     String name = arguments.get(1);
@@ -75,11 +75,11 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Librarian created";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
             }
-            case deleteVisitor -> {
-                if (check(arguments, 2, deleteVisitor)) {
+            case DELETE_VISITOR -> {
+                if (check(arguments, 2, DELETE_VISITOR)) {
                     csvAdapter.loadCSV();
                     String mail = arguments.get(1);
                     int i = 0;
@@ -94,12 +94,12 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Visitor wasn't found";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
             }
-            case deleteLibrarian -> {
+            case DELETE_LIBRARIAN -> {
                 int i = 0;
-                if (check(arguments, 4, deleteLibrarian)) {
+                if (check(arguments, 4, DELETE_LIBRARIAN)) {
                     csvAdapter.loadCSV();
                     String name = arguments.get(1);
                     String surname = arguments.get(2);
@@ -115,12 +115,12 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Librarian wasn't found";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
 
             }
-            case addBook -> {
-                if (check(arguments, 6, addBook)) {
+            case ADD_BOOK -> {
+                if (check(arguments, 6, ADD_BOOK)) {
                     csvAdapter.loadCSV();
                     int i = 0;
                     String title = arguments.get(1);
@@ -141,12 +141,12 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "No Shelf found";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
 
             }
-            case viewBooks -> {
-                if (check(arguments, 1, viewBooks)) {
+            case VIEW_BOOKS -> {
+                if (check(arguments, 1, VIEW_BOOKS)) {
                     csvAdapter.loadCSV();
                     int i = 0;
 
@@ -161,12 +161,12 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Books viewed";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
 
             }
-            case deleteBook -> {
-                if (check(arguments, 2, deleteBook)) {
+            case DELETE_BOOK -> {
+                if (check(arguments, 2, DELETE_BOOK)) {
                     csvAdapter.loadCSV();
                     int i = 0;
                     UUID uuid = UUID.fromString(arguments.get(1));
@@ -183,11 +183,11 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "No Book found";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
             }
-            case searchBook -> {
-                if (check(arguments, 2, searchBook)) {
+            case SEARCH_BOOK -> {
+                if (check(arguments, 2, SEARCH_BOOK)) {
                     csvAdapter.loadCSV();
                     int i = 0;
 
@@ -204,10 +204,10 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Books searched";
                 }
-                yield "Invalid Input";
+                yield INVALID_INPUT;
             }
-            case borrowBook -> {
-                if (check(arguments, 3, borrowBook)) {
+            case BORROW_BOOK -> {
+                if (check(arguments, 3, BORROW_BOOK)) {
                     csvAdapter.loadCSV();
                     UUID uuid = UUID.fromString(arguments.get(1));
                     String email = arguments.get(2);
@@ -229,11 +229,11 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Book wasn't found";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
             }
-            case returnBook -> {
-                if (check(arguments, 2, returnBook)) {
+            case RETURN_BOOK -> {
+                if (check(arguments, 2, RETURN_BOOK)) {
                     csvAdapter.loadCSV();
                     int i = 0;
                     int j = 0;
@@ -254,11 +254,11 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Book returned";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
             }
-            case restoreBook -> {
-                if (check(arguments, 2, restoreBook)) {
+            case RESTORE_BOOK -> {
+                if (check(arguments, 2, RESTORE_BOOK)) {
                     csvAdapter.loadCSV();
                     int i = 0;
 
@@ -275,11 +275,11 @@ class CLI {
 
                     yield "Book wasn't found";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
             }
-            case viewBorrowedBooks -> {
-                if (check(arguments, 1, viewBorrowedBooks)) {
+            case VIEW_BORROWED_BOOKS -> {
+                if (check(arguments, 1, VIEW_BORROWED_BOOKS)) {
                     csvAdapter.loadCSV();
                     int i = 0;
 
@@ -299,14 +299,14 @@ class CLI {
                     csvAdapter.saveCSV();
                     yield "Borrowed books viewed";
                 } else {
-                    yield "Invalid Input";
+                    yield INVALID_INPUT;
                 }
             }
             /*case viewOpenPayments -> {
-                yield "Invalid Input";
+                yield INVALID_INPUT;
             }
             case viewOpenPaymentsLibrarian -> {
-                yield "Invalid Input";
+                yield INVALID_INPUT;
             }*/
             default -> throw new IllegalStateException("Unexpected value: " + arguments.get(0));
         };
@@ -321,17 +321,17 @@ class CLI {
         String options = "createVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, deleteBook, searchBook, borrowBook, returnBook, restoreBook, viewBorrowedBooks, viewOpenPayments,"/*Visitor*/ + " viewOpenPaymentsLibrarian" /*Librarian*/;
         if (arguments.size() != limit) {
             String result = switch (option) {
-                case CREATE_VISITOR, createLibrarian ->
+                case CREATE_VISITOR, CREATE_LIBRARIAN ->
                         "Usage: [option] [Name] [Surname] [Birthday] [Email]\n" + options;
-                case deleteLibrarian -> "Usage: [option] [Name] [Surname] [Birthday]\n" + options;
-                case addBook, deleteBook ->
+                case DELETE_LIBRARIAN -> "Usage: [option] [Name] [Surname] [Birthday]\n" + options;
+                case ADD_BOOK, DELETE_BOOK ->
                         "Usage: [option] [Title] [Author] [Genre] [BookCondition] [BookWidth]\n" + options;
-                case searchBook -> "Usage: [option] [Title]\n" + options;
-                case viewOpenPayments, viewOpenPaymentsLibrarian, deleteVisitor ->
+                case SEARCH_BOOK -> "Usage: [option] [Title]\n" + options;
+                case VIEW_OPEN_PAYMENTS, VIEW_OPEN_PAYMENTS_LIBRARIAN, DELETE_VISITOR ->
                         "Usage: [option] [Email]\n" + options;
-                case returnBook, restoreBook -> "Usage: [option] [BookID]\n" + options;
-                case viewBooks, viewBorrowedBooks -> "Usage: [option]\n" + option;
-                case borrowBook -> "Usage: [option] [BookID] [Email]\n" + options;
+                case RETURN_BOOK, RESTORE_BOOK -> "Usage: [option] [BookID]\n" + options;
+                case VIEW_BOOKS, VIEW_BORROWED_BOOKS -> "Usage: [option]\n" + option;
+                case BORROW_BOOK -> "Usage: [option] [BookID] [Email]\n" + options;
                 default -> "Invalid option";
             };
 

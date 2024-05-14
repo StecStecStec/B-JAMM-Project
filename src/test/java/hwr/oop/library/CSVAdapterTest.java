@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CSVAdapterTest {
     @Test
-    void loadClearAndSaveCSV(){
+    void loadClearAndSaveCSV() {
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
@@ -28,9 +28,9 @@ class CSVAdapterTest {
         assertThat(csvAdapter.getRoomList()).contains(room);
         assertThat(csvAdapter.getShelfList()).contains(shelf);
         assertThat(csvAdapter.getBookList()).contains(book1)
-                                                       .contains(book2);
+                .contains(book2);
         assertThat(csvAdapter.getVisitorList()).contains(visitor1)
-                                                          .contains(visitor2);
+                .contains(visitor2);
         assertThat(csvAdapter.getLibrarianList()).contains(librarian);
 
         csvAdapter.saveCSV();
@@ -58,21 +58,15 @@ class CSVAdapterTest {
         csvAdapter.deleteBook(book1);
         csvAdapter.deleteBook(book2);
         csvAdapter.saveCSV();
-
     }
+
     @Test
     void testCSVAdapter() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
+        CSVAdapter csvAdapter = new CSVAdapter("invalid_path_to_file.csv");
 
-        assertThrows(RuntimeException.class, () -> {
-
-            CSVAdapter csvAdapter = new CSVAdapter("invalid_path_to_file.csv");
-            csvAdapter.loadCSV();
-            csvAdapter.saveCSV();
-        });
-
-
+        assertThrows(RuntimeException.class, csvAdapter::loadCSV);
     }
 }
 

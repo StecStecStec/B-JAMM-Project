@@ -4,12 +4,18 @@ import hwr.oop.library.persistance.CSVAdapter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.InputStream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AddRemoveBookShelfTest {
     @Test
     void addBook_checkIfBookAdded() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        String path = "/csvTestFiles/";
+        InputStream stream = getClass().getResourceAsStream(path);
+        assert stream != null;
+        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -18,7 +24,11 @@ class AddRemoveBookShelfTest {
 
     @Test
     void removeShelf_checkIfBookRemoved() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        String path = "/csvTestFiles/";
+        InputStream stream = getClass().getResourceAsStream(path);
+        assert stream != null;
+        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);

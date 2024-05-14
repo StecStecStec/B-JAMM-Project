@@ -4,12 +4,18 @@ import hwr.oop.library.persistance.CSVAdapter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.InputStream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BorrowReturnTest {
     @Test
     void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        String path = "/csvTestFiles/";
+        InputStream stream = getClass().getResourceAsStream(path);
+        assert stream != null;
+        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -24,7 +30,11 @@ class BorrowReturnTest {
 
     @Test
     void borrowBookFails_checkIfBorrowedBookIsNotBorrowable() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        String path = "/csvTestFiles/";
+        InputStream stream = getClass().getResourceAsStream(path);
+        assert stream != null;
+        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -38,7 +48,11 @@ class BorrowReturnTest {
 
     @Test
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        String path = "/csvTestFiles/";
+        InputStream stream = getClass().getResourceAsStream(path);
+        assert stream != null;
+        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
@@ -54,7 +68,11 @@ class BorrowReturnTest {
 
     @Test
     void returnBookFails_checkExceptionRaise() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        String path = "/csvTestFiles/";
+        InputStream stream = getClass().getResourceAsStream(path);
+        assert stream != null;
+        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf1 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Shelf shelf2 = Shelf.createNewShelf(csvAdapter, room, "Action", 2, 1);

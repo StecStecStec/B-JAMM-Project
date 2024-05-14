@@ -15,8 +15,8 @@ public class Book {
     private Shelf shelf;
     private Visitor borrowedBy = null;
 
-    private final int upperBoundary = 100;
-    private final int lowerBoundary = 0;
+    private static final int UPPER_BOUNDARY = 100;
+    private static final int LOWER_BOUNDARY = 0;
 
     public int getBookWidth() {
         return bookWidth;
@@ -65,7 +65,7 @@ public class Book {
         this.title = title;
         this.author = author;
         this.genre = genre;
-        if (bookCondition >= lowerBoundary && bookCondition <= upperBoundary) {
+        if (bookCondition >= LOWER_BOUNDARY && bookCondition <= UPPER_BOUNDARY) {
             this.bookCondition = bookCondition;
         } else {
             this.bookCondition = -1;
