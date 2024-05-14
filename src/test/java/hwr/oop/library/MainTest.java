@@ -3,13 +3,15 @@ package hwr.oop.library;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class MainTest {
 
     @Test
     void mainWithEmptyArgumentsTest() {
         String[] args = {};
 
-        Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
             MainLibrary.main(args);
         });
     }
@@ -32,7 +34,7 @@ class MainTest {
     void mainWithInvalidArgumentsTest() {
         String[] args = {"invalid_argument"};
 
-        Assertions.assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalStateException.class, () -> {
             MainLibrary.main(args);
         });
     }

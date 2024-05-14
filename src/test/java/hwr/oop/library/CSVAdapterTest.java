@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CSVAdapterTest {
@@ -24,32 +25,32 @@ class CSVAdapterTest {
         book2.borrow(visitor2);
         visitor2.addBookToReturn(book2);
 
-        Assertions.assertThat(csvAdapter.getRoomList()).contains(room);
-        Assertions.assertThat(csvAdapter.getShelfList()).contains(shelf);
-        Assertions.assertThat(csvAdapter.getBookList()).contains(book1)
+        assertThat(csvAdapter.getRoomList()).contains(room);
+        assertThat(csvAdapter.getShelfList()).contains(shelf);
+        assertThat(csvAdapter.getBookList()).contains(book1)
                                                        .contains(book2);
-        Assertions.assertThat(csvAdapter.getVisitorList()).contains(visitor1)
+        assertThat(csvAdapter.getVisitorList()).contains(visitor1)
                                                           .contains(visitor2);
-        Assertions.assertThat(csvAdapter.getLibrarianList()).contains(librarian);
+        assertThat(csvAdapter.getLibrarianList()).contains(librarian);
 
         csvAdapter.saveCSV();
 
         csvAdapter.clear();
-        Assertions.assertThat(csvAdapter.getRoomList()).isEmpty();
-        Assertions.assertThat(csvAdapter.getShelfList()).isEmpty();
-        Assertions.assertThat(csvAdapter.getBookList()).isEmpty();
-        Assertions.assertThat(csvAdapter.getVisitorList()).isEmpty();
-        Assertions.assertThat(csvAdapter.getLibrarianList()).isEmpty();
+        assertThat(csvAdapter.getRoomList()).isEmpty();
+        assertThat(csvAdapter.getShelfList()).isEmpty();
+        assertThat(csvAdapter.getBookList()).isEmpty();
+        assertThat(csvAdapter.getVisitorList()).isEmpty();
+        assertThat(csvAdapter.getLibrarianList()).isEmpty();
 
         csvAdapter.loadCSV();
 
-        Assertions.assertThat(room).isEqualTo(csvAdapter.getRoomList().getFirst());
-        Assertions.assertThat(shelf).isEqualTo(csvAdapter.getShelfList().getFirst());
-        Assertions.assertThat(book1).isEqualTo(csvAdapter.getBookList().getFirst());
-        Assertions.assertThat(book2).isEqualTo(csvAdapter.getBookList().getLast());
-        Assertions.assertThat(visitor1).isEqualTo(csvAdapter.getVisitorList().getFirst());
-        Assertions.assertThat(visitor2).isEqualTo(csvAdapter.getVisitorList().getLast());
-        Assertions.assertThat(librarian).isEqualTo(csvAdapter.getLibrarianList().getFirst());
+        assertThat(room).isEqualTo(csvAdapter.getRoomList().getFirst());
+        assertThat(shelf).isEqualTo(csvAdapter.getShelfList().getFirst());
+        assertThat(book1).isEqualTo(csvAdapter.getBookList().getFirst());
+        assertThat(book2).isEqualTo(csvAdapter.getBookList().getLast());
+        assertThat(visitor1).isEqualTo(csvAdapter.getVisitorList().getFirst());
+        assertThat(visitor2).isEqualTo(csvAdapter.getVisitorList().getLast());
+        assertThat(librarian).isEqualTo(csvAdapter.getLibrarianList().getFirst());
 
         csvAdapter.deleteVisitor(visitor1);
         csvAdapter.deleteVisitor(visitor2);

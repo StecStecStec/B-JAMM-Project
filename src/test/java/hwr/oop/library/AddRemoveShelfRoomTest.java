@@ -4,6 +4,8 @@ import hwr.oop.library.persistance.CSVAdapter;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class AddRemoveShelfRoomTest {
     @Test
     void addShelfToRoom_checkThatTheRoomWasCorrectlyAddedToList() {
@@ -11,7 +13,7 @@ class AddRemoveShelfRoomTest {
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         room.roomAddShelf(shelf);
-        Assertions.assertThat(shelf).isIn(room.getShelfList());
+        assertThat(shelf).isIn(room.getShelfList());
     }
 
     @Test
@@ -20,6 +22,6 @@ class AddRemoveShelfRoomTest {
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         room.roomRemoveShelf(shelf);
-        Assertions.assertThat(shelf).isNotIn(room.getShelfList());
+        assertThat(shelf).isNotIn(room.getShelfList());
     }
 }

@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 class AddRemoveBookVisitorTest {
     @Test
@@ -16,7 +18,7 @@ class AddRemoveBookVisitorTest {
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         visitor.addBorrowedBook(book);
-        Assertions.assertThat(book).isIn(visitor.getBorrowedBooks());
+        assertThat(book).isIn(visitor.getBorrowedBooks());
     }
 
     @Test
@@ -28,7 +30,7 @@ class AddRemoveBookVisitorTest {
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         visitor.addBorrowedBook(book);
         visitor.removeBorrowedBook(book);
-        Assertions.assertThat(book).isNotIn(visitor.getBorrowedBooks());
+        assertThat(book).isNotIn(visitor.getBorrowedBooks());
     }
 
     @Test
@@ -39,7 +41,7 @@ class AddRemoveBookVisitorTest {
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         visitor.addBookToReturn(book);
-        Assertions.assertThat(book).isIn(visitor.getBooksToReturn());
+        assertThat(book).isIn(visitor.getBooksToReturn());
     }
 
     @Test
@@ -51,6 +53,6 @@ class AddRemoveBookVisitorTest {
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         visitor.addBookToReturn(book);
         visitor.removeBookToReturn(book);
-        Assertions.assertThat(book).isNotIn(visitor.getBooksToReturn());
+        assertThat(book).isNotIn(visitor.getBooksToReturn());
     }
 }

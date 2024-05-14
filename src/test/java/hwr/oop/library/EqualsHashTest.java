@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class EqualsHashTest {
     @Test
     void book_testEqualsMethod() {
@@ -19,12 +21,12 @@ class EqualsHashTest {
         Book book2 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Book book3 = Book.createNewBook(csvAdapter, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
 
-        Assertions.assertThat(book1)
+        assertThat(book1)
                 .isEqualTo(book1)
                 .isNotEqualTo(book3)
                 .isNotNull();
-        Assertions.assertThat(book1.equals(book2)).isTrue();
-        Assertions.assertThat(book1.equals(room)).isFalse();
+        assertThat(book1.equals(book2)).isTrue();
+        assertThat(book1.equals(room)).isFalse();
     }
 
     @Test
@@ -39,8 +41,8 @@ class EqualsHashTest {
         Book book2 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
         Book book3 = Book.createNewBook(csvAdapter, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
 
-        Assertions.assertThat(book1).hasSameHashCodeAs(book2);
-        Assertions.assertThat(book1.hashCode()).isNotEqualTo(book3.hashCode());
+        assertThat(book1).hasSameHashCodeAs(book2);
+        assertThat(book1.hashCode()).isNotEqualTo(book3.hashCode());
     }
 
     @Test
@@ -54,12 +56,12 @@ class EqualsHashTest {
         Visitor visitor2 = Visitor.createCompleteVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
         Visitor visitor3 = Visitor.createNewVisitor(csvAdapter, "Jane", "Doe", "1990-01-01", "jane.doe@example.com");
 
-        Assertions.assertThat(visitor1)
+        assertThat(visitor1)
                 .isEqualTo(visitor1)
                 .isNotEqualTo(visitor3)
                 .isNotNull();
-        Assertions.assertThat(visitor1.equals(visitor2)).isTrue();
-        Assertions.assertThat(visitor1.equals(room)).isFalse();
+        assertThat(visitor1.equals(visitor2)).isTrue();
+        assertThat(visitor1.equals(room)).isFalse();
     }
 
     @Test
@@ -72,8 +74,8 @@ class EqualsHashTest {
         Visitor visitor2 = Visitor.createCompleteVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
         Visitor visitor3 = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
 
-        Assertions.assertThat(visitor1.hashCode()).isNotEqualTo(visitor3.hashCode());
-        Assertions.assertThat(visitor1).hasSameHashCodeAs(visitor2);
+        assertThat(visitor1.hashCode()).isNotEqualTo(visitor3.hashCode());
+        assertThat(visitor1).hasSameHashCodeAs(visitor2);
     }
 
     @Test
@@ -87,12 +89,12 @@ class EqualsHashTest {
         Shelf shelf2 = Shelf.createCompleteNewShelf(csvAdapter, uuid, room, "Action", 400, 1);
         Shelf shelf3 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
 
-        Assertions.assertThat(shelf1)
+        assertThat(shelf1)
                 .isEqualTo(shelf1)
                 .isNotEqualTo(shelf3)
                 .isNotNull();
-        Assertions.assertThat(shelf1.equals(shelf2)).isTrue();
-        Assertions.assertThat(shelf1.equals(room)).isFalse();
+        assertThat(shelf1.equals(shelf2)).isTrue();
+        assertThat(shelf1.equals(room)).isFalse();
     }
 
     @Test
@@ -106,8 +108,8 @@ class EqualsHashTest {
         Shelf shelf2 = Shelf.createCompleteNewShelf(csvAdapter, uuid, room, "Action", 400, 1);
         Shelf shelf3 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
 
-        Assertions.assertThat(shelf1.hashCode()).isNotEqualTo(shelf3.hashCode());
-        Assertions.assertThat(shelf1).hasSameHashCodeAs(shelf2);
+        assertThat(shelf1.hashCode()).isNotEqualTo(shelf3.hashCode());
+        assertThat(shelf1).hasSameHashCodeAs(shelf2);
     }
 
     @Test
@@ -121,12 +123,12 @@ class EqualsHashTest {
         Room room2 = Room.createCompleteNewRoom(csvAdapter, uuid, 5);
         Room room3 = Room.createNewRoom(csvAdapter, 5);
 
-        Assertions.assertThat(room1)
+        assertThat(room1)
                 .isEqualTo(room1)
                 .isNotEqualTo(room3)
                 .isNotNull();
-        Assertions.assertThat(room1.equals(room2)).isTrue();
-        Assertions.assertThat(room1.equals(visitor)).isFalse();
+        assertThat(room1.equals(room2)).isTrue();
+        assertThat(room1.equals(visitor)).isFalse();
     }
 
     @Test
@@ -139,8 +141,8 @@ class EqualsHashTest {
         Room room2 = Room.createCompleteNewRoom(csvAdapter, uuid, 5);
         Room room3 = Room.createNewRoom(csvAdapter, 5);
 
-        Assertions.assertThat(room1.hashCode()).isNotEqualTo(room3.hashCode());
-        Assertions.assertThat(room1).hasSameHashCodeAs(room2);
+        assertThat(room1.hashCode()).isNotEqualTo(room3.hashCode());
+        assertThat(room1).hasSameHashCodeAs(room2);
     }
 
     @Test
@@ -154,12 +156,12 @@ class EqualsHashTest {
         Librarian librarian2 = Librarian.createCompleteNewLibrarian(csvAdapter, uuid, "John", "Doe", "1990-01-01");
         Librarian librarian3 = Librarian.createNewLibrarian(csvAdapter, "John", "Doe", "1990-01-01");
 
-        Assertions.assertThat(librarian1)
+        assertThat(librarian1)
                 .isEqualTo(librarian1)
                 .isNotEqualTo(librarian3)
                 .isNotNull();
-        Assertions.assertThat(librarian1.equals(librarian2)).isTrue();
-        Assertions.assertThat(librarian1.equals(room)).isFalse();
+        assertThat(librarian1.equals(librarian2)).isTrue();
+        assertThat(librarian1.equals(room)).isFalse();
     }
 
     @Test
@@ -172,7 +174,7 @@ class EqualsHashTest {
         Librarian librarian2 = Librarian.createCompleteNewLibrarian(csvAdapter, uuid, "John", "Doe", "1990-01-01");
         Librarian librarian3 = Librarian.createNewLibrarian(csvAdapter, "Jane", "Doe", "1990-01-01");
 
-        Assertions.assertThat(librarian1.hashCode()).isNotEqualTo(librarian3.hashCode());
-        Assertions.assertThat(librarian1).hasSameHashCodeAs(librarian2);
+        assertThat(librarian1.hashCode()).isNotEqualTo(librarian3.hashCode());
+        assertThat(librarian1).hasSameHashCodeAs(librarian2);
     }
 }
