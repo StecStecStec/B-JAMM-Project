@@ -1,6 +1,6 @@
 package hwr.oop.library.persistance;
 
-import hwr.oop.library.*;
+import hwr.oop.library.domain.*;
 
 import java.io.*;
 import java.util.*;

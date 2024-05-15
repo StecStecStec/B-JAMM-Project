@@ -1,5 +1,6 @@
 package hwr.oop.library;
 
+import hwr.oop.library.cli.MainLibrary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
