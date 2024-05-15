@@ -1,5 +1,6 @@
 package hwr.oop.library;
 
+import hwr.oop.library.domain.*;
 import hwr.oop.library.persistance.CSVAdapter;
 import org.junit.jupiter.api.Test;
 
