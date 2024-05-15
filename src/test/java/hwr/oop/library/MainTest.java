@@ -4,6 +4,8 @@ import hwr.oop.library.cli.MainLibrary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MainTest {
@@ -12,7 +14,7 @@ class MainTest {
     void mainWithEmptyArgumentsTest() {
         String[] args = {};
 
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        assertThrows(NoSuchElementException.class, () -> {
             MainLibrary.main(args);
         });
     }

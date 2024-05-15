@@ -144,7 +144,6 @@ class CLIToolsTest {
         args.add("01.01.2000");
 
         consoleUI.handle(args, csvAdapter);
-
         assertThat(outputStream.toString()).contains("Librarian created");
 
         csvAdapter.clear();
@@ -243,7 +242,7 @@ class CLIToolsTest {
         List<String> args = new ArrayList<>();
         args.add("addBook");
         args.add("Planes");
-        args.add("Meier");
+        args.add("Alf");
         args.add("Action");
         args.add("100");
         args.add("20");
@@ -255,7 +254,7 @@ class CLIToolsTest {
         consoleUI.handle(args, csvAdapter);
         assertThat(outputStream.toString()).contains("Book added");
         while (i < csvAdapter.getBookList().size()) {
-            if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), "Planes") && Objects.equals(csvAdapter.getBookList().get(i).getBookAuthor(), "Meier")) {
+            if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), "Planes") && Objects.equals(csvAdapter.getBookList().get(i).getBookAuthor(), "Alf")) {
                 uuid = csvAdapter.getBookList().get(i).getBookID().toString();
                 break;
             }
@@ -269,7 +268,7 @@ class CLIToolsTest {
 
         csvAdapter.clear();
         consoleUI.handle(args2, csvAdapter);
-        assertThat(outputStream.toString()).contains(uuid, "Planes", "Meier", "Action");
+        assertThat(outputStream.toString()).contains(uuid, "Planes", "Alf", "Action");
 
         csvAdapter.clear();
         List<String> invalidInput = new ArrayList<>();
@@ -292,7 +291,6 @@ class CLIToolsTest {
 
             csvAdapter.clear();
             args3.set(1, uuid);
-            System.out.println(args3);
             consoleUI.handle(args3, csvAdapter);
             assertThat(outputStream.toString()).contains("Book deleted");
         }
@@ -364,22 +362,43 @@ class CLIToolsTest {
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
         int i = 0;
         String uuid = null;
+        String uuid2 = null;
 
         List<String> args = new ArrayList<>();
         args.add("addBook");
-        args.add("Planes");
-        args.add("Meier");
+        args.add("Harry");
+        args.add("Idi");
         args.add("Action");
         args.add("100");
-        args.add("20");
+        args.add("10");
+
+        csvAdapter.clear();
+        consoleUI.handle(args, csvAdapter);
+
+        List<String> args1 = new ArrayList<>();
+        args1.add("addBook");
+        args1.add("Planes");
+        args1.add("Meier");
+        args1.add("Action");
+        args1.add("100");
+        args1.add("20");
 
         List<String> args2 = new ArrayList<>();
         args2.add("viewBooks");
 
-        consoleUI.handle(args, csvAdapter);
+        csvAdapter.clear();
+        consoleUI.handle(args1, csvAdapter);
         while (i < csvAdapter.getBookList().size()) {
             if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), "Planes") && Objects.equals(csvAdapter.getBookList().get(i).getBookAuthor(), "Meier")) {
                 uuid = csvAdapter.getBookList().get(i).getBookID().toString();
+                break;
+            }
+            i++;
+        }
+        i = 0;
+        while (i < csvAdapter.getBookList().size()) {
+            if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), "Harry") && Objects.equals(csvAdapter.getBookList().get(i).getBookAuthor(), "Idi")) {
+                uuid2 = csvAdapter.getBookList().get(i).getBookID().toString();
                 break;
             }
             i++;
@@ -448,14 +467,19 @@ class CLIToolsTest {
             count++;
             index = output.indexOf("Meier", index + 1);
         }
-
+        System.out.println(output);
         assertThat(count).isEqualTo(2);
         assertThat(outputStream.toString()).contains("Borrowed books viewed");
 
-        csvAdapter.clear();
+
         List<String> args6 = new ArrayList<>();
         args6.add("returnBook");
-        args6.add(uuid);
+        args6.add("833b92f9-1922-4bd9-87ba-08cf33d0b112");
+        csvAdapter.clear();
+        consoleUI.handle(args6, csvAdapter);
+        assertThat(outputStream.toString()).contains("Book wasn't found");
+        args6.set(1, uuid);
+        csvAdapter.clear();
         consoleUI.handle(args6, csvAdapter);
         assertThat(outputStream.toString()).contains("Book returned");
 
@@ -471,18 +495,27 @@ class CLIToolsTest {
         List<String> args7 = new ArrayList<>();
         args7.add("deleteVisitor");
         args7.add("email.de");
-
         consoleUI.handle(args7, csvAdapter);
 
-        csvAdapter.clear();
         if (uuid != null) {
             List<String> args8 = new ArrayList<>();
             args8.add("deleteBook");
             args8.add(uuid);
+            csvAdapter.clear();
             consoleUI.handle(args8, csvAdapter);
         }
 
+        csvAdapter.clear();
+        consoleUI.handle(List.of("viewBorrowedBooks"), csvAdapter);
+        assertThat(outputStream.toString()).contains("No Books borrowed");
 
+        if (uuid2 != null) {
+            List<String> args9 = new ArrayList<>();
+            args9.add("deleteBook");
+            args9.add(uuid2);
+            csvAdapter.clear();
+            consoleUI.handle(args9, csvAdapter);
+        }
     }
 
     @Test
