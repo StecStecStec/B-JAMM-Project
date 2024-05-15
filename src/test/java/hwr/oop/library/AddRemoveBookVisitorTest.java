@@ -4,8 +4,7 @@ import hwr.oop.library.domain.Book;
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.domain.Visitor;
-import hwr.oop.library.persistance.CSVAdapter;
-import org.assertj.core.api.Assertions;
+import hwr.oop.library.persistence.CSVAdapter;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;

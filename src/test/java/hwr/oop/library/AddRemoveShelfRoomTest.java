@@ -2,9 +2,8 @@ package hwr.oop.library;
 
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
-import hwr.oop.library.persistance.CSVAdapter;
+import hwr.oop.library.persistence.CSVAdapter;
 import org.junit.jupiter.api.Test;
-import org.assertj.core.api.Assertions;
 
 import java.io.InputStream;
 

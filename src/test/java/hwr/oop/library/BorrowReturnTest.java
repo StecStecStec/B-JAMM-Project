@@ -4,13 +4,13 @@ import hwr.oop.library.domain.Book;
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.domain.Visitor;
-import hwr.oop.library.persistance.CSVAdapter;
-import org.assertj.core.api.Assertions;
+import hwr.oop.library.persistence.CSVAdapter;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BorrowReturnTest {
     @Test
@@ -83,6 +83,6 @@ class BorrowReturnTest {
         Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 100, 3);
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
-        Assertions.assertThatThrownBy(() -> book.returnBook(shelf2)).hasMessage("Added book to shelf with not enough space.");
+        assertThatThrownBy(() -> book.returnBook(shelf2)).hasMessage("Added book to shelf with not enough space.");
     }
 }

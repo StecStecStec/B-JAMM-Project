@@ -1,10 +1,10 @@
-package hwr.oop.library.persistance;
+package hwr.oop.library.persistence;
 
 import hwr.oop.library.domain.*;
 
 import java.util.List;
 
-public interface persistance {
+public interface Persistence {
 
     void addRoom(Room room);
 

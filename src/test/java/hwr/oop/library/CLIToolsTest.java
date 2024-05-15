@@ -1,8 +1,7 @@
 package hwr.oop.library;
 
 import hwr.oop.library.cli.CLI;
-import hwr.oop.library.persistance.CSVAdapter;
-import org.assertj.core.api.Assertions;
+import hwr.oop.library.persistence.CSVAdapter;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -337,6 +336,7 @@ class CLIToolsTest {
         args2.add("searchBook");
         args2.add("Plas");
         consoleUI.handle(args2, csvAdapter);
+        assertThat(outputStream.toString()).containsOnlyOnce("BookID\t\t\t\t\tTitle\tAuthor\tGenre");
         assertThat(outputStream.toString()).contains("Plas", "Meier", "Action");
 
         while (i < csvAdapter.getBookList().size()) {

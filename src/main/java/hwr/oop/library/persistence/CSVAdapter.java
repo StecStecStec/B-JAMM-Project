@@ -1,4 +1,4 @@
-package hwr.oop.library.persistance;
+package hwr.oop.library.persistence;
 
 import hwr.oop.library.domain.*;
 
@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.*;
 import java.util.ArrayList;
 
-public class CSVAdapter implements persistance {
+public class CSVAdapter implements Persistence {
     private final String path;
     private List<Room> roomList = new ArrayList<>();
     private List<Shelf> shelfList = new ArrayList<>();
