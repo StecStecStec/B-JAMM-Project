@@ -1,4 +1,4 @@
-package hwr.oop.library;
+package hwr.oop.library.cli;
 
 import hwr.oop.library.persistance.CSVAdapter;
 

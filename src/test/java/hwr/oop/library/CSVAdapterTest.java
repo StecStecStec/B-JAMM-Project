@@ -1,5 +1,7 @@
 package hwr.oop.library;
 
+import hwr.oop.library.cli.CLI;
+import hwr.oop.library.domain.*;
 import hwr.oop.library.persistance.CSVAdapter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

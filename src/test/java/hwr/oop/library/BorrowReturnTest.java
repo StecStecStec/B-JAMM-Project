@@ -1,5 +1,9 @@
 package hwr.oop.library;
 
+import hwr.oop.library.domain.Book;
+import hwr.oop.library.domain.Room;
+import hwr.oop.library.domain.Shelf;
+import hwr.oop.library.domain.Visitor;
 import hwr.oop.library.persistance.CSVAdapter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

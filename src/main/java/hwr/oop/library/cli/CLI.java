@@ -1,5 +1,9 @@
-package hwr.oop.library;
+package hwr.oop.library.cli;
 
+import hwr.oop.library.domain.Book;
+import hwr.oop.library.domain.Librarian;
+import hwr.oop.library.domain.Shelf;
+import hwr.oop.library.domain.Visitor;
 import hwr.oop.library.persistance.CSVAdapter;
 
 import java.io.OutputStream;
