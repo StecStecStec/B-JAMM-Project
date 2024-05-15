@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-class CLI {
+public class CLI {
     private PrintStream out = System.out;
     private static final String CREATE_VISITOR = "createVisitor";
     private final String createLibrarian = "createLibrarian";
