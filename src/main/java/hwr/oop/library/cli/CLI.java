@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 @SuppressWarnings("java:S106")
-class CLI {
+public class CLI {
     private PrintStream out = System.out;
     private static final String CREATE_VISITOR = "createVisitor";
     private static final String CREATE_LIBRARIAN = "createLibrarian";
@@ -28,7 +28,7 @@ class CLI {
     private static final String VIEW_BORROWED_BOOKS = "viewBorrowedBooks";
     private static final String VIEW_OPEN_PAYMENTS = "viewOpenPayments"; //Visitor
     private static final String VIEW_OPEN_PAYMENTS_LIBRARIAN = "viewOpenPaymentsLibrarian";
-    private static final String INVALID_INPUT = "Invalid input";
+    private static final String INVALID_INPUT = "Invalid Input";
 
     public CLI(OutputStream out) {
         this.out = new PrintStream(out);
