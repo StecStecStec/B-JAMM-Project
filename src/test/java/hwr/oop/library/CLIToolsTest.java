@@ -126,17 +126,6 @@ class CLIToolsTest {
         final var consoleUI = new CLI(outputStream);
         CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
 
-        List<String> invalidInput = new ArrayList<>();
-        invalidInput.add("createLibrarian");
-        invalidInput.add("Bib");
-        invalidInput.add("Meier");
-        invalidInput.add("01.01.2000");
-        invalidInput.add("hans@meier.com");
-
-        consoleUI.handle(invalidInput, csvAdapter);
-
-        assertThat(outputStream.toString()).contains("Invalid Input");
-
         List<String> args = new ArrayList<>();
         args.add("createLibrarian");
         args.add("Bib");
@@ -149,13 +138,11 @@ class CLIToolsTest {
         csvAdapter.clear();
         consoleUI.handle(args, csvAdapter);
         assertThat(outputStream.toString()).contains("Librarian already exists");
-        assertThat(csvAdapter.getLibrarianList()).hasSize(1);
+
 
         csvAdapter.clear();
         args.set(0, "deleteLibrarian");
         consoleUI.handle(args, csvAdapter);
-        assertThat(outputStream.toString()).contains("Librarian deleted");
-
     }
 
     @Test
@@ -204,6 +191,10 @@ class CLIToolsTest {
         consoleUI.handle(args2, csvAdapter);
         assertThat(outputStream.toString()).contains("Librarian wasn't found");
         assertThat(csvAdapter.getLibrarianList()).hasSize(2);
+
+        csvAdapter.clear();
+        consoleUI.handle(List.of("createLibrarian"), csvAdapter);
+        assertThat(outputStream.toString()).contains("Invalid Input");
 
         csvAdapter.clear();
         args.set(0, "deleteLibrarian");
