@@ -478,6 +478,7 @@ class CLIToolsTest {
         args6.add("833b92f9-1922-4bd9-87ba-08cf33d0b112");
         csvAdapter.clear();
         consoleUI.handle(args6, csvAdapter);
+        System.out.println(csvAdapter.getShelfList());
         assertThat(outputStream.toString()).contains("Book wasn't found");
         args6.set(1, uuid);
         csvAdapter.clear();
