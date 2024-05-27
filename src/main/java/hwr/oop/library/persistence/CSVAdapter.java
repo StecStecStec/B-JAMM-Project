@@ -75,7 +75,7 @@ public class CSVAdapter implements Persistence {
             loadLibrarian();
         }
         catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading CSV");
         }
     }
 
@@ -88,32 +88,27 @@ public class CSVAdapter implements Persistence {
         saveLibrarian();
     }
     private void saveRoom() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Room.csv"));
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Room.csv"))) {
             for (Room room : roomList) {
                 writer.write(String.format("%s;%d%n", room.getRoomID().toString(), room.getShelfLimit()));
             }
-            writer.close();
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving room");
         }
     }
     private void saveShelf() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Shelf.csv"));
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Shelf.csv"))){
             for (Shelf shelf : shelfList) {
                 writer.write(String.format("%s;%s;%s;%d;%d%n", shelf.getShelfID().toString(), shelf.getRoomIn().getRoomID().toString(), shelf.getGenre(), shelf.getShelfWidth(), shelf.getBoardNumber()));
             }
-            writer.close();
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving shelf");
         }
     }
     private void saveBook() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Book.csv"));
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Book.csv"))){
             for (Book book : bookList) {
                 if (book.getShelf() == null){
                     writer.write(String.format("%s;%d;%d;%s;%s;%s;%s;%s%n", book.getBookID().toString(), book.getBookCondition(), book.getBookWidth(), book.getBookTitle(), book.getBookAuthor(), book.getBookGenre(), "null", book.getBorrowedBy().getVisitorID().toString()));
@@ -122,15 +117,13 @@ public class CSVAdapter implements Persistence {
                     writer.write(String.format("%s;%d;%d;%s;%s;%s;%s;%s%n", book.getBookID().toString(), book.getBookCondition(), book.getBookWidth(), book.getBookTitle(), book.getBookAuthor(), book.getBookGenre(), book.getShelf().getShelfID().toString(), "null"));
                 }
             }
-            writer.close();
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving book");
         }
     }
     private void saveVisitor() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Visitor.csv"));
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Visitor.csv"))){
             for (Visitor visitor : visitorList) {
                 List<String> borrowedBookIdList = new ArrayList<>();
                 for (Book book : visitor.getBorrowedBooks()) {
@@ -144,22 +137,19 @@ public class CSVAdapter implements Persistence {
                 if (booksToReturnIdList.isEmpty()){booksToReturnIdList.add("null");}
                 writer.write(String.format("%s;%s;%s;%s;%s;%s;%s%n", visitor.getVisitorID().toString(), visitor.getVisitorName(), visitor.getVisitorSurname(), visitor.getVisitorBirthday(), visitor.getVisitorEmailAddress(), String.join(",", borrowedBookIdList), String.join(",", booksToReturnIdList)));
             }
-            writer.close();
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving visitor");
         }
     }
     private void saveLibrarian() {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Librarian.csv"));
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(path+"Librarian.csv"))){
             for (Librarian librarian : librarianList) {
                 writer.write(String.format("%s;%s;%s;%s%n", librarian.getLibrarianID().toString(), librarian.getLibrarianName(), librarian.getLibrarianSurname(), librarian.getLibrarianBirthday()));
             }
-            writer.close();
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving librarian");
         }
     }
 
@@ -174,7 +164,7 @@ public class CSVAdapter implements Persistence {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading room");
         }
     }
     private void loadShelf() {
@@ -198,7 +188,7 @@ public class CSVAdapter implements Persistence {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading shelf");
         }
     }
     private void loadBook() throws FileNotFoundException {
@@ -236,7 +226,7 @@ public class CSVAdapter implements Persistence {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading book");
         }
     }
     private void loadVisitor() throws FileNotFoundException {
@@ -272,7 +262,7 @@ public class CSVAdapter implements Persistence {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading visitor");
         }
     }
 
@@ -297,7 +287,7 @@ public class CSVAdapter implements Persistence {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading librarian");
         }
     }
 }
