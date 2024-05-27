@@ -75,7 +75,7 @@ public class CSVAdapter implements persistance {
             loadLibrarian();
         }
         catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading CSV");
         }
     }
 
@@ -94,7 +94,7 @@ public class CSVAdapter implements persistance {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving room");
         }
     }
     private void saveShelf() {
@@ -104,7 +104,7 @@ public class CSVAdapter implements persistance {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving shelf");
         }
     }
     private void saveBook() {
@@ -119,7 +119,7 @@ public class CSVAdapter implements persistance {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving book");
         }
     }
     private void saveVisitor() {
@@ -139,7 +139,7 @@ public class CSVAdapter implements persistance {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving visitor");
         }
     }
     private void saveLibrarian() {
@@ -149,7 +149,7 @@ public class CSVAdapter implements persistance {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error saving librarian");
         }
     }
 
@@ -164,7 +164,7 @@ public class CSVAdapter implements persistance {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading room");
         }
     }
     private void loadShelf() {
@@ -188,7 +188,7 @@ public class CSVAdapter implements persistance {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading shelf");
         }
     }
     private void loadBook() throws FileNotFoundException {
@@ -226,7 +226,7 @@ public class CSVAdapter implements persistance {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading book");
         }
     }
     private void loadVisitor() throws FileNotFoundException {
@@ -262,7 +262,7 @@ public class CSVAdapter implements persistance {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading visitor");
         }
     }
 
@@ -287,7 +287,7 @@ public class CSVAdapter implements persistance {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CSVAdapterExceptions("Error loading librarian");
         }
     }
 }
