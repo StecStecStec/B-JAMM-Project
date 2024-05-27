@@ -3,19 +3,27 @@ package hwr.oop.library;
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
+import java.io.File;
+import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AddRemoveShelfRoomTest {
+
+    private String path;
+    @BeforeEach
+    void setUp() {
+        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
+        assert resourceUrl != null;
+        File directory = new File(resourceUrl.getFile());
+        path = directory.getAbsolutePath() +"/";
+    }
     @Test
     void addShelfToRoom_checkThatTheRoomWasCorrectlyAddedToList() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
@@ -25,10 +33,7 @@ class AddRemoveShelfRoomTest {
 
     @Test
     void removeShelfFromRoom_checkThatTheRoomWasCorrectlyRemovedFromList() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);

@@ -2,18 +2,30 @@ package hwr.oop.library;
 
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+import java.net.URL;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class EqualsHashTest {
+
+    private String path;
+    @BeforeEach
+    void setUp() {
+        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
+        assert resourceUrl != null;
+        File directory = new File(resourceUrl.getFile());
+        path = directory.getAbsolutePath() +"/";
+    }
     @Test
     void book_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400,1);
 
@@ -33,7 +45,7 @@ class EqualsHashTest {
     void book_testHashCodeMethod()   {
         UUID uuid = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400,1);
 
@@ -49,7 +61,7 @@ class EqualsHashTest {
     void visitor_testEqualsMethod() {
         UUID uuid1 = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
 
         Visitor visitor1 = Visitor.createCompleteVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
@@ -68,7 +80,7 @@ class EqualsHashTest {
     void visitor_testHashCodeMethod() {
         UUID uuid1 = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Visitor visitor1 = Visitor.createCompleteVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
         Visitor visitor2 = Visitor.createCompleteVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com", uuid1);
@@ -82,7 +94,7 @@ class EqualsHashTest {
     void shelf_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
 
         Shelf shelf1 = Shelf.createCompleteNewShelf(csvAdapter, uuid, room, "Action", 400, 1);
@@ -101,7 +113,7 @@ class EqualsHashTest {
     void shelf_testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
 
         Shelf shelf1 = Shelf.createCompleteNewShelf(csvAdapter, uuid, room, "Action", 400, 1);
@@ -116,7 +128,7 @@ class EqualsHashTest {
     void room_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "John", "Doe", "1990-01-01", "john.doe@example.com");
 
         Room room1 = Room.createCompleteNewRoom(csvAdapter, uuid, 5);
@@ -135,7 +147,7 @@ class EqualsHashTest {
     void room_testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Room room1 = Room.createCompleteNewRoom(csvAdapter, uuid, 5);
         Room room2 = Room.createCompleteNewRoom(csvAdapter, uuid, 5);
@@ -149,7 +161,7 @@ class EqualsHashTest {
     void librarian_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
 
         Librarian librarian1 = Librarian.createCompleteNewLibrarian(csvAdapter, uuid, "John", "Doe", "1990-01-01");
@@ -168,7 +180,7 @@ class EqualsHashTest {
     void librarian_testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Librarian librarian1 = Librarian.createCompleteNewLibrarian(csvAdapter, uuid, "John", "Doe", "1990-01-01");
         Librarian librarian2 = Librarian.createCompleteNewLibrarian(csvAdapter, uuid, "John", "Doe", "1990-01-01");

@@ -5,21 +5,29 @@ import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.domain.Visitor;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
+import java.io.File;
+import java.net.URL;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 class AddRemoveBookVisitorTest {
+
+    private String path;
+    @BeforeEach
+    void setUp() {
+        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
+        assert resourceUrl != null;
+        File directory = new File(resourceUrl.getFile());
+        path = directory.getAbsolutePath() +"/";
+    }
     @Test
     void addBorrowedBook_checkIfBookAdded() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(csvAdapter, 5);
@@ -31,10 +39,7 @@ class AddRemoveBookVisitorTest {
 
     @Test
     void removeBorrowedBook_checkIfBookRemoved() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(csvAdapter, 5);
@@ -47,10 +52,7 @@ class AddRemoveBookVisitorTest {
 
     @Test
     void addBookToReturn_checkIfBookAdded() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(csvAdapter, 5);
@@ -62,10 +64,7 @@ class AddRemoveBookVisitorTest {
 
     @Test
     void removeBookToReturn_checkIfBookRemoved() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = Room.createNewRoom(csvAdapter, 5);

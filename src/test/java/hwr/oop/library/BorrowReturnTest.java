@@ -5,20 +5,28 @@ import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.domain.Visitor;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
+import java.io.File;
+import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BorrowReturnTest {
+
+    private String path;
+    @BeforeEach
+    void setUp() {
+        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
+        assert resourceUrl != null;
+        File directory = new File(resourceUrl.getFile());
+        path = directory.getAbsolutePath() +"/";
+    }
     @Test
     void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
@@ -34,10 +42,7 @@ class BorrowReturnTest {
 
     @Test
     void borrowBookFails_checkIfBorrowedBookIsNotBorrowable() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
@@ -52,10 +57,7 @@ class BorrowReturnTest {
 
     @Test
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
@@ -72,10 +74,7 @@ class BorrowReturnTest {
 
     @Test
     void returnBookFails_checkExceptionRaise() {
-        String path = "/csvTestFiles/";
-        InputStream stream = getClass().getResourceAsStream(path);
-        assert stream != null;
-        CSVAdapter csvAdapter = new CSVAdapter(stream.toString());
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf1 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);

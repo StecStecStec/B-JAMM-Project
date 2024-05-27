@@ -1,4 +1,4 @@
-package hwr.oop.library.persistance;
+package hwr.oop.library.persistence;
 
 public class CSVAdapterExceptions extends RuntimeException{
     public CSVAdapterExceptions(String message) {

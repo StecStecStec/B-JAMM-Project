@@ -3,19 +3,31 @@ package hwr.oop.library;
 import hwr.oop.library.cli.CLI;
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
+import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CSVAdapterTest {
+
+    private String path;
+    @BeforeEach
+    void setUp() {
+        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
+        assert resourceUrl != null;
+        File directory = new File(resourceUrl.getFile());
+        path = directory.getAbsolutePath() +"/";
+    }
     @Test
     void loadClearAndSaveCSV() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Book book1 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);

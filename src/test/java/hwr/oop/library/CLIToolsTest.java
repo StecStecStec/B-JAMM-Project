@@ -2,25 +2,35 @@ package hwr.oop.library;
 
 import hwr.oop.library.cli.CLI;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CLIToolsTest {
+
+    private String path;
+    @BeforeEach
+    void setUp() {
+        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
+        assert resourceUrl != null;
+        File directory = new File(resourceUrl.getFile());
+        path = directory.getAbsolutePath() +"/";
+    }
 
     //TEST macht mehr coverage als der folgende ************************************
     @Test
     void createVisitorTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         List<String> args = new ArrayList<>();
         args.add("createVisitor");
@@ -50,7 +60,7 @@ class CLIToolsTest {
     void create_and_delete_VisitorsTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         List<String> args = new ArrayList<>();
         args.add("createVisitor");
@@ -124,7 +134,7 @@ class CLIToolsTest {
     void create_LibrarianTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         List<String> args = new ArrayList<>();
         args.add("createLibrarian");
@@ -149,7 +159,7 @@ class CLIToolsTest {
     void create_and_delete_LibrariansTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         List<String> args = new ArrayList<>();
         args.add("createLibrarian");
@@ -226,7 +236,7 @@ class CLIToolsTest {
     void add_delete_and_view_BookTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         int i = 0;
         String uuid = null;
 
@@ -296,7 +306,7 @@ class CLIToolsTest {
     void searchBookTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         int i = 0;
         String uuid = null;
 
@@ -350,7 +360,7 @@ class CLIToolsTest {
     void BorrowAndReturnBookTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         int i = 0;
         String uuid = null;
         String uuid2 = null;
@@ -514,7 +524,7 @@ class CLIToolsTest {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
 
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
 
         List<String> args = new ArrayList<>();
         args.add("viewBorrowedBooks"); // gültiger Befehl
@@ -528,7 +538,7 @@ class CLIToolsTest {
     void RestoreBookTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         int i = 0;
         String uuid = null;
 
