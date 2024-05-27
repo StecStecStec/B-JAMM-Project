@@ -51,12 +51,6 @@ public class CLI {
             case RETURN_BOOK -> returnBook(arguments, csvAdapter);
             case RESTORE_BOOK -> restoreBook(arguments, csvAdapter);
             case VIEW_BORROWED_BOOKS -> viewBorrowedBooks(arguments, csvAdapter);
-            /*case viewOpenPayments -> {
-                yield INVALID_INPUT;
-            }
-            case viewOpenPaymentsLibrarian -> {
-                yield INVALID_INPUT;
-            }*/
             default -> throw new IllegalStateException("Unexpected value: " + arguments.get(0));
         };
 
