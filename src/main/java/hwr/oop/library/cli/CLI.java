@@ -69,7 +69,6 @@ public class CLI {
 
             while (i < csvAdapter.getVisitorList().size()) {
                 if (Objects.equals(csvAdapter.getVisitorList().get(i).getVisitorEmailAddress(), email)) {
-                    csvAdapter.saveCSV();
                     return "Mail already exists";
                 }
                 i++;
@@ -93,7 +92,6 @@ public class CLI {
 
             while (i < csvAdapter.getLibrarianList().size()) {
                 if (Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianName(), name) && Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianSurname(), surname)) {
-                    csvAdapter.saveCSV();
                     return "Librarian already exists";
                 }
                 i++;
@@ -120,7 +118,6 @@ public class CLI {
                 }
                 i++;
             }
-            csvAdapter.saveCSV();
             return "Visitor wasn't found";
         } else {
             return INVALID_INPUT;
@@ -142,7 +139,6 @@ public class CLI {
                 }
                 i++;
             }
-            csvAdapter.saveCSV();
             return "Librarian wasn't found";
         } else {
             return INVALID_INPUT;
@@ -168,7 +164,6 @@ public class CLI {
                 }
                 i++;
             }
-            csvAdapter.saveCSV();
             return "No Shelf found";
         } else {
             return INVALID_INPUT;
@@ -210,7 +205,6 @@ public class CLI {
                 }
                 i++;
             }
-            csvAdapter.saveCSV();
             return "No Book found";
         } else {
             return INVALID_INPUT;
@@ -256,7 +250,6 @@ public class CLI {
                 }
                 i++;
             }
-            csvAdapter.saveCSV();
             return BOOK_WASNT_FOUND;
         } else {
             return INVALID_INPUT;
@@ -282,7 +275,6 @@ public class CLI {
                 }
                 i++;
             }
-            csvAdapter.saveCSV();
             return BOOK_WASNT_FOUND;
         } else {
             return INVALID_INPUT;
@@ -304,7 +296,6 @@ public class CLI {
                 }
                 i++;
             }
-
             return BOOK_WASNT_FOUND;
         } else {
             return INVALID_INPUT;
