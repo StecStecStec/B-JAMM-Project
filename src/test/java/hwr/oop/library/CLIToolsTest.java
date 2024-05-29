@@ -26,15 +26,10 @@ class CLIToolsTest {
 
     @BeforeEach
     void setUp() {
-        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
-        assert resourceUrl != null;
-        File directory = new File(resourceUrl.getFile());
-        String path = directory.getAbsolutePath() + "/";
         csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
-        System.out.println(path);
     }
 
-   @Test
+    @Test
     void createVisitorTest() throws FileNotFoundException {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
@@ -114,7 +109,7 @@ class CLIToolsTest {
 
         args.removeLast();
         consoleUI.handle(args, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Invalid Input");
+        assertThat(outputStream.toString()).containsOnlyOnce("Invalid Input");
 
         args2.removeLast();
         consoleUI.handle(args2, library, csvAdapter);
@@ -252,7 +247,8 @@ class CLIToolsTest {
 
         List<String> args2 = new ArrayList<>();
         args2.add("viewBooks");
-        Shelf.createNewShelf(library, Room.createNewRoom(library, 5), "Action", 400, 1);
+        Room room = Room.createNewRoom(library, 4);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
 
         consoleUI.handle(args, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Book added");
@@ -297,6 +293,9 @@ class CLIToolsTest {
         args.removeLast();
         consoleUI.handle(args, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Invalid Input");
+
+        library.deleteShelf(shelf);
+        library.deleteRoom(room);
         csvAdapter.saveLibrary(library);
     }
 
@@ -315,7 +314,10 @@ class CLIToolsTest {
         args.add("100");
         args.add("20");
 
-        Shelf.createNewShelf(library, Room.createNewRoom(library, 5), "Action", 400, 1);
+        Room room = Room.createNewRoom(library, 3);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+
+
         consoleUI.handle(args, library, csvAdapter); //add book
         System.out.println(library.getBookList());
         assertThat(library.getBookList()).hasSize(1);
@@ -332,7 +334,7 @@ class CLIToolsTest {
         args2.add("Plas");
         consoleUI.handle(args2, library, csvAdapter);
         assertThat(outputStream.toString()).containsOnlyOnce("BookID\t\t\t\t\tTitle\tAuthor\tGenre");
-        assertThat(outputStream.toString()).contains("Plas", "Meier", "Action");
+        assertThat(outputStream.toString()).contains("Plas", "Meier", "Action", "Books searched");
 
         while (i < library.getBookList().size()) {
             if (Objects.equals(library.getBookList().get(i).getBookTitle(), "Plas") && Objects.equals(library.getBookList().get(i).getBookAuthor(), "Meier")) {
@@ -349,6 +351,10 @@ class CLIToolsTest {
             consoleUI.handle(args, library, csvAdapter);
         }
 
+        library.deleteShelf(shelf);
+        library.deleteRoom(room);
+        csvAdapter.saveLibrary(library);
+
     }
 
     @Test
@@ -358,6 +364,10 @@ class CLIToolsTest {
         int i = 0;
         String uuid = null;
         String uuid2 = null;
+        Room room = Room.createNewRoom(library, 4);
+        Shelf shelf1 = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        Shelf shelf2 = Shelf.createNewShelf(library, room, "Action", 400, 1);
+
 
         List<String> args = new ArrayList<>();
         args.add("addBook");
@@ -377,7 +387,6 @@ class CLIToolsTest {
         args1.add("100");
         args1.add("20");
 
-        Shelf.createNewShelf(library, Room.createNewRoom(library, 5), "Action", 400, 1);
 
         List<String> args2 = new ArrayList<>();
         args2.add("viewBooks");
@@ -497,6 +506,11 @@ class CLIToolsTest {
             args9.add(uuid2);
             consoleUI.handle(args9, library, csvAdapter);
         }
+
+        library.deleteShelf(shelf1);
+        library.deleteShelf(shelf2);
+        library.deleteRoom(room);
+        csvAdapter.saveLibrary(library);
     }
 
     @Test
@@ -509,6 +523,7 @@ class CLIToolsTest {
         args.add("invalid_email"); // ungültige E-Mail
         consoleUI.handle(args, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Invalid Input");
+        csvAdapter.saveLibrary(library);
     }
 
     @Test
@@ -526,7 +541,8 @@ class CLIToolsTest {
         args.add("50");
         args.add("20");
 
-        Shelf.createNewShelf(library, Room.createNewRoom(library, 5), "Action", 400, 1);
+        Room room = Room.createNewRoom(library, 4);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
 
         List<String> args2 = new ArrayList<>();
         args2.add("viewBooks");
@@ -541,6 +557,7 @@ class CLIToolsTest {
         }
 
         consoleUI.handle(args2, library, csvAdapter);
+        assertThat(outputStream.toString()).contains("Books viewed");
 
         args2.add("abcdef");
         consoleUI.handle(args2, library, csvAdapter);
@@ -570,8 +587,11 @@ class CLIToolsTest {
         args6.add("deleteBook");
         args6.add(uuid);
         consoleUI.handle(args6, library, csvAdapter);
-    }
 
+        library.deleteShelf(shelf);
+        library.deleteRoom(room);
+        csvAdapter.saveLibrary(library);
+    }
 
     @AfterEach
     void tearDown() {
