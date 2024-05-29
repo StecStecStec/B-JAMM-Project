@@ -2,6 +2,7 @@ package hwr.oop.library;
 
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,22 +14,28 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class BorrowReturnTest {
 
-    private String path;
+    private Library library;
+    private CSVAdapter csvAdapter;
     @BeforeEach
     void setUp() {
         URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
         assert resourceUrl != null;
         File directory = new File(resourceUrl.getFile());
-        path = directory.getAbsolutePath() +"/";
+        String path = directory.getAbsolutePath() + "/";
+        csvAdapter = new CSVAdapter(path);
+        library = csvAdapter.loadLibrary();
     }
+
     @Test
     void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book);
+        Visitor visitor = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        library.addVisitor(visitor);
         book.borrow(visitor);
         assertThat(book.getBorrowedBy()).isEqualTo(visitor);
         assertThat(book).isIn(visitor.getBorrowedBooks());
@@ -39,13 +46,16 @@ class BorrowReturnTest {
 
     @Test
     void borrowBookFails_checkIfBorrowedBookIsNotBorrowable() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Visitor visitor1 = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
-        Visitor visitor2 = Visitor.createNewVisitor(csvAdapter, "Maxa", "Mustermanna", "02.01.1999", "maxa.mustermanna@gmx.de");
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book);
+        Visitor visitor1 = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        library.addVisitor(visitor1);
+        Visitor visitor2 = Visitor.createNewVisitor(library, "Maxa", "Mustermanna", "02.01.1999", "maxa.mustermanna@gmx.de");
+        library.addVisitor(visitor2);
         book.borrow(visitor1);
         book.borrow(visitor2);
         assertThat(book.getBorrowedBy()).isNotEqualTo(visitor2);
@@ -54,12 +64,14 @@ class BorrowReturnTest {
 
     @Test
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book);
+        Visitor visitor = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        library.addVisitor(visitor);
         book.borrow(visitor);
         book.returnBook(shelf);
         assertThat(book.getBorrowedBy()).isNull();
@@ -71,14 +83,22 @@ class BorrowReturnTest {
 
     @Test
     void returnBookFails_checkExceptionRaise() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf1 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Shelf shelf2 = Shelf.createNewShelf(csvAdapter, room, "Action", 2, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 100, 3);
-        Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf1 = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf1);
+        Shelf shelf2 = Shelf.createNewShelf(library, room, "Action", 2, 1);
+        library.addShelf(shelf2);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf1, 100, 3);
+        library.addBook(book);
+        Visitor visitor = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        library.addVisitor(visitor);
         book.borrow(visitor);
         assertThatThrownBy(() -> book.returnBook(shelf2)).hasMessage("Added book to shelf with not enough space.");
+    }
+
+    @AfterEach
+    void tearDown() {
+        csvAdapter.saveLibrary(library);
     }
 }

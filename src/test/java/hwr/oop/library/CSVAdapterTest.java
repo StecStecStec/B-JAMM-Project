@@ -3,6 +3,7 @@ package hwr.oop.library;
 import hwr.oop.library.cli.CLI;
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,60 +18,63 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CSVAdapterTest {
 
-    private String path;
+    private Library library;
+    private CSVAdapter csvAdapter;
     @BeforeEach
     void setUp() {
         URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
         assert resourceUrl != null;
         File directory = new File(resourceUrl.getFile());
-        path = directory.getAbsolutePath() +"/";
+        String path = directory.getAbsolutePath() + "/";
+        csvAdapter = new CSVAdapter(path);
+        library = csvAdapter.loadLibrary();
     }
     @Test
     void loadClearAndSaveCSV() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book1 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createNewBook(csvAdapter, "Welten", "Peter Hansen", "Naturen", shelf, 100, 5);
-        Visitor visitor1 = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
-        Visitor visitor2 = Visitor.createNewVisitor(csvAdapter, "Maxia", "Mustermannia", "01.02.1999", "max.mustermannia@gmx.de");
-        Librarian librarian = Librarian.createNewLibrarian(csvAdapter, "Maxa", "Mustermanna", "01.01.2000");
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book1 = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book1);
+        Book book2 = Book.createNewBook(library, "Welten", "Peter Hansen", "Naturen", shelf, 100, 5);
+        library.addBook(book2);
+        Visitor visitor1 = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        library.addVisitor(visitor1);
+        Visitor visitor2 = Visitor.createNewVisitor(library, "Maxia", "Mustermannia", "01.02.1999", "max.mustermannia@gmx.de");
+        library.addVisitor(visitor2);
+        Librarian librarian = Librarian.createNewLibrarian(library, "Maxa", "Mustermanna", "01.01.2000");
+        library.addLibrarian(librarian);
         book2.borrow(visitor2);
         visitor2.addBookToReturn(book2);
 
-        assertThat(csvAdapter.getRoomList()).contains(room);
-        assertThat(csvAdapter.getShelfList()).contains(shelf);
-        assertThat(csvAdapter.getBookList()).contains(book1)
+        assertThat(library.getRoomList()).contains(room);
+        assertThat(library.getShelfList()).contains(shelf);
+        assertThat(library.getBookList()).contains(book1)
                 .contains(book2);
-        assertThat(csvAdapter.getVisitorList()).contains(visitor1)
+        assertThat(library.getVisitorList()).contains(visitor1)
                 .contains(visitor2);
-        assertThat(csvAdapter.getLibrarianList()).contains(librarian);
+        assertThat(library.getLibrarianList()).contains(librarian);
 
-        csvAdapter.saveCSV();
+        assertThat(library.getRoomList()).isEmpty();
+        assertThat(library.getShelfList()).isEmpty();
+        assertThat(library.getBookList()).isEmpty();
+        assertThat(library.getVisitorList()).isEmpty();
+        assertThat(library.getLibrarianList()).isEmpty();
 
-        csvAdapter.clear();
-        assertThat(csvAdapter.getRoomList()).isEmpty();
-        assertThat(csvAdapter.getShelfList()).isEmpty();
-        assertThat(csvAdapter.getBookList()).isEmpty();
-        assertThat(csvAdapter.getVisitorList()).isEmpty();
-        assertThat(csvAdapter.getLibrarianList()).isEmpty();
+        assertThat(room).isEqualTo(library.getRoomList().getFirst());
+        assertThat(shelf).isEqualTo(library.getShelfList().getFirst());
+        assertThat(book1).isEqualTo(library.getBookList().getFirst());
+        assertThat(book2).isEqualTo(library.getBookList().getLast());
+        assertThat(visitor1).isEqualTo(library.getVisitorList().getFirst());
+        assertThat(visitor2).isEqualTo(library.getVisitorList().getLast());
+        assertThat(librarian).isEqualTo(library.getLibrarianList().getFirst());
 
-        csvAdapter.loadCSV();
-
-        assertThat(room).isEqualTo(csvAdapter.getRoomList().getFirst());
-        assertThat(shelf).isEqualTo(csvAdapter.getShelfList().getFirst());
-        assertThat(book1).isEqualTo(csvAdapter.getBookList().getFirst());
-        assertThat(book2).isEqualTo(csvAdapter.getBookList().getLast());
-        assertThat(visitor1).isEqualTo(csvAdapter.getVisitorList().getFirst());
-        assertThat(visitor2).isEqualTo(csvAdapter.getVisitorList().getLast());
-        assertThat(librarian).isEqualTo(csvAdapter.getLibrarianList().getFirst());
-
-        csvAdapter.deleteVisitor(visitor1);
-        csvAdapter.deleteVisitor(visitor2);
-        csvAdapter.deleteLibrarian(librarian);
-        csvAdapter.deleteBook(book1);
-        csvAdapter.deleteBook(book2);
-        csvAdapter.saveCSV();
+        library.deleteVisitor(visitor1);
+        library.deleteVisitor(visitor2);
+        library.deleteLibrarian(librarian);
+        library.deleteBook(book1);
+        library.deleteBook(book2);
     }
 
     @Test
@@ -79,7 +83,12 @@ class CSVAdapterTest {
         final var consoleUI = new CLI(outputStream);
         CSVAdapter csvAdapter = new CSVAdapter("invalid_path_to_file.csv");
 
-        assertThrows(RuntimeException.class, csvAdapter::loadCSV);
+        assertThrows(RuntimeException.class, csvAdapter::loadLibrary);
+    }
+
+    @AfterEach
+    void tearDown() {
+        csvAdapter.saveLibrary(library);
     }
 }
 

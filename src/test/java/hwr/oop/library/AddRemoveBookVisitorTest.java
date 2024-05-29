@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class AddRemoveBookVisitorTest {
 
-    private String path;
     private Library library;
     private CSVAdapter csvAdapter;
     @BeforeEach
@@ -27,7 +26,7 @@ class AddRemoveBookVisitorTest {
         URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
         assert resourceUrl != null;
         File directory = new File(resourceUrl.getFile());
-        path = directory.getAbsolutePath() +"/";
+        String path = directory.getAbsolutePath() + "/";
         csvAdapter = new CSVAdapter(path);
         library = csvAdapter.loadLibrary();
     }
