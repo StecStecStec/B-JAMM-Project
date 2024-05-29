@@ -36,6 +36,7 @@ public class Room {
         shelfList.remove(shelf);
     }
 
+<<<<<<< HEAD
     public static Room createNewRoom(CSVAdapter csvAdapter, int shelfLimit) {
         return new Room(csvAdapter, UUID.randomUUID(), shelfLimit);
     }
@@ -54,6 +55,26 @@ public class Room {
         this.shelfList = new ArrayList<>(this.shelfLimit);
         this.roomID = uuid;
         csvAdapter.addRoom(this);
+=======
+    public static Room createNewRoom(Library library, int shelfLimit) {
+        return new Room(library, UUID.randomUUID(), shelfLimit);
+    }
+
+    public static Room createCompleteNewRoom(Library library, UUID uuid, int shelfLimit) {
+        return new Room(library, uuid, shelfLimit);
+    }
+
+    //for CSVAdapter
+    public static Room createTempRoom(Library tempLibrary) {
+        return new Room(tempLibrary, UUID.randomUUID(), 10000);
+    }
+
+    private Room(Library library, UUID uuid, int shelfLimit) {
+        this.shelfLimit = shelfLimit;
+        this.shelfList = new ArrayList<>(this.shelfLimit);
+        this.roomID = uuid;
+        library.addRoom(this);
+>>>>>>> 0e4c06e (refactored persistence by adding library class)
     }
 
     @Override

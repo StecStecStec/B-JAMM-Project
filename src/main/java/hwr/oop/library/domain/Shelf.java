@@ -58,7 +58,11 @@ public class Shelf {
     }
 
 
+<<<<<<< HEAD
     private Shelf(CSVAdapter csvAdapter, UUID shelfID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
+=======
+    private Shelf(Library library, UUID shelfID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
+>>>>>>> 0e4c06e (refactored persistence by adding library class)
         this.shelfID = shelfID;
         this.roomIn = roomIn;
         this.booksOnShelf = new ArrayList<>();
@@ -67,6 +71,7 @@ public class Shelf {
         this.remainingSpace = shelfWidth;
         this.boardNumber = boardNumber;
         roomIn.roomAddShelf(this);
+<<<<<<< HEAD
         csvAdapter.addShelf(this);
     }
 
@@ -81,6 +86,22 @@ public class Shelf {
     //for CSVAdapter
     public static Shelf createTempShelf(CSVAdapter tempCsvAdapter, Room tempRoom) {
         return new Shelf(tempCsvAdapter, UUID.randomUUID(), tempRoom, "temp", 10000, 10000);
+=======
+        library.addShelf(this);
+    }
+
+    public static Shelf createNewShelf(Library library, Room roomIn, String genre, int shelfWidth, int boardNumber) {
+        return new Shelf(library, UUID.randomUUID(), roomIn, genre, shelfWidth, boardNumber);
+    }
+
+    public static Shelf createCompleteNewShelf(Library library, UUID roomID, Room roomIn, String genre, int shelfWidth, int boardNumber) {
+        return new Shelf(library, roomID, roomIn, genre, shelfWidth, boardNumber);
+    }
+
+    //for CSVAdapter
+    public static Shelf createTempShelf(Library tempLibrary, Room tempRoom) {
+        return new Shelf(tempLibrary, UUID.randomUUID(), tempRoom, "temp", 10000, 10000);
+>>>>>>> 0e4c06e (refactored persistence by adding library class)
     }
 
     @Override

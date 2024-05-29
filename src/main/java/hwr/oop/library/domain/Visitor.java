@@ -60,6 +60,7 @@ public class Visitor {
         booksToReturn.remove(book);
     }
 
+<<<<<<< HEAD
     public static Visitor createNewVisitor(CSVAdapter csvAdapter, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
         return new Visitor(csvAdapter, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, UUID.randomUUID());
     }
@@ -69,6 +70,17 @@ public class Visitor {
     }
 
     private Visitor(CSVAdapter csvAdapter, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID visitorID) {
+=======
+    public static Visitor createNewVisitor(Library library, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress) {
+        return new Visitor(library, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, UUID.randomUUID());
+    }
+
+    public static Visitor createCompleteVisitor(Library library, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID uuid) {
+        return new Visitor(library, visitorName, visitorSurname, visitorBirthday, visitorEmailAddress, uuid);
+    }
+
+    private Visitor(Library library, String visitorName, String visitorSurname, String visitorBirthday, String visitorEmailAddress, UUID visitorID) {
+>>>>>>> 0e4c06e (refactored persistence by adding library class)
         this.visitorName = visitorName;
         this.visitorSurname = visitorSurname;
         this.visitorBirthday = visitorBirthday;
@@ -76,7 +88,11 @@ public class Visitor {
         this.booksToReturn = new ArrayList<>();
         this.borrowedBooks = new ArrayList<>();
         this.visitorID = visitorID;
+<<<<<<< HEAD
         csvAdapter.addVisitor(this);
+=======
+        library.addVisitor(this);
+>>>>>>> 0e4c06e (refactored persistence by adding library class)
     }
 
     @Override

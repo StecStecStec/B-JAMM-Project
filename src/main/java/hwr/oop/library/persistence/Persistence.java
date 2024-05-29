@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface Persistence {
 
+<<<<<<< HEAD
     void addRoom(Room room);
 
     void addShelf(Shelf shelf);
@@ -39,4 +40,9 @@ public interface Persistence {
     void loadCSV();
 
     void saveCSV();
+=======
+    Library loadLibrary();
+
+    void saveLibrary(Library library);
+>>>>>>> 0e4c06e (refactored persistence by adding library class)
 }
