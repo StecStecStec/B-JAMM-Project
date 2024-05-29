@@ -32,7 +32,7 @@ class AddRemoveBookVisitorTest {
         Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
         visitor.addBorrowedBook(book);
         assertThat(book).isIn(visitor.getBorrowedBooks());
     }
@@ -44,7 +44,7 @@ class AddRemoveBookVisitorTest {
         Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
         visitor.addBorrowedBook(book);
         visitor.removeBorrowedBook(book);
         assertThat(book).isNotIn(visitor.getBorrowedBooks());
@@ -57,7 +57,7 @@ class AddRemoveBookVisitorTest {
         Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
         visitor.addBookToReturn(book);
         assertThat(book).isIn(visitor.getBooksToReturn());
     }
@@ -69,7 +69,7 @@ class AddRemoveBookVisitorTest {
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
         visitor.addBookToReturn(book);
         visitor.removeBookToReturn(book);
         assertThat(book).isNotIn(visitor.getBooksToReturn());

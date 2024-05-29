@@ -50,23 +50,23 @@ public class Book {
         return borrowedBy;
     }
 
-    public static Book createNewBook(CSVAdapter csvAdapter, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(csvAdapter, UUID.randomUUID(), title, author, genre, shelf, bookCondition, bookWidth);
+    public static Book createNewBook(CSVAdapter csvAdapter, String title, String author, String genre, Shelf shelf, int[] details) {
+        return new Book(csvAdapter, UUID.randomUUID(), title, author, genre, shelf, details);
     }
 
-    public static Book createCompleteBook(CSVAdapter csvAdapter, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(csvAdapter, uuid, title, author, genre, shelf, bookCondition, bookWidth);
+    public static Book createCompleteBook(CSVAdapter csvAdapter, UUID uuid, String title, String author, String genre, Shelf shelf, int[] details) {
+        return new Book(csvAdapter, uuid, title, author, genre, shelf, details);
     }
 
-    private Book(CSVAdapter csvAdapter, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
+    private Book(CSVAdapter csvAdapter, UUID uuid, String title, String author, String genre, Shelf shelf, int[] details) {
         this.bookID = uuid;
-        this.bookWidth = Math.max(bookWidth, 0);
+        this.bookWidth = Math.max(details[1], 0);
         this.shelf = shelf;
         this.title = title;
         this.author = author;
         this.genre = genre;
-        if (bookCondition >= LOWER_BOUNDARY && bookCondition <= UPPER_BOUNDARY) {
-            this.bookCondition = bookCondition;
+        if (details[0] >= LOWER_BOUNDARY && details[0] <= UPPER_BOUNDARY) {
+            this.bookCondition = details[0];
         } else {
             this.bookCondition = -1;
         }

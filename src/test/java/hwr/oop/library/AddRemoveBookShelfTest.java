@@ -28,7 +28,7 @@ class AddRemoveBookShelfTest {
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
         assertThat(book).isIn(shelf.getBooksOnShelf());
     }
 
@@ -38,7 +38,7 @@ class AddRemoveBookShelfTest {
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
         shelf.removeBookOnShelf(book);
         assertThat(book).isNotIn(shelf.getBooksOnShelf());
     }

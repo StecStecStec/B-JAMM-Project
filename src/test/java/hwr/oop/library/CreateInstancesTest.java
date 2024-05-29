@@ -27,11 +27,11 @@ class CreateInstancesTest {
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Shelf shelf1 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 2);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 50, 3);
-        Book book1 = Book.createNewBook(csvAdapter,"Welt", "Peter Hans", "Natur", shelf1, 110, 31);
-        Book book2 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, -110, 31);
-        Book book3 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 0, 31);
-        Book book4 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 100, 31);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{50, 3});
+        Book book1 = Book.createNewBook(csvAdapter,"Welt", "Peter Hans", "Natur", shelf1, new int[]{110, 31});
+        Book book2 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, new int[]{-110, 31});
+        Book book3 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, new int[]{0, 31});
+        Book book4 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, new int[]{100, 31});
         assertThat(book.getBookID()).isNotNull();
         assertThat(book.getBookTitle()).isEqualTo("Welt");
         assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
@@ -53,8 +53,8 @@ class CreateInstancesTest {
         CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 1, 1);
-        Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 1);
-        assertThatThrownBy(() -> Book.createNewBook(csvAdapter, "Welt2", "Peter Hans", "Natur", shelf, 100, 1)).hasMessage("Added book to shelf with not enough space.");
+        Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 1});
+        assertThatThrownBy(() -> Book.createNewBook(csvAdapter, "Welt2", "Peter Hans", "Natur", shelf, new int[]{100, 1})).hasMessage("Added book to shelf with not enough space.");
     }
 
     @Test

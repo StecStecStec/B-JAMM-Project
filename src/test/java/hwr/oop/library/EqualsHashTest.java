@@ -29,9 +29,9 @@ class EqualsHashTest {
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400,1);
 
-        Book book1 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book3 = Book.createNewBook(csvAdapter, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
+        Book book1 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
+        Book book2 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
+        Book book3 = Book.createNewBook(csvAdapter, "Planet", "Max Mustermann", "SciFi", shelf, new int[]{80, 3});
 
         assertThat(book1)
                 .isEqualTo(book1)
@@ -49,9 +49,9 @@ class EqualsHashTest {
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400,1);
 
-        Book book1 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book3 = Book.createNewBook(csvAdapter, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
+        Book book1 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
+        Book book2 = Book.createCompleteBook(csvAdapter, uuid,"Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
+        Book book3 = Book.createNewBook(csvAdapter, "Planet", "Max Mustermann", "SciFi", shelf, new int[]{80, 3});
 
         assertThat(book1).hasSameHashCodeAs(book2);
         assertThat(book1.hashCode()).isNotEqualTo(book3.hashCode());

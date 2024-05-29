@@ -30,8 +30,8 @@ class CSVAdapterTest {
         CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book1 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createNewBook(csvAdapter, "Welten", "Peter Hansen", "Naturen", shelf, 100, 5);
+        Book book1 = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
+        Book book2 = Book.createNewBook(csvAdapter, "Welten", "Peter Hansen", "Naturen", shelf, new int[]{100, 5});
         Visitor visitor1 = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Visitor visitor2 = Visitor.createNewVisitor(csvAdapter, "Maxia", "Mustermannia", "01.02.1999", "max.mustermannia@gmx.de");
         Librarian librarian = Librarian.createNewLibrarian(csvAdapter, "Maxa", "Mustermanna", "01.01.2000");

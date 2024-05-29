@@ -158,7 +158,7 @@ public class CLI {
             while (i < csvAdapter.getShelfList().size()) {
                 if (Objects.equals(csvAdapter.getShelfList().get(i).getGenre(), genre)) {
                     Shelf shelf = csvAdapter.getShelfList().get(i);
-                    Book.createNewBook(csvAdapter, title, author, genre, shelf, bookCondition, bookWidth);
+                    Book.createNewBook(csvAdapter, title, author, genre, shelf, new int[]{bookCondition, bookWidth});
                     csvAdapter.saveCSV();
                     return "Book added";
                 }

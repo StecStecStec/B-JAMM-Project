@@ -30,7 +30,7 @@ class BorrowReturnTest {
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         assertThat(book.getBorrowedBy()).isEqualTo(visitor);
@@ -46,7 +46,7 @@ class BorrowReturnTest {
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
         Visitor visitor1 = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Visitor visitor2 = Visitor.createNewVisitor(csvAdapter, "Maxa", "Mustermanna", "02.01.1999", "maxa.mustermanna@gmx.de");
         book.borrow(visitor1);
@@ -61,7 +61,7 @@ class BorrowReturnTest {
 
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, new int[]{100, 3});
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         book.returnBook(shelf);
@@ -79,7 +79,7 @@ class BorrowReturnTest {
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf1 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Shelf shelf2 = Shelf.createNewShelf(csvAdapter, room, "Action", 2, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, 100, 3);
+        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf1, new int[]{100, 3});
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         assertThatThrownBy(() -> book.returnBook(shelf2)).hasMessage("Added book to shelf with not enough space.");
