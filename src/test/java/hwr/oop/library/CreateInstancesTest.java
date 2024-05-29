@@ -1,16 +1,29 @@
 package hwr.oop.library;
 
 import hwr.oop.library.domain.*;
-import hwr.oop.library.persistance.CSVAdapter;
+import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CreateInstancesTest {
+
+    private String path;
+    @BeforeEach
+    void setUp() {
+        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
+        assert resourceUrl != null;
+        File directory = new File(resourceUrl.getFile());
+        path = directory.getAbsolutePath() +"/";
+    }
     @Test
     void createBook_checkRightAssignment() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         Shelf shelf1 = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 2);
@@ -37,7 +50,7 @@ class CreateInstancesTest {
 
     @Test
     void createBookFails_checkExceptionRaise() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 1, 1);
         Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 1);
@@ -46,7 +59,7 @@ class CreateInstancesTest {
 
     @Test
     void createLibrarian_checkRightAssignment() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Librarian librarian = Librarian.createNewLibrarian(csvAdapter, "Max", "Mustermann", "01.01.1999");
         assertThat(librarian.getLibrarianName()).isEqualTo("Max");
         assertThat(librarian.getLibrarianSurname()).isEqualTo("Mustermann");
@@ -57,7 +70,7 @@ class CreateInstancesTest {
 
     @Test
     void createRoom_checkRightAssignment() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
         assertThat(room.getRoomID()).isNotNull();
         assertThat(room.getShelfLimit()).isEqualTo(5);
@@ -66,7 +79,7 @@ class CreateInstancesTest {
 
     @Test
     void createTempRoom_checkRightAssignment() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createTempRoom(csvAdapter);
         assertThat(room.getRoomID()).isNotNull();
         assertThat(room.getShelfLimit()).isEqualTo(10000);
@@ -74,7 +87,7 @@ class CreateInstancesTest {
 
     @Test
     void createShelf_checkRightAssignment() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 5);
         Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         assertThat(shelf.getRoomIn()).isEqualTo(room);
@@ -88,7 +101,7 @@ class CreateInstancesTest {
 
     @Test
     void createShelfFails_checkExceptionRaise() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createNewRoom(csvAdapter, 1);
         Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
         assertThatThrownBy(() -> Shelf.createNewShelf(csvAdapter, room, "Action", 2, 1)).hasMessage("Added shelf to room with not enough space.");
@@ -96,7 +109,7 @@ class CreateInstancesTest {
 
     @Test
     void createTempShelf_checkRightAssignment() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Room room = Room.createTempRoom(csvAdapter);
         Shelf shelf = Shelf.createTempShelf(csvAdapter, room);
         assertThat(shelf.getRoomIn()).isEqualTo(room);
@@ -109,7 +122,7 @@ class CreateInstancesTest {
 
     @Test
     void createVisitor_checkRightAssignment() {
-        CSVAdapter csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        CSVAdapter csvAdapter = new CSVAdapter(path);
         Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         assertThat(visitor.getVisitorName()).isEqualTo("Max");
         assertThat(visitor.getVisitorSurname()).isEqualTo("Mustermann");

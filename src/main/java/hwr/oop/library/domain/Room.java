@@ -1,6 +1,6 @@
 package hwr.oop.library.domain;
 
-import hwr.oop.library.persistance.CSVAdapter;
+import hwr.oop.library.persistence.CSVAdapter;
 
 import java.util.List;
 import java.util.Objects;

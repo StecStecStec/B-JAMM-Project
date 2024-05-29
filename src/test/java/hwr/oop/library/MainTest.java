@@ -4,28 +4,28 @@ import hwr.oop.library.cli.MainLibrary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class MainTest {
 
     @Test
     void mainWithEmptyArgumentsTest() {
         String[] args = {};
 
-        Assertions.assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        assertThrows(NoSuchElementException.class, () -> {
             MainLibrary.main(args);
         });
     }
 
-    //@Test
+    @Test
     void mainWithValidArgumentsTest() {
-        String[] args = {"createVisitor", "Hans", "Meier", "01.01.2020", "meier@sd.com"};
+        String[] args = {"viewBooks"};
 
+        MainLibrary mainLibrary = new MainLibrary();
         Assertions.assertDoesNotThrow(() -> {
             MainLibrary.main(args);
-        });
-
-        String[] args2 = {"deleteVisitor", "meier@sd.com"};
-        Assertions.assertDoesNotThrow(() -> {
-            MainLibrary.main(args2);
         });
     }
 
@@ -33,7 +33,7 @@ class MainTest {
     void mainWithInvalidArgumentsTest() {
         String[] args = {"invalid_argument"};
 
-        Assertions.assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalStateException.class, () -> {
             MainLibrary.main(args);
         });
     }
