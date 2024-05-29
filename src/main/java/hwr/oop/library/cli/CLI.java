@@ -1,16 +1,8 @@
 package hwr.oop.library.cli;
 
-<<<<<<< HEAD
-import hwr.oop.library.domain.Book;
-import hwr.oop.library.domain.Librarian;
-import hwr.oop.library.domain.Shelf;
-import hwr.oop.library.domain.Visitor;
-import hwr.oop.library.persistence.CSVAdapter;
-=======
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
 import hwr.oop.library.persistence.Persistence;
->>>>>>> 0e4c06e (refactored persistence by adding library class)
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -63,102 +55,49 @@ public class CLI {
         out.println(result);
 
     }
-
-<<<<<<< HEAD
-    private String createVisitor(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 5, CREATE_VISITOR)) {
-            csvAdapter.loadCSV();
-=======
     private String createVisitor(List<String> arguments, Persistence persistence) {
         if (check(arguments, 5, CREATE_VISITOR)) {
             Library library = persistence.loadLibrary();
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             int i = 0;
             String name = arguments.get(1);
             String surname = arguments.get(2);
             String birthday = arguments.get(3);
             String email = arguments.get(4);
-
-<<<<<<< HEAD
-            while (i < csvAdapter.getVisitorList().size()) {
-                if (Objects.equals(csvAdapter.getVisitorList().get(i).getVisitorEmailAddress(), email)) {
-                    csvAdapter.saveCSV();
-=======
             while (i < library.getVisitorList().size()) {
                 if (Objects.equals(library.getVisitorList().get(i).getVisitorEmailAddress(), email)) {
                     persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                     return "Mail already exists";
                 }
                 i++;
             }
-
-<<<<<<< HEAD
-            Visitor.createNewVisitor(csvAdapter, name, surname, birthday, email);
-            csvAdapter.saveCSV();
-=======
             Visitor.createNewVisitor(library, name, surname, birthday, email);
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return "Visitor created";
         } else {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String createLibrarian(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 4, CREATE_LIBRARIAN)) {
-            int i = 0;
-            csvAdapter.loadCSV();
-=======
     private String createLibrarian(List<String> arguments, Persistence persistence) {
         if (check(arguments, 4, CREATE_LIBRARIAN)) {
             int i = 0;
             Library library = persistence.loadLibrary();
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             String name = arguments.get(1);
             String surname = arguments.get(2);
             String birthday = arguments.get(3);
-
-<<<<<<< HEAD
-            while (i < csvAdapter.getLibrarianList().size()) {
-                if (Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianName(), name) && Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianSurname(), surname)) {
-                    csvAdapter.saveCSV();
-=======
             while (i < library.getLibrarianList().size()) {
                 if (Objects.equals(library.getLibrarianList().get(i).getLibrarianName(), name) && Objects.equals(library.getLibrarianList().get(i).getLibrarianSurname(), surname)) {
                     persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                     return "Librarian already exists";
                 }
                 i++;
             }
-
-<<<<<<< HEAD
-            Librarian.createNewLibrarian(csvAdapter, name, surname, birthday);
-            csvAdapter.saveCSV();
-=======
             Librarian.createNewLibrarian(library, name, surname, birthday);
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return "Librarian created";
         } else {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String deleteVisitor(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 2, DELETE_VISITOR)) {
-            csvAdapter.loadCSV();
-            String mail = arguments.get(1);
-            int i = 0;
-            while (i < csvAdapter.getVisitorList().size()) {
-                if (Objects.equals(csvAdapter.getVisitorList().get(i).getVisitorEmailAddress(), mail)) {
-                    csvAdapter.deleteVisitor(csvAdapter.getVisitorList().get(i));
-                    csvAdapter.saveCSV();
-=======
     private String deleteVisitor(List<String> arguments, Persistence persistence) {
         if (check(arguments, 2, DELETE_VISITOR)) {
             Library library = persistence.loadLibrary();
@@ -168,35 +107,16 @@ public class CLI {
                 if (Objects.equals(library.getVisitorList().get(i).getVisitorEmailAddress(), mail)) {
                     library.deleteVisitor(library.getVisitorList().get(i));
                     persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                     return "Visitor deleted";
                 }
                 i++;
             }
-<<<<<<< HEAD
-            csvAdapter.saveCSV();
-=======
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return "Visitor wasn't found";
         } else {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String deleteLibrarian(List<String> arguments, CSVAdapter csvAdapter) {
-        int i = 0;
-        if (check(arguments, 4, DELETE_LIBRARIAN)) {
-            csvAdapter.loadCSV();
-            String name = arguments.get(1);
-            String surname = arguments.get(2);
-            String birthday = arguments.get(3);
-            while (i < csvAdapter.getLibrarianList().size()) {
-                if (Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianName(), name) && Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianSurname(), surname) && Objects.equals(csvAdapter.getLibrarianList().get(i).getLibrarianBirthday(), birthday)) {
-                    csvAdapter.deleteLibrarian(csvAdapter.getLibrarianList().get(i));
-                    csvAdapter.saveCSV();
-=======
     private String deleteLibrarian(List<String> arguments, Persistence persistence) {
         int i = 0;
         if (check(arguments, 4, DELETE_LIBRARIAN)) {
@@ -208,82 +128,40 @@ public class CLI {
                 if (Objects.equals(library.getLibrarianList().get(i).getLibrarianName(), name) && Objects.equals(library.getLibrarianList().get(i).getLibrarianSurname(), surname) && Objects.equals(library.getLibrarianList().get(i).getLibrarianBirthday(), birthday)) {
                     library.deleteLibrarian(library.getLibrarianList().get(i));
                     persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                     return "Librarian deleted";
                 }
                 i++;
             }
-<<<<<<< HEAD
-            csvAdapter.saveCSV();
-=======
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return "Librarian wasn't found";
         } else {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String addBook(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 6, ADD_BOOK)) {
-            csvAdapter.loadCSV();
-=======
     private String addBook(List<String> arguments, Persistence persistence) {
         if (check(arguments, 6, ADD_BOOK)) {
             Library library = persistence.loadLibrary();
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             int i = 0;
             String title = arguments.get(1);
             String author = arguments.get(2);
             String genre = arguments.get(3);
             int bookCondition = Integer.parseInt(arguments.get(4));
             int bookWidth = Integer.parseInt(arguments.get(5));
-
-<<<<<<< HEAD
-            while (i < csvAdapter.getShelfList().size()) {
-                if (Objects.equals(csvAdapter.getShelfList().get(i).getGenre(), genre)) {
-                    Shelf shelf = csvAdapter.getShelfList().get(i);
-                    Book.createNewBook(csvAdapter, title, author, genre, shelf, bookCondition, bookWidth);
-                    csvAdapter.saveCSV();
-=======
             while (i < library.getShelfList().size()) {
                 if (Objects.equals(library.getShelfList().get(i).getGenre(), genre)) {
                     Shelf shelf = library.getShelfList().get(i);
                     Book.createNewBook(library, title, author, genre, shelf, bookCondition, bookWidth);
                     persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                     return "Book added";
                 }
                 i++;
             }
-<<<<<<< HEAD
-            csvAdapter.saveCSV();
-=======
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return "No Shelf found";
         } else {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String viewBooks(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 1, VIEW_BOOKS)) {
-            csvAdapter.loadCSV();
-            int i = 0;
-
-            out.println("BookID\t\t\t\t\tTitle\tAuthor\tGenre");
-            while (i < csvAdapter.getBookList().size()) {
-                out.print(csvAdapter.getBookList().get(i).getBookID() + "\t");
-                out.print(csvAdapter.getBookList().get(i).getBookTitle() + "\t");
-                out.print(csvAdapter.getBookList().get(i).getBookAuthor() + "\t");
-                out.print(csvAdapter.getBookList().get(i).getBookGenre() + "\n");
-                i++;
-            }
-            csvAdapter.saveCSV();
-=======
     private String viewBooks(List<String> arguments, Persistence persistence) {
         if (check(arguments, 1, VIEW_BOOKS)) {
             Library library = persistence.loadLibrary();
@@ -298,26 +176,11 @@ public class CLI {
                 i++;
             }
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return "Books viewed";
         } else {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String deleteBook(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 2, DELETE_BOOK)) {
-            csvAdapter.loadCSV();
-            int i = 0;
-            UUID uuid = UUID.fromString(arguments.get(1));
-
-            while (i < csvAdapter.getBookList().size()) {
-                if (Objects.equals(csvAdapter.getBookList().get(i).getBookID(), uuid)) {
-                    Book book = csvAdapter.getBookList().get(i);
-                    csvAdapter.deleteBook(book);
-                    csvAdapter.saveCSV();
-=======
     private String deleteBook(List<String> arguments, Persistence persistence) {
         if (check(arguments, 2, DELETE_BOOK)) {
             Library library = persistence.loadLibrary();
@@ -329,40 +192,16 @@ public class CLI {
                     Book book = library.getBookList().get(i);
                     library.deleteBook(book);
                     persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                     return "Book deleted";
                 }
                 i++;
             }
-<<<<<<< HEAD
-            csvAdapter.saveCSV();
-=======
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return "No Book found";
         } else {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String searchBook(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 2, SEARCH_BOOK)) {
-            csvAdapter.loadCSV();
-            int i = 0;
-
-            out.println("BookID\t\t\t\t\tTitle\tAuthor\tGenre");
-            while (i < csvAdapter.getBookList().size()) {
-                if (Objects.equals(csvAdapter.getBookList().get(i).getBookTitle(), arguments.get(1))) {
-                    out.print(csvAdapter.getBookList().get(i).getBookID() + "\t");
-                    out.print(csvAdapter.getBookList().get(i).getBookTitle() + "\t");
-                    out.print(csvAdapter.getBookList().get(i).getBookAuthor() + "\t");
-                    out.print(csvAdapter.getBookList().get(i).getBookGenre() + "\n");
-                }
-                i++;
-            }
-            csvAdapter.saveCSV();
-=======
     private String searchBook(List<String> arguments, Persistence persistence) {
         if (check(arguments, 2, SEARCH_BOOK)) {
             Library library = persistence.loadLibrary();
@@ -379,113 +218,59 @@ public class CLI {
                 i++;
             }
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return "Books searched";
         }
         return INVALID_INPUT;
     }
-
-<<<<<<< HEAD
-    private String borrowBook(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 3, BORROW_BOOK)) {
-            csvAdapter.loadCSV();
-=======
     private String borrowBook(List<String> arguments, Persistence persistence) {
         if (check(arguments, 3, BORROW_BOOK)) {
             Library library = persistence.loadLibrary();
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             UUID uuid = UUID.fromString(arguments.get(1));
             String email = arguments.get(2);
             int i = 0;
             int j = 0;
-<<<<<<< HEAD
-            while (i < csvAdapter.getBookList().size()) {
-                while (j < csvAdapter.getVisitorList().size() && Objects.equals(csvAdapter.getBookList().get(i).getBookID(), uuid)) {
-                    if (Objects.equals(csvAdapter.getVisitorList().get(j).getVisitorEmailAddress(), email)) {
-                        csvAdapter.getBookList().get(i).borrow(csvAdapter.getVisitorList().get(j));
-                        csvAdapter.saveCSV();
-=======
             while (i < library.getBookList().size()) {
                 while (j < library.getVisitorList().size() && Objects.equals(library.getBookList().get(i).getBookID(), uuid)) {
                     if (Objects.equals(library.getVisitorList().get(j).getVisitorEmailAddress(), email)) {
                         library.getBookList().get(i).borrow(library.getVisitorList().get(j));
                         persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                         return "Book borrowed";
                     }
                     j++;
                 }
                 i++;
             }
-<<<<<<< HEAD
-            csvAdapter.saveCSV();
-=======
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return BOOK_WASNT_FOUND;
         } else {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String returnBook(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 2, RETURN_BOOK)) {
-            csvAdapter.loadCSV();
-=======
     private String returnBook(List<String> arguments, Persistence persistence) {
         if (check(arguments, 2, RETURN_BOOK)) {
             Library library = persistence.loadLibrary();
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             int i = 0;
             int j = 0;
 
             UUID uuid = UUID.fromString(arguments.get(1));
-<<<<<<< HEAD
-            while (i < csvAdapter.getBookList().size()) {
-                while (j < csvAdapter.getShelfList().size() && csvAdapter.getBookList().get(i).getBookID().equals(uuid)) {
-                    if (Objects.equals(csvAdapter.getShelfList().get(j).getGenre(), csvAdapter.getBookList().get(i).getBookGenre())) {
-                        Shelf shelf = csvAdapter.getShelfList().get(j);
-                        csvAdapter.getBookList().get(i).returnBook(shelf);
-                        csvAdapter.saveCSV();
-=======
             while (i < library.getBookList().size()) {
                 while (j < library.getShelfList().size() && library.getBookList().get(i).getBookID().equals(uuid)) {
                     if (Objects.equals(library.getShelfList().get(j).getGenre(), library.getBookList().get(i).getBookGenre())) {
                         Shelf shelf = library.getShelfList().get(j);
                         library.getBookList().get(i).returnBook(shelf);
                         persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                         return "Book returned";
                     }
                     j++;
                 }
                 i++;
             }
-<<<<<<< HEAD
-            csvAdapter.saveCSV();
-=======
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return BOOK_WASNT_FOUND;
         } else {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String restoreBook(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 2, RESTORE_BOOK)) {
-            csvAdapter.loadCSV();
-            int i = 0;
-
-            UUID uuid = UUID.fromString(arguments.get(1));
-            while (i < csvAdapter.getBookList().size()) {
-                if (csvAdapter.getBookList().get(i).getBookID().equals(uuid)) {
-                    Book book = csvAdapter.getBookList().get(i);
-                    book.restoreBook();
-                    csvAdapter.saveCSV();
-=======
     private String restoreBook(List<String> arguments, Persistence persistence) {
         if (check(arguments, 2, RESTORE_BOOK)) {
              Library library = persistence.loadLibrary();
@@ -497,7 +282,6 @@ public class CLI {
                     Book book = library.getBookList().get(i);
                     book.restoreBook();
                     persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                     return "Book restored";
                 }
                 i++;
@@ -508,17 +292,6 @@ public class CLI {
             return INVALID_INPUT;
         }
     }
-
-<<<<<<< HEAD
-    private String viewBorrowedBooks(List<String> arguments, CSVAdapter csvAdapter) {
-        if (check(arguments, 1, VIEW_BORROWED_BOOKS)) {
-            csvAdapter.loadCSV();
-            int i = 0;
-            boolean borrowed = false;
-
-            while (i < csvAdapter.getBookList().size()) {
-                if (csvAdapter.getBookList().get(i).getBorrowedBy() != null) {
-=======
     private String viewBorrowedBooks(List<String> arguments, Persistence persistence) {
         if (check(arguments, 1, VIEW_BORROWED_BOOKS)) {
             Library library = persistence.loadLibrary();
@@ -527,7 +300,6 @@ public class CLI {
 
             while (i < library.getBookList().size()) {
                 if (library.getBookList().get(i).getBorrowedBy() != null) {
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                     borrowed = true;
                     break;
                 }
@@ -539,16 +311,6 @@ public class CLI {
 
             i = 0;
             out.println("BookID\t\t\t\t\tTitle\tAuthor\tGenre\tBorrowed by\tEmail");
-<<<<<<< HEAD
-            while (i < csvAdapter.getBookList().size()) {
-                if (csvAdapter.getBookList().get(i).getBorrowedBy() != null && csvAdapter.getBookList().get(i).getShelf() == null) {
-                    out.print(csvAdapter.getBookList().get(i).getBookID() + "\t");
-                    out.print(csvAdapter.getBookList().get(i).getBookTitle() + "\t");
-                    out.print(csvAdapter.getBookList().get(i).getBookAuthor() + "\t");
-                    out.print(csvAdapter.getBookList().get(i).getBookGenre() + "\t");
-                    out.print(csvAdapter.getBookList().get(i).getBorrowedBy().getVisitorName() + " " + csvAdapter.getBookList().get(i).getBorrowedBy().getVisitorSurname() + "\t");
-                    out.print(csvAdapter.getBookList().get(i).getBorrowedBy().getVisitorEmailAddress() + "\n");
-=======
             while (i < library.getBookList().size()) {
                 if (library.getBookList().get(i).getBorrowedBy() != null && library.getBookList().get(i).getShelf() == null) {
                     out.print(library.getBookList().get(i).getBookID() + "\t");
@@ -557,16 +319,10 @@ public class CLI {
                     out.print(library.getBookList().get(i).getBookGenre() + "\t");
                     out.print(library.getBookList().get(i).getBorrowedBy().getVisitorName() + " " + library.getBookList().get(i).getBorrowedBy().getVisitorSurname() + "\t");
                     out.print(library.getBookList().get(i).getBorrowedBy().getVisitorEmailAddress() + "\n");
->>>>>>> 0e4c06e (refactored persistence by adding library class)
                 }
                 i++;
             }
-
-<<<<<<< HEAD
-            csvAdapter.saveCSV();
-=======
             persistence.saveLibrary(library);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
             return "Borrowed books viewed";
         } else {
             return INVALID_INPUT;

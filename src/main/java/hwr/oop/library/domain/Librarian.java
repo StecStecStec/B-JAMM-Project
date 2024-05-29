@@ -1,7 +1,5 @@
 package hwr.oop.library.domain;
 
-import hwr.oop.library.persistence.CSVAdapter;
-
 import java.util.Objects;
 import java.util.UUID;
 
@@ -28,17 +26,6 @@ public class Librarian {
         return librarianName;
     }
 
-<<<<<<< HEAD
-    public static Librarian createNewLibrarian(CSVAdapter csvAdapter, String librarianName, String librarianSurname, String librarianBirthday) {
-        return new Librarian(csvAdapter, UUID.randomUUID(), librarianName, librarianSurname, librarianBirthday);
-    }
-
-    public static Librarian createCompleteNewLibrarian(CSVAdapter csvAdapter, UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
-        return new Librarian(csvAdapter, uuid, librarianName, librarianSurname, librarianBirthday);
-    }
-
-    private Librarian(CSVAdapter csvAdapter, UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
-=======
     public static Librarian createNewLibrarian(Library library, String librarianName, String librarianSurname, String librarianBirthday) {
         return new Librarian(library, UUID.randomUUID(), librarianName, librarianSurname, librarianBirthday);
     }
@@ -48,16 +35,11 @@ public class Librarian {
     }
 
     private Librarian(Library library, UUID uuid, String librarianName, String librarianSurname, String librarianBirthday) {
->>>>>>> 0e4c06e (refactored persistence by adding library class)
         this.librarianID = uuid;
         this.librarianName = librarianName;
         this.librarianSurname = librarianSurname;
         this.librarianBirthday = librarianBirthday;
-<<<<<<< HEAD
-        csvAdapter.addLibrarian(this);
-=======
         library.addLibrarian(this);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
     }
 
     @Override

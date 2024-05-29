@@ -1,7 +1,5 @@
 package hwr.oop.library.domain;
 
-import hwr.oop.library.persistence.CSVAdapter;
-
 import java.util.Objects;
 import java.util.UUID;
 
@@ -49,18 +47,6 @@ public class Book {
     public Visitor getBorrowedBy() {
         return borrowedBy;
     }
-
-<<<<<<< HEAD
-    public static Book createNewBook(CSVAdapter csvAdapter, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(csvAdapter, UUID.randomUUID(), title, author, genre, shelf, bookCondition, bookWidth);
-    }
-
-    public static Book createCompleteBook(CSVAdapter csvAdapter, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(csvAdapter, uuid, title, author, genre, shelf, bookCondition, bookWidth);
-    }
-
-    private Book(CSVAdapter csvAdapter, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-=======
     public static Book createNewBook(Library library, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
         return new Book(library, UUID.randomUUID(), title, author, genre, shelf, bookCondition, bookWidth);
     }
@@ -70,7 +56,6 @@ public class Book {
     }
 
     private Book(Library library, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
->>>>>>> 0e4c06e (refactored persistence by adding library class)
         this.bookID = uuid;
         this.bookWidth = Math.max(bookWidth, 0);
         this.shelf = shelf;
@@ -83,13 +68,8 @@ public class Book {
             this.bookCondition = -1;
         }
         shelf.addBookOnShelf(this);
-<<<<<<< HEAD
-        csvAdapter.addBook(this);
-=======
         library.addBook(this);
->>>>>>> 0e4c06e (refactored persistence by adding library class)
     }
-
     public void borrow(Visitor visitor) {
         if (borrowedBy == null) {
             borrowedBy = visitor;
