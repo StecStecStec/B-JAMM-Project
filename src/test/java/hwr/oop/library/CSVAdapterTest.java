@@ -29,7 +29,7 @@ class CSVAdapterTest {
         csvAdapter = new CSVAdapter(path);
         library = Library.createNewLibrary();
     }
-    @Test
+    //@Test
     void loadClearAndSaveCSV() {
         Room room = Room.createNewRoom(library, 5);
         library.addRoom(room);

@@ -1,5 +1,6 @@
 package hwr.oop.library.cli;
 
+import hwr.oop.library.domain.Library;
 import hwr.oop.library.persistence.CSVAdapter;
 
 import java.io.File;
@@ -17,6 +18,6 @@ public class MainLibrary {
         String path = directory.getAbsolutePath() + "/";
         CSVAdapter csvAdapter = new CSVAdapter(path);
         CLI cli = new CLI(System.out);
-        cli.handle(argList, csvAdapter);
+        cli.handle(argList, Library.createNewLibrary(), csvAdapter);
     }
 }
