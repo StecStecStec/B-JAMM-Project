@@ -1,9 +1,6 @@
 package hwr.oop.library;
 
-import hwr.oop.library.domain.Book;
-import hwr.oop.library.domain.Room;
-import hwr.oop.library.domain.Shelf;
-import hwr.oop.library.domain.Visitor;
+import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

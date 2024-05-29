@@ -4,7 +4,9 @@ import hwr.oop.library.domain.Book;
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.domain.Visitor;
+import hwr.oop.library.domain.Library;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,33 +20,41 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AddRemoveBookVisitorTest {
 
     private String path;
+    private Library library;
+    private CSVAdapter csvAdapter;
     @BeforeEach
     void setUp() {
         URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
         assert resourceUrl != null;
         File directory = new File(resourceUrl.getFile());
         path = directory.getAbsolutePath() +"/";
+        csvAdapter = new CSVAdapter(path);
+        library = csvAdapter.loadLibrary();
     }
     @Test
     void addBorrowedBook_checkIfBookAdded() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Visitor visitor = Visitor.createCompleteVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
+        library.addVisitor(visitor);
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book);
         visitor.addBorrowedBook(book);
         assertThat(book).isIn(visitor.getBorrowedBooks());
     }
 
     @Test
     void removeBorrowedBook_checkIfBookRemoved() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Visitor visitor = Visitor.createCompleteVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
+        library.addVisitor(visitor);
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book);
         visitor.addBorrowedBook(book);
         visitor.removeBorrowedBook(book);
         assertThat(book).isNotIn(visitor.getBorrowedBooks());
@@ -52,26 +62,35 @@ class AddRemoveBookVisitorTest {
 
     @Test
     void addBookToReturn_checkIfBookAdded() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Visitor visitor = Visitor.createCompleteVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Visitor visitor = Visitor.createCompleteVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de", UUID.randomUUID());
+        library.addVisitor(visitor);
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book);
         visitor.addBookToReturn(book);
         assertThat(book).isIn(visitor.getBooksToReturn());
     }
 
     @Test
     void removeBookToReturn_checkIfBookRemoved() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Visitor visitor = Visitor.createNewVisitor(csvAdapter, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Visitor visitor = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
+        library.addVisitor(visitor);
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book);
         visitor.addBookToReturn(book);
         visitor.removeBookToReturn(book);
         assertThat(book).isNotIn(visitor.getBooksToReturn());
+    }
+
+    @AfterEach
+    void tearDown() {
+        csvAdapter.saveLibrary(library);
     }
 }

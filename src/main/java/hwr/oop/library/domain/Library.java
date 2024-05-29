@@ -89,10 +89,11 @@ public class Library {
     public void deleteLibrarian(Librarian librarian) {
         librarianList.remove(librarian);
     }
+
     public UUID getLibraryID() {
         return libraryID;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

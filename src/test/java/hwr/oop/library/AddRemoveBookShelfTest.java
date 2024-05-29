@@ -1,9 +1,11 @@
 package hwr.oop.library;
 
 import hwr.oop.library.domain.Book;
+import hwr.oop.library.domain.Library;
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.persistence.CSVAdapter;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,31 +17,44 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AddRemoveBookShelfTest {
 
     private String path;
+    private Library library;
+    private CSVAdapter csvAdapter;
+
     @BeforeEach
     void setUp() {
         URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
         assert resourceUrl != null;
         File directory = new File(resourceUrl.getFile());
-        path = directory.getAbsolutePath() +"/";
+        path = directory.getAbsolutePath() + "/";
+        csvAdapter = new CSVAdapter(path);
+        library = csvAdapter.loadLibrary();
     }
+
     @Test
     void addBook_checkIfBookAdded() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book);
         assertThat(book).isIn(shelf.getBooksOnShelf());
     }
 
     @Test
     void removeShelf_checkIfBookRemoved() {
-        CSVAdapter csvAdapter = new CSVAdapter(path);
-
-        Room room = Room.createNewRoom(csvAdapter, 5);
-        Shelf shelf = Shelf.createNewShelf(csvAdapter, room, "Action", 400, 1);
-        Book book = Book.createNewBook(csvAdapter, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Room room = Room.createNewRoom(library, 5);
+        library.addRoom(room);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        library.addShelf(shelf);
+        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        library.addBook(book);
         shelf.removeBookOnShelf(book);
         assertThat(book).isNotIn(shelf.getBooksOnShelf());
+    }
+
+    @AfterEach
+    void tearDown() {
+        csvAdapter.saveLibrary(library);
     }
 }
