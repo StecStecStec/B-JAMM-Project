@@ -16,6 +16,7 @@ class BorrowReturnTest {
 
     private Library library;
     private CSVAdapter csvAdapter;
+
     @BeforeEach
     void setUp() {
         URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
@@ -23,7 +24,7 @@ class BorrowReturnTest {
         File directory = new File(resourceUrl.getFile());
         String path = directory.getAbsolutePath() + "/";
         csvAdapter = new CSVAdapter(path);
-        library = csvAdapter.loadLibrary();
+        library = Library.createNewLibrary();
     }
 
     @Test

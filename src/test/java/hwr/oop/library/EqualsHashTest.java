@@ -24,19 +24,20 @@ class EqualsHashTest {
         File directory = new File(resourceUrl.getFile());
         String path = directory.getAbsolutePath() + "/";
         csvAdapter = new CSVAdapter(path);
-        library = csvAdapter.loadLibrary();
+        library = Library.createNewLibrary();
     }
+
     @Test
     void book_testEqualsMethod() {
         UUID uuid = UUID.randomUUID();
 
         Room room = Room.createNewRoom(library, 5);
         library.addRoom(room);
-        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
         library.addShelf(shelf);
-        Book book1 = Book.createCompleteBook(library, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book1 = Book.createCompleteBook(library, uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         library.addBook(book1);
-        Book book2 = Book.createCompleteBook(library, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createCompleteBook(library, uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         library.addBook(book2);
         Book book3 = Book.createNewBook(library, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
         library.addBook(book3);
@@ -50,16 +51,16 @@ class EqualsHashTest {
     }
 
     @Test
-    void book_testHashCodeMethod()   {
+    void book_testHashCodeMethod() {
         UUID uuid = UUID.randomUUID();
 
         Room room = Room.createNewRoom(library, 5);
         library.addRoom(room);
-        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400,1);
+        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
         library.addShelf(shelf);
-        Book book1 = Book.createCompleteBook(library, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book1 = Book.createCompleteBook(library, uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         library.addBook(book1);
-        Book book2 = Book.createCompleteBook(library, uuid,"Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book2 = Book.createCompleteBook(library, uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
         library.addBook(book2);
         Book book3 = Book.createNewBook(library, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
         library.addBook(book1);

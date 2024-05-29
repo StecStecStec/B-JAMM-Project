@@ -17,6 +17,7 @@ class AddRemoveShelfRoomTest {
 
     private Library library;
     private CSVAdapter csvAdapter;
+
     @BeforeEach
     void setUp() {
         URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
@@ -24,8 +25,9 @@ class AddRemoveShelfRoomTest {
         File directory = new File(resourceUrl.getFile());
         String path = directory.getAbsolutePath() + "/";
         csvAdapter = new CSVAdapter(path);
-        library = csvAdapter.loadLibrary();
+        library = Library.createNewLibrary();
     }
+
     @Test
     void addShelfToRoom_checkThatTheRoomWasCorrectlyAddedToList() {
         Room room = Room.createNewRoom(library, 5);

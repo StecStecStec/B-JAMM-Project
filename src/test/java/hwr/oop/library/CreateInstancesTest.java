@@ -19,15 +19,17 @@ class CreateInstancesTest {
     private CSVAdapter csvAdapter;
 
     private String path;
+
     @BeforeEach
     void setUp() {
         URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
-                assert resourceUrl != null;
-                File directory = new File(resourceUrl.getFile());
-                String path = directory.getAbsolutePath() + "/";
-                csvAdapter = new CSVAdapter(path);
-                library = csvAdapter.loadLibrary();
+        assert resourceUrl != null;
+        File directory = new File(resourceUrl.getFile());
+        String path = directory.getAbsolutePath() + "/";
+        csvAdapter = new CSVAdapter(path);
+        library = Library.createNewLibrary();
     }
+
     @Test
     void createBook_checkRightAssignment() {
         Room room = Room.createNewRoom(library, 5);
@@ -38,7 +40,7 @@ class CreateInstancesTest {
         library.addShelf(shelf1);
         Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 50, 3);
         library.addBook(book);
-        Book book1 = Book.createNewBook(library,"Welt", "Peter Hans", "Natur", shelf1, 110, 31);
+        Book book1 = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf1, 110, 31);
         library.addBook(book1);
         Book book2 = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf1, -110, 31);
         library.addBook(book2);
@@ -58,7 +60,7 @@ class CreateInstancesTest {
         assertThat(book4.getBookCondition()).isEqualTo(100);
         assertThat(book.getBookWidth()).isEqualTo(3);
         assertThat(book).isIn(shelf.getBooksOnShelf())
-                                   .isIn(library.getBookList());
+                .isIn(library.getBookList());
         assertThat(shelf.getRemainingSpace()).isEqualTo(397);
     }
 
@@ -113,7 +115,7 @@ class CreateInstancesTest {
         assertThat(shelf.getBoardNumber()).isEqualTo(1);
         assertThat(shelf.getShelfID()).isNotNull();
         assertThat(shelf).isIn(room.getShelfList())
-                                    .isIn(library.getShelfList());
+                .isIn(library.getShelfList());
     }
 
     @Test

@@ -28,7 +28,7 @@ class AddRemoveBookVisitorTest {
         File directory = new File(resourceUrl.getFile());
         String path = directory.getAbsolutePath() + "/";
         csvAdapter = new CSVAdapter(path);
-        library = csvAdapter.loadLibrary();
+        library = Library.createNewLibrary();
     }
     @Test
     void addBorrowedBook_checkIfBookAdded() {
