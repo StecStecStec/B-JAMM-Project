@@ -36,6 +36,6 @@ public class MainLibrary {
         System.out.println(path);
         CSVAdapter csvAdapter = new CSVAdapter(path);
         CLI cli = new CLI(System.out);
-        cli.handle(argList, Library.createNewLibrary(), csvAdapter);
+        cli.handle(argList, Library.createNewLibrary());
     }
 }
