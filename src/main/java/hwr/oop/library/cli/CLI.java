@@ -1,7 +1,6 @@
 package hwr.oop.library.cli;
 
 import hwr.oop.library.domain.*;
-import hwr.oop.library.persistence.CSVAdapter;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -33,7 +32,7 @@ public class CLI {
         this.out = new PrintStream(out);
     }
 
-    public void handle(List<String> arguments, Library library, CSVAdapter csvAdapter) {
+    public void handle(List<String> arguments, Library library) {
 
         String result = switch (arguments.getFirst()) {
             case CREATE_VISITOR -> createVisitor(arguments, library);

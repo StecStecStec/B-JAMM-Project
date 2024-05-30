@@ -10,9 +10,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,9 +29,27 @@ class CLIToolsTest {
     private final OutputStream outputStream = new ByteArrayOutputStream();
     private final CLI consoleUI = new CLI(outputStream);
 
+    private String pathToDirectory () {
+        try {
+            Path currentDirectory = Paths.get(System.getProperty("user.dir"));
+
+            try (Stream<Path> stream = Files.walk(currentDirectory)) {
+                Optional<Path> directory = stream
+                        .filter(Files::isDirectory)
+                        .filter(path -> path.getFileName().toString().equals("csvTestFiles"))
+                        .findFirst();
+
+                return directory.map(Path::toString).orElse(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        csvAdapter = new CSVAdapter(pathToDirectory());
     }
 
     @AfterEach
@@ -35,7 +58,7 @@ class CLIToolsTest {
     }
 
     private void handleCLI(List<String> args) {
-        consoleUI.handle(args, library, csvAdapter);
+        consoleUI.handle(args, library);
     }
 
     private void assertOutputContains(String expected) {
@@ -463,7 +486,7 @@ class CLIToolsTest {
         Room room = Room.createNewRoom(library, 4);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
 
-        consoleUI.handle(args, library, csvAdapter);
+        handleCLI(args);
         while (i < library.getBookList().size()) {
             if (Objects.equals(library.getBookList().get(i).getBookTitle(), "Planes") && Objects.equals(library.getBookList().get(i).getBookAuthor(), "Meier")) {
                 uuid = library.getBookList().get(i).getBookID().toString();
@@ -475,13 +498,13 @@ class CLIToolsTest {
         List<String> args3 = new ArrayList<>();
         args3.add("restoreBook");
         args3.add("acb45dff-660b-4701-9852-b89873580ec1");
-        consoleUI.handle(args3, library, csvAdapter);
+        handleCLI(args3);
         assertThat(outputStream.toString()).contains("Book wasn't found");
 
         List<String> args4 = new ArrayList<>();
         args4.add("restoreBook");
         args4.add(uuid);
-        consoleUI.handle(args4, library, csvAdapter);
+        handleCLI(args4);
         assertThat(library.getBookList().getFirst().getBookCondition()).isEqualTo(100);
         assertThat(outputStream.toString()).contains("Book restored");
 
@@ -489,13 +512,13 @@ class CLIToolsTest {
         args5.add("restoreBook");
         args5.add(uuid);
         args5.add("email.de");
-        consoleUI.handle(args5, library, csvAdapter);
+        handleCLI(args5);
         assertThat(outputStream.toString()).contains("Invalid Input");
 
         List<String> args6 = new ArrayList<>();
         args6.add("deleteBook");
         args6.add(uuid);
-        consoleUI.handle(args6, library, csvAdapter);
+        handleCLI(args6);
         System.out.println(outputStream);
 
         library.deleteShelf(shelf);

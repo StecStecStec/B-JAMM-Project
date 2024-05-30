@@ -1,17 +1,16 @@
 package hwr.oop.library;
 
-import hwr.oop.library.cli.CLI;
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.OutputStream;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,9 +19,28 @@ class CSVAdapterTest {
 
     private Library library = Library.createNewLibrary();
     private CSVAdapter csvAdapter;
+
+    private String pathToDirectory() {
+        try {
+            Path currentDirectory = Paths.get(System.getProperty("user.dir"));
+
+            try (Stream<Path> stream = Files.walk(currentDirectory)) {
+                Optional<Path> directory = stream
+                        .filter(Files::isDirectory)
+                        .filter(path -> path.getFileName().toString().equals("csvTestFiles"))
+                        .findFirst();
+
+                return directory.map(Path::toString).orElse(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        csvAdapter = new CSVAdapter(pathToDirectory());
     }
 
     @Test

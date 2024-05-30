@@ -23,7 +23,6 @@ class MainTest {
     void mainWithValidArgumentsTest() {
         String[] args = {"viewBooks"};
 
-        MainLibrary mainLibrary = new MainLibrary();
         Assertions.assertDoesNotThrow(() -> {
             MainLibrary.main(args);
         });

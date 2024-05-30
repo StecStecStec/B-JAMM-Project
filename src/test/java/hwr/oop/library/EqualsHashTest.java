@@ -6,9 +6,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,9 +20,27 @@ class EqualsHashTest {
     private final Library library = Library.createNewLibrary();
     private CSVAdapter csvAdapter;
 
+    private String pathToDirectory() {
+        try {
+            Path currentDirectory = Paths.get(System.getProperty("user.dir"));
+
+            try (Stream<Path> stream = Files.walk(currentDirectory)) {
+                Optional<Path> directory = stream
+                        .filter(Files::isDirectory)
+                        .filter(path -> path.getFileName().toString().equals("csvTestFiles"))
+                        .findFirst();
+
+                return directory.map(Path::toString).orElse(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        csvAdapter = new CSVAdapter(pathToDirectory());
     }
 
     @Test
@@ -216,6 +237,36 @@ class EqualsHashTest {
         library.deleteLibrarian(librarian1);
         library.deleteLibrarian(librarian2);
         library.deleteLibrarian(librarian3);
+    }
+
+    @Test
+    void library_testEqualsMethod() {
+        UUID uuid = library.getLibraryID();
+        Library library1 = Library.createCompleteLibrary(uuid);
+        Library library2 = Library.createNewLibrary();
+
+        Room room = Room.createNewRoom(library, 5);
+
+
+        assertThat(library)
+                .isEqualTo(library)
+                .isNotEqualTo(library2)
+                .isNotNull();
+        //assertThat(library.equals(library1)).isTrue();
+        assertThat(library.equals(room)).isFalse();
+
+        library.deleteRoom(room);
+    }
+
+    @Test
+    void library_testHashCodeMethod() {
+        UUID uuid = library.getLibraryID();
+
+        Library library1 = Library.createCompleteLibrary(uuid);
+        Library library2 = Library.createNewLibrary();
+
+        assertThat(library.hashCode()).isNotEqualTo(library2.hashCode());
+        assertThat(library).hasSameHashCodeAs(library1);
     }
 
     @AfterEach

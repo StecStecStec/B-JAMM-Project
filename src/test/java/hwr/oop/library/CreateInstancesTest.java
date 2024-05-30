@@ -6,8 +6,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -18,9 +22,27 @@ class CreateInstancesTest {
     private final Library library = Library.createNewLibrary();
     private CSVAdapter csvAdapter;
 
+    private String pathToDirectory() {
+        try {
+            Path currentDirectory = Paths.get(System.getProperty("user.dir"));
+
+            try (Stream<Path> stream = Files.walk(currentDirectory)) {
+                Optional<Path> directory = stream
+                        .filter(Files::isDirectory)
+                        .filter(path -> path.getFileName().toString().equals("csvTestFiles"))
+                        .findFirst();
+
+                return directory.map(Path::toString).orElse(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
+        csvAdapter = new CSVAdapter(pathToDirectory());
     }
 
     @Test
@@ -111,9 +133,10 @@ class CreateInstancesTest {
         library.deleteShelf(shelf);
     }
 
-    //@Test
+    @Test
     void createShelfFails_checkExceptionRaise() {
         Room room = Room.createNewRoom(library, 1);
+        Shelf.createNewShelf(library, room, "Action", 1, 1);
         assertThatThrownBy(() -> Shelf.createNewShelf(library, room, "Action", 2, 1)).hasMessage("Added shelf to room with not enough space.");
     }
 
@@ -143,13 +166,12 @@ class CreateInstancesTest {
         library.deleteVisitor(visitor);
     }
 
-  /* @Test
-    void createCSVAdapter_checkRightAssignment() {
-        CSVAdapter csvAdapter = new CSVAdapter("test/path");
-        assertThat(csvAdapter.getPath()).isEqualTo("test/path");
+    @Test
+    void createLibrary_checkRightAssignment() {
+        UUID uuid = UUID.randomUUID();
+        Library library1 = Library.createCompleteLibrary(uuid);
+        assertThat(library1.getLibraryID()).isEqualTo(uuid);
     }
-
-   */
 
     @AfterEach
     void tearDown() {
