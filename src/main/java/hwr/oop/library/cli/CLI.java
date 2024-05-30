@@ -52,8 +52,6 @@ public class CLI {
         };
 
         out.println(result);
-        csvAdapter.saveLibrary(library);
-
     }
 
     private String createVisitor(List<String> arguments, Library library) {
@@ -220,7 +218,6 @@ public class CLI {
                 while (j < library.getVisitorList().size() && Objects.equals(library.getBookList().get(i).getBookID(), uuid)) {
                     if (Objects.equals(library.getVisitorList().get(j).getVisitorEmailAddress(), email)) {
                         library.getBookList().get(i).borrow(library.getVisitorList().get(j));
-
                         return "Book borrowed";
                     }
                     j++;
