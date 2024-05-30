@@ -15,37 +15,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class AddRemoveShelfRoomTest {
 
-    private Library library;
+    private final Library library = Library.createNewLibrary();
     private CSVAdapter csvAdapter;
 
     @BeforeEach
     void setUp() {
-        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
-        assert resourceUrl != null;
-        File directory = new File(resourceUrl.getFile());
-        String path = directory.getAbsolutePath() + "/";
-        csvAdapter = new CSVAdapter(path);
-        library = Library.createNewLibrary();
+        csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
     }
 
     @Test
     void addShelfToRoom_checkThatTheRoomWasCorrectlyAddedToList() {
         Room room = Room.createNewRoom(library, 5);
-        library.addRoom(room);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        library.addShelf(shelf);
         room.roomAddShelf(shelf);
         assertThat(shelf).isIn(room.getShelfList());
+        library.deleteRoom(room);
+        library.deleteShelf(shelf);
     }
 
     @Test
     void removeShelfFromRoom_checkThatTheRoomWasCorrectlyRemovedFromList() {
         Room room = Room.createNewRoom(library, 5);
-        library.addRoom(room);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        library.addShelf(shelf);
         room.roomRemoveShelf(shelf);
         assertThat(shelf).isNotIn(room.getShelfList());
+        library.deleteRoom(room);
+        library.deleteShelf(shelf);
     }
 
     @AfterEach

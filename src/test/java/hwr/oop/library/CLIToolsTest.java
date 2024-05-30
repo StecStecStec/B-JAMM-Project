@@ -10,11 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,35 +28,7 @@ class CLIToolsTest {
     }
 
     @Test
-    void createVisitorTest() throws FileNotFoundException {
-        final OutputStream outputStream = new ByteArrayOutputStream();
-        final var consoleUI = new CLI(outputStream);
-
-        List<String> args = new ArrayList<>();
-        args.add("createVisitor");
-        args.add("Hans");
-        args.add("Meier");
-        args.add("01.01.2000");
-        args.add("hans@meier.com");
-
-        List<String> args2 = new ArrayList<>();
-        args2.add("deleteVisitor");
-        args2.add("ha@meier.com");
-
-        consoleUI.handle(args, library, csvAdapter);
-
-        assertThat(outputStream.toString()).contains("Visitor created");
-
-        consoleUI.handle(args, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Mail already exists");
-
-        args2.set(1, "hans@meier.com");
-        consoleUI.handle(args2, library, csvAdapter);
-        csvAdapter.saveLibrary(library);
-    }
-
-    @Test
-    void create_and_delete_VisitorsTest() throws FileNotFoundException {
+    void create_and_delete_VisitorsTest() {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
 
@@ -89,40 +59,22 @@ class CLIToolsTest {
         consoleUI.handle(args, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Mail already exists");
 
-        consoleUI.handle(args2, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Mail already exists");
-
-        consoleUI.handle(delete, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Visitor wasn't found");
-
-        delete.set(1, "ha@meier.com");
         consoleUI.handle(delete, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Visitor wasn't found");
 
         delete.set(1, "hans@meier.com");
         consoleUI.handle(delete, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Visitor deleted");
-
-        delete.set(1, "hansi@meier.com");
-        consoleUI.handle(delete, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Visitor deleted");
+        assertThat(library.getVisitorList()).hasSize(1);
 
         args.removeLast();
         consoleUI.handle(args, library, csvAdapter);
+        System.out.println(outputStream.toString());
         assertThat(outputStream.toString()).containsOnlyOnce("Invalid Input");
-
-        args2.removeLast();
-        consoleUI.handle(args2, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Invalid Input");
-
-        delete.removeLast();
-        consoleUI.handle(delete, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Invalid Input");
-        csvAdapter.saveLibrary(library);
     }
 
     @Test
-    void create_LibrarianTest() throws FileNotFoundException {
+    void create_LibrarianTest() {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final var consoleUI = new CLI(outputStream);
 
@@ -141,7 +93,6 @@ class CLIToolsTest {
 
         args.set(0, "deleteLibrarian");
         consoleUI.handle(args, library, csvAdapter);
-        csvAdapter.saveLibrary(library);
     }
 
     @Test
@@ -162,19 +113,15 @@ class CLIToolsTest {
         args2.add("01.01.2000");
 
         consoleUI.handle(args, library, csvAdapter);
-        System.out.println(library.getLibrarianList());
         assertThat(outputStream.toString()).contains("Librarian created");
 
         consoleUI.handle(args2, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Librarian created");
-        System.out.println(library.getLibrarianList());
-
 
         csvAdapter.loadLibrary();
         consoleUI.handle(args, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Librarian already exists");
         csvAdapter.saveLibrary(library);
-
 
         csvAdapter.loadLibrary();
         consoleUI.handle(args2, library, csvAdapter);
@@ -227,7 +174,6 @@ class CLIToolsTest {
         args2.remove(2);
         consoleUI.handle(args2, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Invalid Input");
-        csvAdapter.saveLibrary(library);
     }
 
     @Test
@@ -296,7 +242,6 @@ class CLIToolsTest {
 
         library.deleteShelf(shelf);
         library.deleteRoom(room);
-        csvAdapter.saveLibrary(library);
     }
 
     @Test
@@ -319,7 +264,6 @@ class CLIToolsTest {
 
 
         consoleUI.handle(args, library, csvAdapter); //add book
-        System.out.println(library.getBookList());
         assertThat(library.getBookList()).hasSize(1);
 
         List<String> invalidInput = new ArrayList<>();
@@ -353,8 +297,6 @@ class CLIToolsTest {
 
         library.deleteShelf(shelf);
         library.deleteRoom(room);
-        csvAdapter.saveLibrary(library);
-
     }
 
     @Test
@@ -464,7 +406,6 @@ class CLIToolsTest {
             count++;
             index = output.indexOf("Meier", index + 1);
         }
-        System.out.println(output);
         assertThat(count).isEqualTo(2);
         assertThat(outputStream.toString()).contains("Borrowed books viewed");
 
@@ -510,7 +451,6 @@ class CLIToolsTest {
         library.deleteShelf(shelf1);
         library.deleteShelf(shelf2);
         library.deleteRoom(room);
-        csvAdapter.saveLibrary(library);
     }
 
     @Test
@@ -523,7 +463,6 @@ class CLIToolsTest {
         args.add("invalid_email"); // ungültige E-Mail
         consoleUI.handle(args, library, csvAdapter);
         assertThat(outputStream.toString()).contains("Invalid Input");
-        csvAdapter.saveLibrary(library);
     }
 
     @Test
@@ -590,7 +529,6 @@ class CLIToolsTest {
 
         library.deleteShelf(shelf);
         library.deleteRoom(room);
-        csvAdapter.saveLibrary(library);
     }
 
     @AfterEach

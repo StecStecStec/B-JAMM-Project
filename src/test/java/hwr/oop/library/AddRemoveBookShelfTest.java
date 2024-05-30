@@ -16,40 +16,36 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class AddRemoveBookShelfTest {
 
-    private Library library;
+    private final Library library = Library.createNewLibrary();
     private CSVAdapter csvAdapter;
 
     @BeforeEach
     void setUp() {
-        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
-        assert resourceUrl != null;
-        File directory = new File(resourceUrl.getFile());
-        String path = directory.getAbsolutePath() + "/";
-        csvAdapter = new CSVAdapter(path);
-        library = Library.createNewLibrary();
+        csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
     }
+
 
     @Test
     void addBook_checkIfBookAdded() {
         Room room = Room.createNewRoom(library, 5);
-        library.addRoom(room);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        library.addShelf(shelf);
         Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        library.addBook(book);
         assertThat(book).isIn(shelf.getBooksOnShelf());
+        library.deleteRoom(room);
+        library.deleteShelf(shelf);
+        library.deleteBook(book);
     }
 
     @Test
     void removeShelf_checkIfBookRemoved() {
         Room room = Room.createNewRoom(library, 5);
-        library.addRoom(room);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        library.addShelf(shelf);
         Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        library.addBook(book);
         shelf.removeBookOnShelf(book);
         assertThat(book).isNotIn(shelf.getBooksOnShelf());
+        library.deleteRoom(room);
+        library.deleteShelf(shelf);
+        library.deleteBook(book);
     }
 
     @AfterEach

@@ -15,19 +15,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class CreateInstancesTest {
 
 
-    private Library library;
+    private final Library library = Library.createNewLibrary();
     private CSVAdapter csvAdapter;
-
-    private String path;
 
     @BeforeEach
     void setUp() {
-        URL resourceUrl = getClass().getClassLoader().getResource("csvTestFiles");
-        assert resourceUrl != null;
-        File directory = new File(resourceUrl.getFile());
-        String path = directory.getAbsolutePath() + "/";
-        csvAdapter = new CSVAdapter(path);
-        library = Library.createNewLibrary();
+        csvAdapter = new CSVAdapter(".\\src\\test\\resources\\csvTestFiles\\");
     }
 
     @Test
@@ -54,6 +47,14 @@ class CreateInstancesTest {
         assertThat(book).isIn(shelf.getBooksOnShelf())
                 .isIn(library.getBookList());
         assertThat(shelf.getRemainingSpace()).isEqualTo(397);
+        library.deleteRoom(room);
+        library.deleteShelf(shelf);
+        library.deleteShelf(shelf1);
+        library.deleteBook(book);
+        library.deleteBook(book1);
+        library.deleteBook(book2);
+        library.deleteBook(book3);
+        library.deleteBook(book4);
     }
 
     @Test
@@ -62,6 +63,9 @@ class CreateInstancesTest {
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 1, 1);
         Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 1);
         assertThatThrownBy(() -> Book.createNewBook(library, "Welt2", "Peter Hans", "Natur", shelf, 100, 1)).hasMessage("Added book to shelf with not enough space.");
+        library.deleteRoom(room);
+        library.deleteShelf(shelf);
+        library.deleteBook(book);
     }
 
     @Test
@@ -72,6 +76,7 @@ class CreateInstancesTest {
         assertThat(librarian.getLibrarianBirthday()).isEqualTo("01.01.1999");
         assertThat(librarian.getLibrarianID()).isNotNull();
         assertThat(librarian).isIn(library.getLibrarianList());
+        library.deleteLibrarian(librarian);
     }
 
     @Test
@@ -80,6 +85,7 @@ class CreateInstancesTest {
         assertThat(room.getRoomID()).isNotNull();
         assertThat(room.getShelfLimit()).isEqualTo(5);
         assertThat(room).isIn(library.getRoomList());
+        library.deleteRoom(room);
     }
 
     @Test
@@ -87,6 +93,7 @@ class CreateInstancesTest {
         Room room = Room.createTempRoom(library);
         assertThat(room.getRoomID()).isNotNull();
         assertThat(room.getShelfLimit()).isEqualTo(10000);
+        library.deleteRoom(room);
     }
 
     @Test
@@ -100,6 +107,8 @@ class CreateInstancesTest {
         assertThat(shelf.getShelfID()).isNotNull();
         assertThat(shelf).isIn(room.getShelfList())
                 .isIn(library.getShelfList());
+        library.deleteRoom(room);
+        library.deleteShelf(shelf);
     }
 
     //@Test
@@ -118,6 +127,8 @@ class CreateInstancesTest {
         assertThat(shelf.getBoardNumber()).isEqualTo(10000);
         assertThat(shelf.getShelfID()).isNotNull();
         assertThat(shelf).isIn(room.getShelfList());
+        library.deleteRoom(room);
+        library.deleteShelf(shelf);
     }
 
     @Test
@@ -129,15 +140,16 @@ class CreateInstancesTest {
         assertThat(visitor.getVisitorEmailAddress()).isEqualTo("max.mustermann@gmx.de");
         assertThat(visitor.getVisitorID()).isNotNull();
         assertThat(visitor).isIn(library.getVisitorList());
+        library.deleteVisitor(visitor);
     }
 
-   /* @Test
+  /* @Test
     void createCSVAdapter_checkRightAssignment() {
         CSVAdapter csvAdapter = new CSVAdapter("test/path");
         assertThat(csvAdapter.getPath()).isEqualTo("test/path");
     }
 
-    */
+   */
 
     @AfterEach
     void tearDown() {
