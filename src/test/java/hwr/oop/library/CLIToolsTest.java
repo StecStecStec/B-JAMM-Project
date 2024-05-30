@@ -268,7 +268,7 @@ class CLIToolsTest {
         String uuid2 = null;
         Room room = Room.createNewRoom(library, 4);
         Shelf shelf1 = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Shelf shelf2 = Shelf.createNewShelf(library, room, "Action", 400, 1);
+        Shelf shelf2 = Shelf.createNewShelf(library, room, "Fiction", 400, 1);
 
 
         List<String> args = new ArrayList<>();
@@ -357,9 +357,14 @@ class CLIToolsTest {
 
         List<String> argsViewBorrowedBooks = new ArrayList<>();
         argsViewBorrowedBooks.add("viewBorrowedBooks");
-        consoleUI.handle(argsViewBorrowedBooks, library, csvAdapter);
+        handleCLI(argsViewBorrowedBooks);
+        assertThat(outputStream.toString()).containsOnlyOnce("BookID\t\t\t\t\tTitle\tAuthor\tGenre\tBorrowed by\tEmail");
+
+        //muss 2 mal vorkommen
+        assertThat(outputStream.toString()).contains(uuid, "Harry", "Idi", "Action", "Max", "Mustermann", "email.de");
 
         String output = outputStream.toString();
+        System.out.println(outputStream);
         int count = 0;
         int index = output.indexOf("Meier");
 
@@ -368,45 +373,48 @@ class CLIToolsTest {
             index = output.indexOf("Meier", index + 1);
         }
         assertThat(count).isEqualTo(2);
-        assertThat(outputStream.toString()).contains("Borrowed books viewed");
+        assertOutputContains("Borrowed books viewed");
 
 
         List<String> args6 = new ArrayList<>();
         args6.add("returnBook");
         args6.add("833b92f9-1922-4bd9-87ba-08cf33d0b112");
-        consoleUI.handle(args6, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Book wasn't found");
+        handleCLI(args6);
+        int invalidInputCounter = outputStream.toString().split("Book wasn't found", -1).length - 1;
+        assertThat(invalidInputCounter).isEqualTo(2);
         args6.set(1, uuid);
-        consoleUI.handle(args6, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Book returned");
+        handleCLI(args6);
+        assertOutputContains("Book returned");
+        assertThat(shelf1.getBooksOnShelf()).hasSize(2);
 
         List<String> InvalidInput2 = new ArrayList<>();
         InvalidInput2.add("returnBook");
         InvalidInput2.add(uuid);
         InvalidInput2.add("Invalid Input");
-        consoleUI.handle(InvalidInput2, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Invalid Input");
+        handleCLI(InvalidInput2);
+        int invalidInputCounter2 = outputStream.toString().split("Invalid Input", -1).length - 1;
+        assertThat(invalidInputCounter2).isEqualTo(2);
 
         List<String> args7 = new ArrayList<>();
         args7.add("deleteVisitor");
         args7.add("email.de");
-        consoleUI.handle(args7, library, csvAdapter);
+        handleCLI(args7);
 
         if (uuid != null) {
             List<String> args8 = new ArrayList<>();
             args8.add("deleteBook");
             args8.add(uuid);
-            consoleUI.handle(args8, library, csvAdapter);
+            handleCLI(args8);
         }
 
-        consoleUI.handle(List.of("viewBorrowedBooks"), library, csvAdapter);
-        assertThat(outputStream.toString()).contains("No Books borrowed");
+        handleCLI(List.of("viewBorrowedBooks"));
+        assertOutputContains("No Books borrowed");
 
         if (uuid2 != null) {
             List<String> args9 = new ArrayList<>();
             args9.add("deleteBook");
             args9.add(uuid2);
-            consoleUI.handle(args9, library, csvAdapter);
+            handleCLI(args9);
         }
 
         library.deleteShelf(shelf1);
@@ -415,21 +423,17 @@ class CLIToolsTest {
     }
 
     @Test
-    void ViewBorrowedBooksInvalidInputTest() throws FileNotFoundException {
-        final OutputStream outputStream = new ByteArrayOutputStream();
-        final var consoleUI = new CLI(outputStream);
+    void ViewBorrowedBooksInvalidInputTest() {
 
         List<String> args = new ArrayList<>();
-        args.add("viewBorrowedBooks"); // gültiger Befehl
-        args.add("invalid_email"); // ungültige E-Mail
-        consoleUI.handle(args, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Invalid Input");
+        args.add("viewBorrowedBooks");
+        args.add("invalid_email");
+        handleCLI(args);
+        assertOutputContains("Invalid Input");
     }
 
     @Test
-    void RestoreBookTest() throws FileNotFoundException {
-        final OutputStream outputStream = new ByteArrayOutputStream();
-        final var consoleUI = new CLI(outputStream);
+    void RestoreBookTest() {
         int i = 0;
         String uuid = null;
 
@@ -444,9 +448,6 @@ class CLIToolsTest {
         Room room = Room.createNewRoom(library, 4);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
 
-        List<String> args2 = new ArrayList<>();
-        args2.add("viewBooks");
-
         consoleUI.handle(args, library, csvAdapter);
         while (i < library.getBookList().size()) {
             if (Objects.equals(library.getBookList().get(i).getBookTitle(), "Planes") && Objects.equals(library.getBookList().get(i).getBookAuthor(), "Meier")) {
@@ -455,13 +456,6 @@ class CLIToolsTest {
             }
             i++;
         }
-
-        consoleUI.handle(args2, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Books viewed");
-
-        args2.add("abcdef");
-        consoleUI.handle(args2, library, csvAdapter);
-        assertThat(outputStream.toString()).contains("Invalid Input");
 
         List<String> args3 = new ArrayList<>();
         args3.add("restoreBook");
@@ -487,6 +481,7 @@ class CLIToolsTest {
         args6.add("deleteBook");
         args6.add(uuid);
         consoleUI.handle(args6, library, csvAdapter);
+        System.out.println(outputStream);
 
         library.deleteShelf(shelf);
         library.deleteRoom(room);
