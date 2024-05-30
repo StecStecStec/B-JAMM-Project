@@ -33,7 +33,6 @@ public class MainLibrary {
     public static void main(String[] args) {
         List<String> argList = Arrays.asList(args);
         String path = pathToDirectory();
-        System.out.println(path);
         CSVAdapter csvAdapter = new CSVAdapter(path);
         CLI cli = new CLI(System.out);
         cli.handle(argList, Library.createNewLibrary());

@@ -28,8 +28,9 @@ class CLIToolsTest {
     private CSVAdapter csvAdapter;
     private final OutputStream outputStream = new ByteArrayOutputStream();
     private final CLI consoleUI = new CLI(outputStream);
+    private final String path = pathToDirectory();
 
-    private String pathToDirectory () {
+    private String pathToDirectory() {
         try {
             Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
@@ -49,7 +50,7 @@ class CLIToolsTest {
 
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(pathToDirectory());
+        csvAdapter = new CSVAdapter(path + "/");
     }
 
     @AfterEach

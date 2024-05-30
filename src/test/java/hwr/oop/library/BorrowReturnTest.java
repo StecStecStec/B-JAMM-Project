@@ -19,8 +19,9 @@ class BorrowReturnTest {
 
     private final Library library = Library.createNewLibrary();
     private CSVAdapter csvAdapter;
+    private final String path = pathToDirectory();
 
-    private String pathToDirectory () {
+    private String pathToDirectory() {
         try {
             Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
@@ -40,7 +41,7 @@ class BorrowReturnTest {
 
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(pathToDirectory());
+        csvAdapter = new CSVAdapter(path + "/");
     }
 
     @Test

@@ -21,6 +21,7 @@ class AddRemoveBookShelfTest {
 
     private final Library library = Library.createNewLibrary();
     private CSVAdapter csvAdapter;
+    private final String path = pathToDirectory();
 
 
     private String pathToDirectory () {
@@ -43,7 +44,7 @@ class AddRemoveBookShelfTest {
 
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(pathToDirectory());
+        csvAdapter = new CSVAdapter(path + "/");
     }
 
 

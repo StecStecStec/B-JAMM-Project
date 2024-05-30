@@ -21,6 +21,7 @@ class CreateInstancesTest {
 
     private final Library library = Library.createNewLibrary();
     private CSVAdapter csvAdapter;
+    private final String path = pathToDirectory();
 
     private String pathToDirectory() {
         try {
@@ -42,7 +43,7 @@ class CreateInstancesTest {
 
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(pathToDirectory());
+        csvAdapter = new CSVAdapter(path + "/");
     }
 
     @Test
