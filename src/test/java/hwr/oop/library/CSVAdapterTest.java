@@ -113,11 +113,11 @@ class CSVAdapterTest {
         assertThat(librarian).isEqualTo(library.getLibrarianList().getFirst());
     }
 
-    //@Test
+    @Test
     void testCSVAdapter() {
-        persistence = new CSVAdapter("invalid_path_to_file.csv");
+        Persistence persistence2 = new CSVAdapter("invalid_path_to_file.csv");
 
-        assertThrows(RuntimeException.class, persistence::loadLibrary);
+        assertThrows(RuntimeException.class, persistence2::loadLibrary);
     }
 
     @AfterEach

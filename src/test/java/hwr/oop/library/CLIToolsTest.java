@@ -30,7 +30,7 @@ class CLIToolsTest {
     private Persistence persistence;
     private final OutputStream outputStream = new ByteArrayOutputStream();
     private final CLI consoleUI = new CLI(outputStream);
-    private static String path = null ;
+    private static String path = null;
 
     @BeforeAll
     static void init() {
