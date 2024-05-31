@@ -1,6 +1,7 @@
 package hwr.oop.library.cli;
 
 import hwr.oop.library.domain.*;
+import hwr.oop.library.persistence.Persistence;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -32,7 +33,7 @@ public class CLI {
         this.out = new PrintStream(out);
     }
 
-    public void handle(List<String> arguments, Library library) {
+    public void handle(List<String> arguments, Library library, Persistence persistence) {
 
         String result = switch (arguments.getFirst()) {
             case CREATE_VISITOR -> createVisitor(arguments, library);
@@ -49,7 +50,7 @@ public class CLI {
             case VIEW_BORROWED_BOOKS -> viewBorrowedBooks(arguments, library);
             default -> throw new IllegalStateException("Unexpected value: " + arguments.getFirst());
         };
-
+        persistence.saveLibrary(library);
         out.println(result);
     }
 
@@ -67,7 +68,6 @@ public class CLI {
                 i++;
             }
             Visitor.createNewVisitor(library, name, surname, birthday, email);
-
             return "Visitor created";
         } else {
             return INVALID_INPUT;

@@ -3,14 +3,17 @@ package hwr.oop.library.cli;
 
 import hwr.oop.library.domain.Library;
 import hwr.oop.library.persistence.CSVAdapter;
+import hwr.oop.library.persistence.Persistence;
 
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
 public class MainLibrary {
 
-    private static String pathToDirectory () {
+    private static String pathToDirectory() {
         try {
             Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
@@ -28,13 +31,14 @@ public class MainLibrary {
         return null;
     }
 
-
     @SuppressWarnings("java:S106")
     public static void main(String[] args) {
         List<String> argList = Arrays.asList(args);
-        String path = pathToDirectory();
-        CSVAdapter csvAdapter = new CSVAdapter(path);
         CLI cli = new CLI(System.out);
-        cli.handle(argList, Library.createNewLibrary());
+        String path = pathToDirectory();
+        Persistence persistence = new CSVAdapter(path + "/");
+        Library library;
+        library = persistence.loadLibrary();
+        cli.handle(argList, library, persistence);
     }
 }

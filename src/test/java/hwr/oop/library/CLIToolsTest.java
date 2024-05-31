@@ -5,7 +5,9 @@ import hwr.oop.library.domain.Library;
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.persistence.CSVAdapter;
+import hwr.oop.library.persistence.Persistence;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,12 +27,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CLIToolsTest {
 
     private final Library library = Library.createNewLibrary();
-    private CSVAdapter csvAdapter;
+    private Persistence persistence;
     private final OutputStream outputStream = new ByteArrayOutputStream();
     private final CLI consoleUI = new CLI(outputStream);
-    private final String path = pathToDirectory();
+    private static String path = null ;
 
-    private String pathToDirectory() {
+    @BeforeAll
+    static void init() {
+        path = pathToDirectory();
+    }
+
+
+    private static String pathToDirectory() {
         try {
             Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
@@ -50,16 +58,11 @@ class CLIToolsTest {
 
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(path + "/");
-    }
-
-    @AfterEach
-    void tearDown() {
-        csvAdapter.saveLibrary(library);
+        persistence = new CSVAdapter(path + "/");
     }
 
     private void handleCLI(List<String> args) {
-        consoleUI.handle(args, library);
+        consoleUI.handle(args, library, persistence);
     }
 
     private void assertOutputContains(String expected) {
@@ -411,7 +414,6 @@ class CLIToolsTest {
         args6.add("returnBook");
         args6.add("833b92f9-1922-4bd9-87ba-08cf33d0b112");
         handleCLI(args6);
-        csvAdapter.saveLibrary(library);
 
         library.deleteShelf(shelf1);
         library.deleteShelf(shelf2);
@@ -524,5 +526,10 @@ class CLIToolsTest {
 
         library.deleteShelf(shelf);
         library.deleteRoom(room);
+    }
+
+    @AfterEach
+    void tearDown() {
+        persistence.saveLibrary(library);
     }
 }

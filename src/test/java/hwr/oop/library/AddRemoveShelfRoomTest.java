@@ -4,7 +4,9 @@ import hwr.oop.library.domain.Library;
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.persistence.CSVAdapter;
+import hwr.oop.library.persistence.Persistence;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,10 +21,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AddRemoveShelfRoomTest {
 
     private final Library library = Library.createNewLibrary();
-    private CSVAdapter csvAdapter;
-    private final String path = pathToDirectory();
+    private Persistence persistence;
+    private static String path = null ;
 
-    private String pathToDirectory() {
+    @BeforeAll
+    static void init() {
+        path = pathToDirectory();
+    }
+
+    private static String pathToDirectory() {
         try {
             Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
@@ -42,7 +49,7 @@ class AddRemoveShelfRoomTest {
 
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(path + "/");
+        persistence = new CSVAdapter(path + "/");
     }
 
     @Test
@@ -67,6 +74,6 @@ class AddRemoveShelfRoomTest {
 
     @AfterEach
     void tearDown() {
-        csvAdapter.saveLibrary(library);
+        persistence.saveLibrary(library);
     }
 }

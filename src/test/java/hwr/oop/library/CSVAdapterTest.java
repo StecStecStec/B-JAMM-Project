@@ -2,7 +2,9 @@ package hwr.oop.library;
 
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
+import hwr.oop.library.persistence.Persistence;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,10 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CSVAdapterTest {
 
     private Library library = Library.createNewLibrary();
-    private CSVAdapter csvAdapter;
-    private final String path = pathToDirectory();
+    private Persistence persistence;
+    private static String path = null;
 
-    private String pathToDirectory() {
+    @BeforeAll
+    static void init() {
+        path = pathToDirectory();
+    }
+
+    private static String pathToDirectory() {
         try {
             Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
@@ -41,7 +48,7 @@ class CSVAdapterTest {
 
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(path + "/");
+        persistence = new CSVAdapter(path + "/");
     }
 
     @Test
@@ -64,7 +71,7 @@ class CSVAdapterTest {
                 .contains(visitor2);
         assertThat(library.getLibrarianList()).contains(librarian);
 
-        csvAdapter.saveLibrary(library);
+        persistence.saveLibrary(library);
 
         library.deleteRoom(room);
         assertThat(library.getRoomList())
@@ -95,7 +102,7 @@ class CSVAdapterTest {
                 .doesNotContain(librarian)
                 .isEmpty();
 
-        library = csvAdapter.loadLibrary();
+        library = persistence.loadLibrary();
 
         assertThat(room).isEqualTo(library.getRoomList().getFirst());
         assertThat(shelf).isEqualTo(library.getShelfList().getFirst());
@@ -108,14 +115,14 @@ class CSVAdapterTest {
 
     //@Test
     void testCSVAdapter() {
-        csvAdapter = new CSVAdapter("invalid_path_to_file.csv");
+        persistence = new CSVAdapter("invalid_path_to_file.csv");
 
-        assertThrows(RuntimeException.class, csvAdapter::loadLibrary);
+        assertThrows(RuntimeException.class, persistence::loadLibrary);
     }
 
     @AfterEach
     void tearDown() {
-        csvAdapter.saveLibrary(library);
+        persistence.saveLibrary(library);
     }
 }
 

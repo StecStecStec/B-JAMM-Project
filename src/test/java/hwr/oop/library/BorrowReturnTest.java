@@ -2,7 +2,9 @@ package hwr.oop.library;
 
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
+import hwr.oop.library.persistence.Persistence;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,10 +20,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class BorrowReturnTest {
 
     private final Library library = Library.createNewLibrary();
-    private CSVAdapter csvAdapter;
-    private final String path = pathToDirectory();
+    private Persistence persistence;
+    private static String path = null ;
 
-    private String pathToDirectory() {
+    @BeforeAll
+    static void init() {
+        path = pathToDirectory();
+    }
+
+    private static String pathToDirectory() {
         try {
             Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
@@ -41,7 +48,7 @@ class BorrowReturnTest {
 
     @BeforeEach
     void setUp() {
-        csvAdapter = new CSVAdapter(path + "/");
+        persistence = new CSVAdapter(path + "/");
     }
 
     @Test
@@ -117,6 +124,6 @@ class BorrowReturnTest {
 
     @AfterEach
     void tearDown() {
-        csvAdapter.saveLibrary(library);
+        persistence.saveLibrary(library);
     }
 }
