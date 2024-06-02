@@ -2,6 +2,8 @@ package hwr.oop.library.cli;
 
 
 import hwr.oop.library.domain.Library;
+import hwr.oop.library.domain.Room;
+import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.persistence.CSVAdapter;
 import hwr.oop.library.persistence.Persistence;
 
@@ -17,7 +19,7 @@ public class MainLibrary {
         try {
             Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
-            try (Stream<Path> stream = Files.walk(currentDirectory, 3)) {
+            try (Stream<Path> stream = Files.walk(currentDirectory)) {
                 Optional<Path> directory = stream
                         .filter(Files::isDirectory)
                         .filter(path -> path.getFileName().toString().equals("csvFiles"))
@@ -39,6 +41,14 @@ public class MainLibrary {
         Persistence persistence = new CSVAdapter(path + "/");
         Library library;
         library = persistence.loadLibrary();
+
+        Room room = Room.createNewRoom(library, 5);
+        Shelf.createNewShelf(library, room, "Action", 100, 1);
+        Shelf.createNewShelf(library, room, "Sci-Fiction", 100, 1);
+        Shelf.createNewShelf(library, room, "Roman", 100, 1);
+        Shelf.createNewShelf(library, room, "Fantasy", 100, 1);
+
+
         cli.handle(argList, library, persistence);
     }
 }
