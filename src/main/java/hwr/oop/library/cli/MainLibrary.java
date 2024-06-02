@@ -17,7 +17,7 @@ public class MainLibrary {
         try {
             Path currentDirectory = Paths.get(System.getProperty("user.dir"));
 
-            try (Stream<Path> stream = Files.walk(currentDirectory, 3)) {
+            try (Stream<Path> stream = Files.walk(currentDirectory)) {
                 Optional<Path> directory = stream
                         .filter(Files::isDirectory)
                         .filter(path -> path.getFileName().toString().equals("csvFiles"))
