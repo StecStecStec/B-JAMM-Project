@@ -41,14 +41,6 @@ public class MainLibrary {
         Persistence persistence = new CSVAdapter(path + "/");
         Library library;
         library = persistence.loadLibrary();
-
-        Room room = Room.createNewRoom(library, 5);
-        Shelf.createNewShelf(library, room, "Action", 100, 1);
-        Shelf.createNewShelf(library, room, "Sci-Fiction", 100, 1);
-        Shelf.createNewShelf(library, room, "Roman", 100, 1);
-        Shelf.createNewShelf(library, room, "Fantasy", 100, 1);
-
-
         cli.handle(argList, library, persistence);
     }
 }
