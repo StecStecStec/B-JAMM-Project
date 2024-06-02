@@ -104,6 +104,7 @@ class CLIToolsTest {
         delete.set(1, "hans@meier.com");
         handleCLI(delete);
         assertOutputContains("Visitor deleted");
+        Library library = persistence.loadLibrary();
         assertThat(library.getVisitorList()).hasSize(1);
 
         delete.set(1, "@");

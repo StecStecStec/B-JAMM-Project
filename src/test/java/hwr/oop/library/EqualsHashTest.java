@@ -253,13 +253,14 @@ class EqualsHashTest {
         Library library2 = Library.createNewLibrary();
 
         Room room = Room.createNewRoom(library, 5);
+        library1.addRoom(room);
 
 
         assertThat(library)
                 .isEqualTo(library)
                 .isNotEqualTo(library2)
                 .isNotNull();
-        //assertThat(library.equals(library1)).isTrue();
+        assertThat(library.equals(library1)).isTrue();
         assertThat(library.equals(room)).isFalse();
 
         library.deleteRoom(room);
