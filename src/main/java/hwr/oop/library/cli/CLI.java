@@ -15,8 +15,11 @@ public class CLI {
     private static final String CREATE_VISITOR = "createVisitor";
     private static final String CREATE_LIBRARIAN = "createLibrarian";
     private static final String CREATE_SHELF = "createShelf";
+    private static final String CREATE_ROOM = "createRoom";
     private static final String DELETE_VISITOR = "deleteVisitor";
     private static final String DELETE_LIBRARIAN = "deleteLibrarian";
+    private static final String DELETE_SHELF = "deleteShelf";
+    private static final String DELETE_ROOM = "deleteRoom";
     private static final String ADD_BOOK = "addBook";
     private static final String VIEW_BOOKS = "viewBooks";
     private static final String DELETE_BOOK = "deleteBook";
@@ -40,8 +43,11 @@ public class CLI {
             case CREATE_VISITOR -> createVisitor(arguments, library);
             case CREATE_LIBRARIAN -> createLibrarian(arguments, library);
             case CREATE_SHELF -> createShelf(arguments, library);
+            case CREATE_ROOM -> createRoom(arguments, library);
             case DELETE_VISITOR -> deleteVisitor(arguments, library);
             case DELETE_LIBRARIAN -> deleteLibrarian(arguments, library);
+            case DELETE_SHELF -> deleteShelf(arguments, library);
+            case DELETE_ROOM -> deleteRoom(arguments, library);
             case ADD_BOOK -> addBook(arguments, library);
             case VIEW_BOOKS -> viewBooks(arguments, library);
             case DELETE_BOOK -> deleteBook(arguments, library);
@@ -101,15 +107,36 @@ public class CLI {
             int shelfWidth = Integer.parseInt(arguments.get(2));
             int boardNumber = Integer.parseInt(arguments.get(3));
 
-                Room room = library.getRoomList().get(i);
-                    Shelf shelf1 = Shelf.createNewShelf(library,room, genre, shelfWidth, boardNumber);
-                    room.roomAddShelf(shelf1);
-                    return "Shelf created";
+
+                while (i < library.getRoomList().size()) {
+                    Room room = library.getRoomList().get(i);
+                    if(room.getShelfLimit() != room.getShelfList().size()){
+                        Shelf shelf1 = Shelf.createNewShelf(library,room, genre, shelfWidth, boardNumber);
+                        room.roomAddShelf(shelf1);
+                        return "Shelf created";
+                    }
+                    i++;
+                }
+            return "Error: No room available to create shelf.";
+                }
+         else {
+            return INVALID_INPUT;
+        }
+    }
+
+    private String createRoom(List<String> arguments, Library library) {
+        if (check(arguments, 2, CREATE_ROOM)) {
+            int shelfLimit = Integer.parseInt(arguments.get(1));
+
+            Room.createNewRoom(library, shelfLimit);
+            return "Room created";
 
         } else {
             return INVALID_INPUT;
         }
     }
+
+
 
     private String deleteVisitor(List<String> arguments, Library library) {
         if (check(arguments, 2, DELETE_VISITOR)) {
@@ -142,6 +169,44 @@ public class CLI {
                 i++;
             }
             return "Librarian wasn't found";
+        } else {
+            return INVALID_INPUT;
+        }
+    }
+
+    private String deleteShelf(List<String> arguments, Library library) {
+        if (check(arguments, 2, DELETE_SHELF)) {
+        UUID shelfId = UUID.fromString(arguments.get(1));
+        int i = 0;
+        while (i < library.getShelfList().size()){
+            Shelf shelf = library.getShelfList().get(i);
+            if (shelfId.equals(shelf.getShelfID())){
+                library.deleteShelf(shelf);
+                return "Shelf deleted";
+            }
+            i++;
+        }
+        return "Shelf wasn't found";
+
+        } else {
+            return INVALID_INPUT;
+        }
+    }
+
+    private String deleteRoom(List<String> arguments, Library library) {
+        if (check(arguments, 2, DELETE_ROOM)) {
+            UUID roomId = UUID.fromString(arguments.get(1));
+            int i = 0;
+            while (i < library.getRoomList().size()){
+                Room room = library.getRoomList().get(i);
+                if (roomId.equals(room.getRoomID())){
+                    library.deleteRoom(room);
+                    return "Room deleted";
+                }
+                i++;
+            }
+            return "Room wasn't found";
+
         } else {
             return INVALID_INPUT;
         }
@@ -333,7 +398,12 @@ public class CLI {
                         "Usage: [option] [Name] [Surname] [Birthday] [Email]\n" + options;
                 case CREATE_SHELF ->
                     "Usage: [option], [genre], [shelfWidth], [boardNumber] \n" + options;
+
+                case CREATE_ROOM ->
+                    "Usage: [option], [shelfLimit]\n" + options;
                 case DELETE_LIBRARIAN -> "Usage: [option] [Name] [Surname] [Birthday]\n" + options;
+                case DELETE_SHELF -> "Usage: [option], [shelfID]\n" + options;
+                case DELETE_ROOM -> "Usage: [option], [roomID]\n" + options;
                 case ADD_BOOK, DELETE_BOOK ->
                         "Usage: [option] [Title] [Author] [Genre] [BookCondition] [BookWidth]\n" + options;
                 case SEARCH_BOOK -> "Usage: [option] [Title]\n" + options;
