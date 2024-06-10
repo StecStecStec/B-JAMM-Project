@@ -14,6 +14,7 @@ public class CLI {
     private final PrintStream out;
     private static final String CREATE_VISITOR = "createVisitor";
     private static final String CREATE_LIBRARIAN = "createLibrarian";
+    private static final String CREATE_SHELF = "createShelf";
     private static final String DELETE_VISITOR = "deleteVisitor";
     private static final String DELETE_LIBRARIAN = "deleteLibrarian";
     private static final String ADD_BOOK = "addBook";
@@ -38,6 +39,7 @@ public class CLI {
         String result = switch (arguments.getFirst()) {
             case CREATE_VISITOR -> createVisitor(arguments, library);
             case CREATE_LIBRARIAN -> createLibrarian(arguments, library);
+            case CREATE_SHELF -> createShelf(arguments, library);
             case DELETE_VISITOR -> deleteVisitor(arguments, library);
             case DELETE_LIBRARIAN -> deleteLibrarian(arguments, library);
             case ADD_BOOK -> addBook(arguments, library);
@@ -88,6 +90,22 @@ public class CLI {
             }
             Librarian.createNewLibrarian(library, name, surname, birthday);
             return "Librarian created";
+        } else {
+            return INVALID_INPUT;
+        }
+    }
+    private String createShelf(List<String> arguments, Library library) {
+        if (check(arguments, 4, CREATE_SHELF)) {
+            int i = 0;
+            String genre = arguments.get(1);
+            int shelfWidth = Integer.parseInt(arguments.get(2));
+            int boardNumber = Integer.parseInt(arguments.get(3));
+
+                Room room = library.getRoomList().get(i);
+                    Shelf shelf1 = Shelf.createNewShelf(library,room, genre, shelfWidth, boardNumber);
+                    room.roomAddShelf(shelf1);
+                    return "Shelf created";
+
         } else {
             return INVALID_INPUT;
         }
@@ -308,11 +326,13 @@ public class CLI {
 
     public boolean check(List<String> arguments, int limit, String option) {
 
-        String options = "createVisitor, createLibrarian, deleteVisitor, deleteLibrarian, addBook, viewBooks, deleteBook, searchBook, borrowBook, returnBook, restoreBook, viewBorrowedBooks";
+        String options = "createVisitor, createLibrarian, createShelf, deleteVisitor, deleteLibrarian, addBook, viewBooks, deleteBook, searchBook, borrowBook, returnBook, restoreBook, viewBorrowedBooks";
         if (arguments.size() != limit) {
             String result = switch (option) {
                 case CREATE_VISITOR, CREATE_LIBRARIAN ->
                         "Usage: [option] [Name] [Surname] [Birthday] [Email]\n" + options;
+                case CREATE_SHELF ->
+                    "Usage: [option], [genre], [shelfWidth], [boardNumber] \n" + options;
                 case DELETE_LIBRARIAN -> "Usage: [option] [Name] [Surname] [Birthday]\n" + options;
                 case ADD_BOOK, DELETE_BOOK ->
                         "Usage: [option] [Title] [Author] [Genre] [BookCondition] [BookWidth]\n" + options;
