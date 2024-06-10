@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,7 +59,16 @@ class AddRemoveBookShelfTest {
     void addBook_checkIfBookAdded() {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
         assertThat(book).isIn(shelf.getBooksOnShelf());
         library.deleteRoom(room);
         library.deleteShelf(shelf);
@@ -69,7 +79,16 @@ class AddRemoveBookShelfTest {
     void removeShelf_checkIfBookRemoved() {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
         shelf.removeBookOnShelf(book);
         assertThat(book).isNotIn(shelf.getBooksOnShelf());
         library.deleteRoom(room);

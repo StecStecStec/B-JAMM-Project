@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,7 +56,16 @@ class BorrowReturnTest {
     void borrowBook_checkIfBorrowedByIsSetToGivenVisitorAndShelfIsNull() {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
         Visitor visitor = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         assertThat(book.getBorrowedBy()).isEqualTo(visitor);
@@ -73,7 +83,16 @@ class BorrowReturnTest {
     void borrowBookFails_checkIfBorrowedBookIsNotBorrowable() {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
         Visitor visitor1 = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Visitor visitor2 = Visitor.createNewVisitor(library, "Maxa", "Mustermanna", "02.01.1999", "maxa.mustermanna@gmx.de");
         book.borrow(visitor1);
@@ -91,7 +110,16 @@ class BorrowReturnTest {
     void returnBook_checkIfShelfIsSetToGivenShelfAndBorrowedByIsNull() {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
         Visitor visitor = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         book.returnBook(shelf);
@@ -111,7 +139,16 @@ class BorrowReturnTest {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf1 = Shelf.createNewShelf(library, room, "Action", 400, 1);
         Shelf shelf2 = Shelf.createNewShelf(library, room, "Action", 2, 1);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf1, 100, 3);
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf1)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
         Visitor visitor = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         book.borrow(visitor);
         assertThatThrownBy(() -> book.returnBook(shelf2)).hasMessage("Added book to shelf with not enough space.");

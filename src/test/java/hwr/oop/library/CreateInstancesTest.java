@@ -58,11 +58,56 @@ class CreateInstancesTest {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
         Shelf shelf1 = Shelf.createNewShelf(library, room, "Action", 400, 2);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 50, 3);
-        Book book1 = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf1, 110, 31);
-        Book book2 = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf1, -110, 31);
-        Book book3 = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf1, 0, 31);
-        Book book4 = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf1, 100, 31);
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(50)
+                .bookWidth(3)
+                .build();
+        Book book1 = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf1)
+                .bookCondition(110)
+                .bookWidth(31)
+                .build();
+        Book book2 = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf1)
+                .bookCondition(-110)
+                .bookWidth(31)
+                .build();
+        Book book3 = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf1)
+                .bookCondition(0)
+                .bookWidth(31)
+                .build();
+        Book book4 = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf1)
+                .bookCondition(100)
+                .bookWidth(31)
+                .build();
         assertThat(book.getBookID()).isNotNull();
         assertThat(book.getBookTitle()).isEqualTo("Welt");
         assertThat(book.getBookAuthor()).isEqualTo("Peter Hans");
@@ -91,8 +136,26 @@ class CreateInstancesTest {
     void createBookFails_checkExceptionRaise() {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 1, 1);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 1);
-        assertThatThrownBy(() -> Book.createNewBook(library, "Welt2", "Peter Hans", "Natur", shelf, 100, 1)).hasMessage("Added book to shelf with not enough space.");
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(1)
+                .build();
+        assertThatThrownBy(() -> new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(1)
+                .build()).hasMessage("Added book to shelf with not enough space.");
         library.deleteRoom(room);
         library.deleteShelf(shelf);
         library.deleteBook(book);

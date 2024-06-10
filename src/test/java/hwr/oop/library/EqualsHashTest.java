@@ -56,9 +56,36 @@ class EqualsHashTest {
 
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book1 = Book.createCompleteBook(library, uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createCompleteBook(library, uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book3 = Book.createNewBook(library, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
+        Book book1 = new Book.Builder()
+                .library(library)
+                .bookID(uuid)
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
+        Book book2 = new Book.Builder()
+                .library(library)
+                .bookID(uuid)
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
+        Book book3 = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Planet")
+                .author("Max Mustermann")
+                .genre("SciFi")
+                .shelf(shelf)
+                .bookCondition(80)
+                .bookWidth(3)
+                .build();
 
         assertThat(book1)
                 .isEqualTo(book1)
@@ -80,10 +107,36 @@ class EqualsHashTest {
 
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book1 = Book.createCompleteBook(library, uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createCompleteBook(library, uuid, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book3 = Book.createNewBook(library, "Planet", "Max Mustermann", "SciFi", shelf, 80, 3);
-
+        Book book1 = new Book.Builder()
+                .library(library)
+                .bookID(uuid)
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
+        Book book2 = new Book.Builder()
+                .library(library)
+                .bookID(uuid)
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
+        Book book3 = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Planet")
+                .author("Max Mustermann")
+                .genre("SciFi")
+                .shelf(shelf)
+                .bookCondition(80)
+                .bookWidth(3)
+                .build();
         assertThat(book1).hasSameHashCodeAs(book2);
         assertThat(book1.hashCode()).isNotEqualTo(book3.hashCode());
 

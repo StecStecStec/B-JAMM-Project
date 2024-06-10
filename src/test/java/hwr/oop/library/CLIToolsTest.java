@@ -104,8 +104,8 @@ class CLIToolsTest {
         delete.set(1, "hans@meier.com");
         handleCLI(delete);
         assertOutputContains("Visitor deleted");
-        Library library = persistence.loadLibrary();
-        assertThat(library.getVisitorList()).hasSize(1);
+        Library library2 = persistence.loadLibrary();
+        assertThat(library2.getVisitorList()).hasSize(1);
 
         delete.set(1, "@");
         delete.add("abc");
@@ -248,6 +248,7 @@ class CLIToolsTest {
 
     @Test
     void searchBookTest() {
+
         int i = 0;
         String uuid = null;
 
@@ -523,7 +524,6 @@ class CLIToolsTest {
         args6.add("deleteBook");
         args6.add(uuid);
         handleCLI(args6);
-        System.out.println(outputStream);
 
         library.deleteShelf(shelf);
         library.deleteRoom(room);

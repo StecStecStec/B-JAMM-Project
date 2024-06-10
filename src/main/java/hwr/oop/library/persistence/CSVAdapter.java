@@ -170,7 +170,16 @@ public class CSVAdapter implements Persistence {
                         Room tempRoom = Room.createTempRoom(tempLibrary);
                         tempShelf = Shelf.createTempShelf(tempLibrary, tempRoom);
                     }
-                    Book.createCompleteBook(library, uuid, bookTitle, bookAuthor, bookGenre, tempShelf, bookCondition, bookWidth);
+                    new Book.Builder()
+                            .library(library)
+                            .bookID(uuid)
+                            .title(bookTitle)
+                            .author(bookAuthor)
+                            .genre(bookGenre)
+                            .shelf(tempShelf)
+                            .bookCondition(bookCondition)
+                            .bookWidth(bookWidth)
+                            .build();
                 } else { // book on shelf
                     UUID shelfId = UUID.fromString(variables[6]);
                     Shelf inShelf = null;
@@ -180,7 +189,16 @@ public class CSVAdapter implements Persistence {
                             break;
                         }
                     }
-                    Book.createCompleteBook(library, uuid, bookTitle, bookAuthor, bookGenre, inShelf, bookCondition, bookWidth);
+                    new Book.Builder()
+                            .library(library)
+                            .bookID(uuid)
+                            .title(bookTitle)
+                            .author(bookAuthor)
+                            .genre(bookGenre)
+                            .shelf(inShelf)
+                            .bookCondition(bookCondition)
+                            .bookWidth(bookWidth)
+                            .build();
                 }
             }
         } catch (IOException e) {

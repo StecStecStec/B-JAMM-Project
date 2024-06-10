@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,8 +56,26 @@ class CSVAdapterTest {
     void loadClearAndSaveCSV() {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book1 = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
-        Book book2 = Book.createNewBook(library, "Welten", "Peter Hansen", "Naturen", shelf, 100, 5);
+        Book book1 = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
+        Book book2 = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welten")
+                .author("Peter Hansen")
+                .genre("Naturen")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(5)
+                .build();
         Visitor visitor1 = Visitor.createNewVisitor(library, "Max", "Mustermann", "01.01.1999", "max.mustermann@gmx.de");
         Visitor visitor2 = Visitor.createNewVisitor(library, "Maxia", "Mustermannia", "01.02.1999", "max.mustermannia@gmx.de");
         Librarian librarian = Librarian.createNewLibrarian(library, "Maxa", "Mustermanna", "01.01.2000");

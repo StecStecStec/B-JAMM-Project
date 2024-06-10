@@ -2,8 +2,6 @@ package hwr.oop.library.cli;
 
 
 import hwr.oop.library.domain.Library;
-import hwr.oop.library.domain.Room;
-import hwr.oop.library.domain.Shelf;
 import hwr.oop.library.persistence.CSVAdapter;
 import hwr.oop.library.persistence.Persistence;
 
