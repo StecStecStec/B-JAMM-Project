@@ -346,6 +346,26 @@ class CLIToolsTest {
         library.deleteRoom(room2);
     }
 
+    @Test
+    void createAndDeleteRoomTest() {
+        int i = 0;
+        String uuid = null;
+
+        handleCLI(List.of("createRoom", "20"));
+        assertThat(outputStream.toString()).contains("Room created");
+
+        while (i < library.getRoomList().size()) {
+            Room room = library.getRoomList().get(i);
+            if (room != null) {
+                uuid = room.getRoomID().toString();
+                break;
+            }
+            i++;
+        }
+        handleCLI(List.of("deleteRoom", uuid));
+        assertThat(outputStream.toString()).contains("Room deleted");
+    }
+
     @AfterEach
     void tearDown() {
         persistence.saveLibrary(library);
