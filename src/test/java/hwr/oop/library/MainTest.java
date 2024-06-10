@@ -4,8 +4,11 @@ import hwr.oop.library.cli.MainLibrary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.NoSuchElementException;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MainTest {
@@ -23,18 +26,22 @@ class MainTest {
 
     @Test
     void mainWithValidArgumentsTest() {
-        String[] args = {"viewBooks"};
+        String[] args = {"viewBooks", "csvFiles"};
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outputStream));
 
         Assertions.assertDoesNotThrow(() -> {
             MainLibrary.main(args);
         });
+
+        assertThat(outputStream.toString()).contains("Books viewed");
     }
 
     @Test
     void mainWithInvalidArgumentsTest() {
-        String[] args = {"invalid_argument"};
+        String[] args = {"Invalid Statement"};
 
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             MainLibrary.main(args);
         });
     }

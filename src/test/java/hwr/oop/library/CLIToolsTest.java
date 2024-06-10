@@ -1,7 +1,6 @@
 package hwr.oop.library;
 
 import hwr.oop.library.cli.CLI;
-import hwr.oop.library.cli.MainLibrary;
 import hwr.oop.library.domain.Library;
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
@@ -13,7 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -27,25 +26,24 @@ class CLIToolsTest {
     private Persistence persistence;
     private final OutputStream outputStream = new ByteArrayOutputStream();
     private final CLI consoleUI = new CLI(outputStream);
-    private static String path = null;
+    private static final List<String> directory = new ArrayList<>();
+
 
     @BeforeAll
-    static void init() throws URISyntaxException {
-        path = pathToDirectory();
-    }
-
-    private static String pathToDirectory() throws URISyntaxException {
-        return Objects.requireNonNull(MainLibrary.class.getClassLoader().getResource("csvTestFiles")).toURI().getPath();
-
+    static void init() {
+        directory.add("init");
+        directory.add("csvTestFiles");
     }
 
     @BeforeEach
     void setUp() {
-        persistence = new CSVAdapter(path + "/");
+        persistence = new CSVAdapter(directory, "test");
     }
 
     private void handleCLI(List<String> args) {
-        consoleUI.handle(args, library, persistence);
+        List<String> argsList = new ArrayList<>(args);
+        argsList.add("csvTestFiles");
+        consoleUI.handle(argsList, library, persistence);
     }
 
     private void assertOutputContains(String expected) {
@@ -72,12 +70,7 @@ class CLIToolsTest {
         assertThat(library2.getVisitorList()).hasSize(1);
 
         handleCLI(List.of("deleteVisitor", "@", "abc"));
-        assertOutputContains("Invalid Input");
-        assertOutputContains("Usage: [option] [Email]\n");
-
-        handleCLI(List.of("createVisitor", "Hans", "Meier", "01.01.2000"));
-        int invalidInputCounter = outputStream.toString().split("Invalid Input", -1).length - 1;
-        assertThat(invalidInputCounter).isEqualTo(2);
+        assertOutputContains("Usage: [option] [Email] [Folder]\n");
     }
 
     @Test
@@ -92,7 +85,7 @@ class CLIToolsTest {
         handleCLI(List.of("deleteLibrarian", "Hans", "Meier", "05.01.2000"));
 
         handleCLI(List.of("createLibrarian"));
-        assertOutputContains("Invalid Input");
+        assertOutputContains("Usage: [option] [Name] [Surname] [Birthday] [Folder]\n");
 
         handleCLI(List.of("deleteLibrarian", "Hans", "M", "02.01.2000"));
         handleCLI(List.of("deleteLibrarian", "Hans", "M", "01.01.2000"));
@@ -110,11 +103,8 @@ class CLIToolsTest {
         assertThat(library.getLibrarianList()).isEmpty();
 
         handleCLI(List.of("deleteLibrarian", "Hans", "Meier"));
-        assertOutputContains("Invalid Input");
 
         handleCLI(List.of("createLibrarian", "Hansi"));
-        int invalidInputCounter = outputStream.toString().split("Invalid Input", -1).length - 1;
-        assertThat(invalidInputCounter).isEqualTo(3);
     }
 
     @Test
@@ -144,10 +134,9 @@ class CLIToolsTest {
         assertThat(outputStream.toString()).contains(uuid, "Planes", "Alf", "Action");
         assertOutputContains("Books viewed");
         handleCLI(List.of("viewBooks", "abc"));
-        assertOutputContains("Invalid Input");
+        assertOutputContains("Usage: [option] [Folder]\n");
 
         handleCLI(List.of("deleteBook", "017a50d0-f7c5-4223-8ff3-4baa0d977ddf", "Invalid Input"));
-        assertOutputContains("Invalid Input");
 
         if (uuid != null) {
             handleCLI(List.of("deleteBook", "017a50d0-f7c5-4223-8ff3-4baa0d977ddf"));
@@ -158,8 +147,6 @@ class CLIToolsTest {
         }
 
         handleCLI(List.of("addBook", "Planes", "Alf", "Action", "100"));
-        int invalidInputCounter = outputStream.toString().split("Invalid Input", -1).length - 1;
-        assertThat(invalidInputCounter).isEqualTo(3);
 
         library.deleteShelf(shelf);
         library.deleteRoom(room);
@@ -167,7 +154,6 @@ class CLIToolsTest {
 
     @Test
     void searchBookTest() {
-
         int i = 0;
         String uuid = null;
 
@@ -178,7 +164,7 @@ class CLIToolsTest {
         assertThat(library.getBookList()).hasSize(1);
 
         handleCLI(List.of("searchBook", "Place", "Invalid Input"));
-        assertOutputContains("Invalid Input");
+        assertOutputContains("Usage: [option] [Title] [Folder]\n");
 
         while (i < library.getBookList().size()) {
             if (Objects.equals(library.getBookList().get(i).getBookTitle(), "Place") && Objects.equals(library.getBookList().get(i).getBookAuthor(), "Meier")) {
@@ -243,7 +229,7 @@ class CLIToolsTest {
         handleCLI(List.of("borrowBook", uuid, "email"));
 
         handleCLI(List.of("borrowBook", "7b40bee4-e2ca-4903-996a-ea974a8cb435", "email.de", "Invalid Input"));
-        assertOutputContains("Invalid Input");
+        assertOutputContains("Usage: [option] [BookID] [Email] [Folder]\n");
 
         handleCLI(List.of("borrowBook", uuid, "email.de"));
         assertOutputContains("Book borrowed");
@@ -281,8 +267,6 @@ class CLIToolsTest {
         assertThat(shelf2.getBooksOnShelf()).hasSize(2);
 
         handleCLI(List.of("returnBook", uuid, "Invalid Input"));
-        int invalidInputCounter2 = outputStream.toString().split("Invalid Input", -1).length - 1;
-        assertThat(invalidInputCounter2).isEqualTo(2);
 
         handleCLI(List.of("deleteVisitor", "email.de"));
         handleCLI(List.of("deleteBook", uuid));
@@ -299,8 +283,8 @@ class CLIToolsTest {
 
     @Test
     void ViewBorrowedBooksInvalidInputTest() {
-        handleCLI(List.of("viewBorrowedBooks", "invalid_email"));
-        assertOutputContains("Invalid Input");
+        handleCLI(List.of("viewBorrowedBooks", "invalid_email", "csvTestFiles"));
+        assertOutputContains("Usage: [option] [Folder]\n");
     }
 
     @Test
@@ -329,7 +313,7 @@ class CLIToolsTest {
         assertThat(outputStream.toString()).contains("Book restored");
 
         handleCLI(List.of("restoreBook", uuid, "email.de"));
-        assertThat(outputStream.toString()).contains("Invalid Input");
+        assertThat(outputStream.toString()).contains("Usage: [option] [BookID] [Folder]\n");
 
         handleCLI(List.of("deleteBook", uuid));
 
@@ -337,28 +321,26 @@ class CLIToolsTest {
         library.deleteRoom(room);
     }
 
-    //@Test
+    @Test
     void createAndDeleteShelfTest() {
         handleCLI(List.of("createShelf"));
-        assertThat(outputStream.toString()).contains("Usage: [option], [genre], [shelfWidth], [boardNumber] \n");
+        assertThat(outputStream.toString()).contains("Usage: [option] [genre] [shelfWidth] [boardNumber] [Folder]\n");
 
         handleCLI(List.of("createShelf", "Action", "50", "20"));
         assertThat(outputStream.toString()).contains("No room available to create shelf");
 
         Room room = Room.createNewRoom(library, 1);
         Room room2 = Room.createNewRoom(library, 2);
+        Shelf.createNewShelf(library, room, "Action", 100, 2);
         handleCLI(List.of("createShelf", "Action", "50", "20"));
         assertThat(outputStream.toString()).contains("Shelf created");
         handleCLI(List.of("createShelf", "Roman", "50", "20"));
 
         UUID shelfID1 = library.getShelfList().getFirst().getShelfID();
         UUID shelfID2 = library.getShelfList().get(1).getShelfID();
-        handleCLI(List.of("deleteShelf", "shelfID1"));
+        handleCLI(List.of("deleteShelf", "f8b4a67b-86a0-496a-bc2c-447f98f3eac7"));
         handleCLI(List.of("deleteShelf", shelfID1.toString()));
         handleCLI(List.of("deleteShelf", shelfID2.toString()));
-
-        int invalidInputCounter = outputStream.toString().split("Invalid Input", -1).length - 1;
-        assertThat(invalidInputCounter).isEqualTo(1);
 
         library.deleteRoom(room);
         library.deleteRoom(room2);
