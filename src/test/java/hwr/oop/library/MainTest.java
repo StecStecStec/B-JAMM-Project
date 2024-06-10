@@ -12,6 +12,8 @@ class MainTest {
 
     @Test
     void mainWithEmptyArgumentsTest() {
+        new MainLibrary();
+
         String[] args = {};
 
         assertThrows(NoSuchElementException.class, () -> {

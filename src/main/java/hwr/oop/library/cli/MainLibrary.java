@@ -6,11 +6,7 @@ import hwr.oop.library.persistence.CSVAdapter;
 import hwr.oop.library.persistence.Persistence;
 
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class MainLibrary {
 
