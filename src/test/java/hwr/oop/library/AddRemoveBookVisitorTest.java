@@ -1,5 +1,6 @@
 package hwr.oop.library;
 
+import hwr.oop.library.cli.MainLibrary;
 import hwr.oop.library.domain.Book;
 import hwr.oop.library.domain.Room;
 import hwr.oop.library.domain.Shelf;
@@ -12,9 +13,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -29,26 +32,13 @@ class AddRemoveBookVisitorTest {
     private static String path = null ;
 
     @BeforeAll
-    static void init() {
+    static void init() throws URISyntaxException {
         path = pathToDirectory();
     }
 
-    private static String pathToDirectory() {
-        try {
-            Path currentDirectory = Paths.get(System.getProperty("user.dir"));
+    private static String pathToDirectory() throws URISyntaxException {
+        return Objects.requireNonNull(MainLibrary.class.getClassLoader().getResource("csvTestFiles")).toURI().getPath();
 
-            try (Stream<Path> stream = Files.walk(currentDirectory)) {
-                Optional<Path> directory = stream
-                        .filter(Files::isDirectory)
-                        .filter(path -> path.getFileName().toString().equals("csvTestFiles"))
-                        .findFirst();
-
-                return directory.map(Path::toString).orElse(null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @BeforeEach
