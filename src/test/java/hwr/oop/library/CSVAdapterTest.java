@@ -1,5 +1,6 @@
 package hwr.oop.library;
 
+import hwr.oop.library.cli.CLI;
 import hwr.oop.library.cli.MainLibrary;
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
@@ -9,14 +10,16 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -40,6 +43,47 @@ class CSVAdapterTest {
     @BeforeEach
     void setUp() {
         persistence = new CSVAdapter(path + "/");
+    }
+
+    @Test
+    void createDirectoryWithAllFilesTest () throws IOException {
+        new CSVAdapter(List.of("init", "DIRECTORY"), "test");
+
+        String directory = Paths.get("src", "test", "resources").resolve("DIRECTORY").toString();
+        Path path6 = Path.of(directory);
+        assertThat(Files.isDirectory(path6)).isTrue();
+        Path path1 = Path.of(directory, "Room.csv");
+        assertThat(Files.exists(path1)).isTrue();
+        Path path2 = Path.of(directory, "Shelf.csv");
+        assertThat(Files.exists(path2)).isTrue();
+        Path path3 = Path.of(directory, "Visitor.csv");
+        assertThat(Files.exists(path3)).isTrue();
+        Path path4 = Path.of(directory, "Librarian.csv");
+        assertThat(Files.exists(path4)).isTrue();
+        Path path5 = Path.of(directory, "Book.csv");
+        assertThat(Files.exists(path5)).isTrue();
+
+        Files.delete(path1);
+        Files.delete(path2);
+        Files.delete(path3);
+        Files.delete(path4);
+        Files.delete(path5);
+        Files.delete(path6);
+    }
+
+    @Test
+    void createDirectoryWithInvaildInputTest () {
+        final OutputStream outputStream = new ByteArrayOutputStream();
+        final CLI consoleUI = new CLI(outputStream);
+        Library library1 = Library.createNewLibrary();
+
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
+            new CSVAdapter(List.of("createVisitor", "DIRECTORY"), "test");
+        });
+
+        consoleUI.handle(List.of("createVisitor", "DIRECTORY"), library1, persistence);
+        assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email] [Folder]");
+        assertThat(thrown.getMessage()).isEqualTo("Path is null or empty");
     }
 
     @Test

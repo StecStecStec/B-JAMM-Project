@@ -316,7 +316,6 @@ public class CSVAdapter implements Persistence {
 
             return directory + "/";
         } else {
-            System.out.println(cli.check(arguments));
             return null;
         }
     }
