@@ -223,7 +223,16 @@ public class CLI {
             while (i < library.getShelfList().size()) {
                 if (Objects.equals(library.getShelfList().get(i).getGenre(), genre)) {
                     Shelf shelf = library.getShelfList().get(i);
-                    Book.createNewBook(library, title, author, genre, shelf, bookCondition, bookWidth);
+                    new Book.Builder()
+                            .library(library)
+                            .bookID(UUID.randomUUID())
+                            .title(title)
+                            .author(author)
+                            .genre(genre)
+                            .shelf(shelf)
+                            .bookCondition(bookCondition)
+                            .bookWidth(bookWidth)
+                            .build();
                     return "Book added";
                 }
                 i++;

@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Book {
+    Library library;
     private final UUID bookID;
     private int bookCondition; //in percentage (0-100)
     private final int bookWidth;
@@ -12,9 +13,6 @@ public class Book {
     private final String genre;
     private Shelf shelf;
     private Visitor borrowedBy = null;
-
-    private static final int UPPER_BOUNDARY = 100;
-    private static final int LOWER_BOUNDARY = 0;
 
     public int getBookWidth() {
         return bookWidth;
@@ -47,29 +45,92 @@ public class Book {
     public Visitor getBorrowedBy() {
         return borrowedBy;
     }
-    public static Book createNewBook(Library library, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(library, UUID.randomUUID(), title, author, genre, shelf, bookCondition, bookWidth);
-    }
 
-    public static Book createCompleteBook(Library library, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(library, uuid, title, author, genre, shelf, bookCondition, bookWidth);
-    }
+    public static class Builder {
+        private Library library;
+        private UUID bookID;
+        private int bookCondition; //in percentage (0-100)
+        private int bookWidth;
+        private String title;
+        private String author;
+        private String genre;
+        private Shelf shelf;
 
-    private Book(Library library, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        this.bookID = uuid;
-        this.bookWidth = Math.max(bookWidth, 0);
-        this.shelf = shelf;
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-        if (bookCondition >= LOWER_BOUNDARY && bookCondition <= UPPER_BOUNDARY) {
-            this.bookCondition = bookCondition;
-        } else {
-            this.bookCondition = -1;
+        private static final int UPPER_BOUNDARY = 100;
+        private static final int LOWER_BOUNDARY = 0;
+
+
+        public Builder library(Library library) {
+            this.library = library;
+            return this;
         }
-        shelf.addBookOnShelf(this);
-        library.addBook(this);
+
+        public Builder() {
+            // nothing to do here
+        }
+
+        public Builder bookID(UUID uuid) {
+            this.bookID = uuid;
+            return this;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder author(String author) {
+            this.author = author;
+            return this;
+        }
+
+        public Builder genre(String genre) {
+            this.genre = genre;
+            return this;
+        }
+
+        public Builder shelf(Shelf shelf) {
+            this.shelf = shelf;
+            return this;
+        }
+
+        public Builder bookCondition(int bookCondition) {
+            if (bookCondition >= LOWER_BOUNDARY && bookCondition <= UPPER_BOUNDARY) {
+                this.bookCondition = bookCondition;
+            } else {
+                this.bookCondition = -1;
+            }
+            return this;
+        }
+
+        public Builder bookWidth(int bookWidth) {
+            this.bookWidth = Math.max(bookWidth, 0);
+            return this;
+        }
+
+        public Book build() {
+            Book book = new Book(this);
+            if (shelf != null) {
+                shelf.addBookOnShelf(book);
+            }
+            if (library != null) {
+                library.addBook(book);
+            }
+            return book;
+        }
     }
+
+    private Book(Builder builder) {
+        this.library = builder.library;
+        this.bookID = builder.bookID;
+        this.bookWidth = builder.bookWidth;
+        this.shelf = builder.shelf;
+        this.title = builder.title;
+        this.author = builder.author;
+        this.genre = builder.genre;
+        this.bookCondition = builder.bookCondition;
+    }
+
     public void borrow(Visitor visitor) {
         if (borrowedBy == null) {
             borrowedBy = visitor;
@@ -79,7 +140,7 @@ public class Book {
         }
     }
 
-    public void restoreBook () {
+    public void restoreBook() {
         this.bookCondition = 100;
     }
 

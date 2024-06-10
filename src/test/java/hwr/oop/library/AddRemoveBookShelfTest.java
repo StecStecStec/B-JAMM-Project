@@ -1,5 +1,6 @@
 package hwr.oop.library;
 
+import hwr.oop.library.cli.MainLibrary;
 import hwr.oop.library.domain.Book;
 import hwr.oop.library.domain.Library;
 import hwr.oop.library.domain.Room;
@@ -11,11 +12,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
-import java.util.stream.Stream;
+import java.net.URISyntaxException;
+import java.util.Objects;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,26 +25,12 @@ class AddRemoveBookShelfTest {
     private static String path = null ;
 
     @BeforeAll
-    static void init() {
+    static void init() throws URISyntaxException {
         path = pathToDirectory();
     }
 
-    private static String pathToDirectory() {
-        try {
-            Path currentDirectory = Paths.get(System.getProperty("user.dir"));
-
-            try (Stream<Path> stream = Files.walk(currentDirectory)) {
-                Optional<Path> directory = stream
-                        .filter(Files::isDirectory)
-                        .filter(path -> path.getFileName().toString().equals("csvTestFiles"))
-                        .findFirst();
-
-                return directory.map(Path::toString).orElse(null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    private static String pathToDirectory() throws URISyntaxException {
+        return Objects.requireNonNull(MainLibrary.class.getClassLoader().getResource("csvTestFiles")).toURI().getPath();
     }
 
     @BeforeEach
@@ -58,7 +43,16 @@ class AddRemoveBookShelfTest {
     void addBook_checkIfBookAdded() {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
         assertThat(book).isIn(shelf.getBooksOnShelf());
         library.deleteRoom(room);
         library.deleteShelf(shelf);
@@ -69,7 +63,16 @@ class AddRemoveBookShelfTest {
     void removeShelf_checkIfBookRemoved() {
         Room room = Room.createNewRoom(library, 5);
         Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        Book book = Book.createNewBook(library, "Welt", "Peter Hans", "Natur", shelf, 100, 3);
+        Book book = new Book.Builder()
+                .library(library)
+                .bookID(UUID.randomUUID())
+                .title("Welt")
+                .author("Peter Hans")
+                .genre("Natur")
+                .shelf(shelf)
+                .bookCondition(100)
+                .bookWidth(3)
+                .build();
         shelf.removeBookOnShelf(book);
         assertThat(book).isNotIn(shelf.getBooksOnShelf());
         library.deleteRoom(room);
