@@ -131,32 +131,6 @@ public class Book {
         this.bookCondition = builder.bookCondition;
     }
 
-    /*public static Book createNewBook(Library library, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(library, UUID.randomUUID(), title, author, genre, shelf, bookCondition, bookWidth);
-    }
-
-    public static Book createCompleteBook(Library library, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        return new Book(library, uuid, title, author, genre, shelf, bookCondition, bookWidth);
-    }
-
-    private Book(Library library, UUID uuid, String title, String author, String genre, Shelf shelf, int bookCondition, int bookWidth) {
-        this.bookID = uuid;
-        this.bookWidth = Math.max(bookWidth, 0);
-        this.shelf = shelf;
-        this.title = title;
-        this.author = author;
-        this.genre = genre;
-        if (bookCondition >= LOWER_BOUNDARY && bookCondition <= UPPER_BOUNDARY) {
-            this.bookCondition = bookCondition;
-        } else {
-            this.bookCondition = -1;
-        }
-        shelf.addBookOnShelf(this);
-        library.addBook(this);
-    }
-
-     */
-
     public void borrow(Visitor visitor) {
         if (borrowedBy == null) {
             borrowedBy = visitor;
