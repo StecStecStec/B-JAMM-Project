@@ -2,6 +2,7 @@ package hwr.oop.library.cli;
 
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.Persistence;
+import org.junit.Test;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -110,8 +111,8 @@ public class CLI {
 
                 while (i < library.getRoomList().size()) {
                     Room room = library.getRoomList().get(i);
-                    if(room.getShelfLimit() != room.getShelfList().size()){
-                        Shelf shelf1 = Shelf.createNewShelf(library,room, genre, shelfWidth, boardNumber);
+                    if(room.getShelfLimit() <= room.getShelfList().size()){
+                        Shelf shelf1 = Shelf.createNewShelf(library, room, genre, shelfWidth, boardNumber);
                         room.roomAddShelf(shelf1);
                         return "Shelf created";
                     }
@@ -400,7 +401,7 @@ public class CLI {
 
     public boolean check(List<String> arguments, int limit, String option) {
 
-        String options = "createVisitor, createLibrarian, createShelf, deleteVisitor, deleteLibrarian, addBook, viewBooks, deleteBook, searchBook, borrowBook, returnBook, restoreBook, viewBorrowedBooks";
+        String options = "createVisitor, createLibrarian, createShelf, deleteVisitor, deleteLibrarian, deleteShelf, addBook, viewBooks, deleteBook, searchBook, borrowBook, returnBook, restoreBook, viewBorrowedBooks";
         if (arguments.size() != limit) {
             String result = switch (option) {
                 case CREATE_VISITOR, CREATE_LIBRARIAN ->

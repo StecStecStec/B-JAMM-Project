@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 
@@ -339,6 +340,33 @@ class CLIToolsTest {
 
         library.deleteShelf(shelf);
         library.deleteRoom(room);
+    }
+
+    @Test
+    void createAndDeleteShelfTest() {
+        handleCLI(List.of("createShelf"));
+        assertThat(outputStream.toString()).contains("Usage: [option], [genre], [shelfWidth], [boardNumber] \n");
+
+        handleCLI(List.of("createShelf", "Action", "50", "20"));
+        assertThat(outputStream.toString()).contains("No room available to create shelf");
+
+        Room room = Room.createNewRoom(library, 1);
+        Room room2 = Room.createNewRoom(library, 2);
+        handleCLI(List.of("createShelf", "Action", "50", "20"));
+        assertThat(outputStream.toString()).contains("Shelf created");
+        handleCLI(List.of("createShelf", "Roman", "50", "20"));
+
+        UUID shelfID1 = library.getShelfList().getFirst().getShelfID();
+        UUID shelfID2 = library.getShelfList().get(1).getShelfID();
+        handleCLI(List.of("deleteShelf", "shelfID1"));
+        handleCLI(List.of("deleteShelf", shelfID1.toString()));
+        handleCLI(List.of("deleteShelf", shelfID2.toString()));
+
+        int invalidInputCounter = outputStream.toString().split("Invalid Input", -1).length - 1;
+        assertThat(invalidInputCounter).isEqualTo(1);
+
+        library.deleteRoom(room);
+        library.deleteRoom(room2);
     }
 
     @AfterEach
