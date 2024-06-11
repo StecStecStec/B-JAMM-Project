@@ -13,36 +13,41 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MainTest {
 
-    @Test
-    void mainWithEmptyArgumentsTest() {
-        new MainLibrary();
+  @Test
+  void mainWithEmptyArgumentsTest() {
+    new MainLibrary();
 
-        String[] args = {};
+    String[] args = {};
 
-        assertThrows(NoSuchElementException.class, () -> {
-            MainLibrary.main(args);
+    assertThrows(
+        NoSuchElementException.class,
+        () -> {
+          MainLibrary.main(args);
         });
-    }
+  }
 
-    @Test
-    void mainWithValidArgumentsTest() {
-        String[] args = {"viewBooks", "csvFiles"};
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outputStream));
+  @Test
+  void mainWithValidArgumentsTest() {
+    String[] args = {"viewBooks", "csvFiles"};
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(outputStream));
 
-        Assertions.assertDoesNotThrow(() -> {
-            MainLibrary.main(args);
+    Assertions.assertDoesNotThrow(
+        () -> {
+          MainLibrary.main(args);
         });
 
-        assertThat(outputStream.toString()).contains("Books viewed");
-    }
+    assertThat(outputStream.toString()).contains("Books viewed");
+  }
 
-    @Test
-    void mainWithInvalidArgumentsTest() {
-        String[] args = {"Invalid Statement"};
+  @Test
+  void mainWithInvalidArgumentsTest() {
+    String[] args = {"Invalid Statement"};
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            MainLibrary.main(args);
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          MainLibrary.main(args);
         });
-    }
+  }
 }

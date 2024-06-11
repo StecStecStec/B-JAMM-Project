@@ -4,7 +4,7 @@ import hwr.oop.library.domain.*;
 
 public interface Persistence {
 
-    Library loadLibrary();
+  Library loadLibrary();
 
-    void saveLibrary(Library library);
+  void saveLibrary(Library library);
 }

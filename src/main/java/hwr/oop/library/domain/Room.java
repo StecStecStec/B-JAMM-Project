@@ -7,65 +7,65 @@ import java.util.ArrayList;
 
 public class Room {
 
-    private List<Shelf> shelfList;
-    private final int shelfLimit;
-    private final UUID roomID;
+  private List<Shelf> shelfList;
+  private final int shelfLimit;
+  private final UUID roomID;
 
-    public UUID getRoomID() {
-        return roomID;
+  public UUID getRoomID() {
+    return roomID;
+  }
+
+  public int getShelfLimit() {
+    return shelfLimit;
+  }
+
+  public List<Shelf> getShelfList() {
+    return shelfList;
+  }
+
+  public void roomAddShelf(Shelf shelf) {
+    if (this.shelfList.size() >= this.shelfLimit) {
+      throw new IllegalArgumentException("Added shelf to room with not enough space.");
     }
+    shelfList.add(shelf);
+  }
 
-    public int getShelfLimit() {
-        return shelfLimit;
-    }
+  public void roomRemoveShelf(Shelf shelf) {
+    shelfList.remove(shelf);
+  }
 
-    public List<Shelf> getShelfList() {
-        return shelfList;
-    }
+  public static Room createNewRoom(Library library, int shelfLimit) {
+    return new Room(library, UUID.randomUUID(), shelfLimit);
+  }
 
-    public void roomAddShelf(Shelf shelf) {
-        if (this.shelfList.size() >= this.shelfLimit) {
-            throw new IllegalArgumentException("Added shelf to room with not enough space.");
-        }
-        shelfList.add(shelf);
-    }
+  public static Room createCompleteNewRoom(Library library, UUID uuid, int shelfLimit) {
+    return new Room(library, uuid, shelfLimit);
+  }
 
-    public void roomRemoveShelf(Shelf shelf) {
-        shelfList.remove(shelf);
-    }
+  // for CSVAdapter
+  public static Room createTempRoom(Library tempLibrary) {
+    return new Room(tempLibrary, UUID.randomUUID(), 10000);
+  }
 
-    public static Room createNewRoom(Library library, int shelfLimit) {
-        return new Room(library, UUID.randomUUID(), shelfLimit);
-    }
+  private Room(Library library, UUID uuid, int shelfLimit) {
+    this.shelfLimit = shelfLimit;
+    this.shelfList = new ArrayList<>(this.shelfLimit);
+    this.roomID = uuid;
+    library.addRoom(this);
+  }
 
-    public static Room createCompleteNewRoom(Library library, UUID uuid, int shelfLimit) {
-        return new Room(library, uuid, shelfLimit);
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Room room = (Room) o;
+    return shelfLimit == room.shelfLimit
+        && Objects.equals(shelfList, room.shelfList)
+        && Objects.equals(roomID, room.roomID);
+  }
 
-    //for CSVAdapter
-    public static Room createTempRoom(Library tempLibrary) {
-        return new Room(tempLibrary, UUID.randomUUID(), 10000);
-    }
-
-    private Room(Library library, UUID uuid, int shelfLimit) {
-        this.shelfLimit = shelfLimit;
-        this.shelfList = new ArrayList<>(this.shelfLimit);
-        this.roomID = uuid;
-        library.addRoom(this);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Room room = (Room) o;
-        return shelfLimit == room.shelfLimit && Objects.equals(shelfList, room.shelfList) && Objects.equals(roomID, room.roomID);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(shelfList, shelfLimit, roomID);
-    }
-
+  @Override
+  public int hashCode() {
+    return Objects.hash(shelfList, shelfLimit, roomID);
+  }
 }
-
