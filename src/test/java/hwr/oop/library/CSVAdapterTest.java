@@ -46,7 +46,7 @@ class CSVAdapterTest {
     }
 
     @Test
-    void createDirectoryWithAllFilesTest () throws IOException {
+    void createDirectoryWithAllFilesTest() throws IOException {
         new CSVAdapter(List.of("init", "DIRECTORY"), "test");
 
         String directory = Paths.get("src", "test", "resources").resolve("DIRECTORY").toString();
@@ -72,19 +72,20 @@ class CSVAdapterTest {
     }
 
     @Test
-    void createDirectoryWithInvaildInputTest () {
+    void createDirectoryWithInvaildInputTest() {
         final OutputStream outputStream = new ByteArrayOutputStream();
         final CLI consoleUI = new CLI(outputStream);
         Library library1 = Library.createNewLibrary();
 
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
-            new CSVAdapter(List.of("createVisitor", "DIRECTORY"), "test");
-        });
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
+                new CSVAdapter(List.of("createVisitor", "DIRECTORY"), "test")
+        );
+
 
         consoleUI.handle(List.of("createVisitor", "DIRECTORY"), library1, persistence);
+        assertThat(Files.exists(Paths.get("DIRECTORY"))).isFalse();
         assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email] [Folder]");
-        assertThat(thrown.getMessage()).isEqualTo("Path is null or empty");
-    }
+        assertThat(thrown.getMessage()).isEqualTo("Path is null or empty");    }
 
     @Test
     void loadClearAndSaveCSV() {
