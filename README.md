@@ -47,20 +47,20 @@ just build
 
 (For each feature implemented, add a row to the table!)
 
-| Number | Feature            | Tests                    |
-|--------|--------------------|--------------------------|
-| 1      | borrow             | BorrowReturnTest         |
-| 2      | returnBook         | BorrowReturnTest         |
-| 3      | createNewLibrarian | CreateInstancesTest      |
-| 4      | createNewRoom      | CreateInstancesTest      |
-| 5      | createNewShelf     | CreateInstancesTest      |
-| 6      | createNewVisitor   | CreateInstancesTest      |
-| 7      | addBookOnShelf     | AddRemoveBookShelfTest   |
-| 8      | removeBookOnShelf  | AddRemoveBookShelfTest   |
-| 9      | restoreBook        | AddRemoveBookVisitorTest |
-| 10     | loadLibrary        | CSVAdapterTest           |
-| 11     | saveLibrary        | CSVAdapterTest           |
-| 12     | handleCLIQuery     | CLIToolsTest             |
+| Number | Feature            | Tests                  |
+|--------|--------------------|------------------------|
+| 1      | borrow             | BorrowReturnTest       |
+| 2      | returnBook         | BorrowReturnTest       |
+| 3      | createNewLibrarian | CreateInstancesTest    |
+| 4      | createNewRoom      | CreateInstancesTest    |
+| 5      | createNewShelf     | CreateInstancesTest    |
+| 6      | createNewVisitor   | CreateInstancesTest    |
+| 7      | addBookOnShelf     | AddRemoveBookShelfTest |
+| 8      | removeBookOnShelf  | AddRemoveBookShelfTest |
+| 9      | restoreBook        | CLIToolsTest           |
+| 10     | loadLibrary        | CSVAdapterTest         |
+| 11     | saveLibrary        | CSVAdapterTest         |
+| 12     | handleCLIQuery     | CLIToolsTest           |
 
 
 ## Additional Dependencies
