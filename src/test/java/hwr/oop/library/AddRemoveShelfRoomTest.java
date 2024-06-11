@@ -18,47 +18,48 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class AddRemoveShelfRoomTest {
 
-    private final Library library = Library.createNewLibrary();
-    private Persistence persistence;
-    private static String path = null ;
+  private final Library library = Library.createNewLibrary();
+  private Persistence persistence;
+  private static String path = null;
 
-    @BeforeAll
-    static void init() throws URISyntaxException {
-        path = pathToDirectory();
-    }
+  @BeforeAll
+  static void init() throws URISyntaxException {
+    path = pathToDirectory();
+  }
 
-    private static String pathToDirectory() throws URISyntaxException {
-        return Objects.requireNonNull(MainLibrary.class.getClassLoader().getResource("csvTestFiles")).toURI().getPath();
+  private static String pathToDirectory() throws URISyntaxException {
+    return Objects.requireNonNull(MainLibrary.class.getClassLoader().getResource("csvTestFiles"))
+        .toURI()
+        .getPath();
+  }
 
-    }
+  @BeforeEach
+  void setUp() {
+    persistence = new CSVAdapter(path + "/");
+  }
 
-    @BeforeEach
-    void setUp() {
-        persistence = new CSVAdapter(path + "/");
-    }
+  @Test
+  void addShelfToRoom_checkThatTheRoomWasCorrectlyAddedToList() {
+    Room room = Room.createNewRoom(library, 5);
+    Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+    room.roomAddShelf(shelf);
+    assertThat(shelf).isIn(room.getShelfList());
+    library.deleteRoom(room);
+    library.deleteShelf(shelf);
+  }
 
-    @Test
-    void addShelfToRoom_checkThatTheRoomWasCorrectlyAddedToList() {
-        Room room = Room.createNewRoom(library, 5);
-        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        room.roomAddShelf(shelf);
-        assertThat(shelf).isIn(room.getShelfList());
-        library.deleteRoom(room);
-        library.deleteShelf(shelf);
-    }
+  @Test
+  void removeShelfFromRoom_checkThatTheRoomWasCorrectlyRemovedFromList() {
+    Room room = Room.createNewRoom(library, 5);
+    Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
+    room.roomRemoveShelf(shelf);
+    assertThat(shelf).isNotIn(room.getShelfList());
+    library.deleteRoom(room);
+    library.deleteShelf(shelf);
+  }
 
-    @Test
-    void removeShelfFromRoom_checkThatTheRoomWasCorrectlyRemovedFromList() {
-        Room room = Room.createNewRoom(library, 5);
-        Shelf shelf = Shelf.createNewShelf(library, room, "Action", 400, 1);
-        room.roomRemoveShelf(shelf);
-        assertThat(shelf).isNotIn(room.getShelfList());
-        library.deleteRoom(room);
-        library.deleteShelf(shelf);
-    }
-
-    @AfterEach
-    void tearDown() {
-        persistence.saveLibrary(library);
-    }
+  @AfterEach
+  void tearDown() {
+    persistence.saveLibrary(library);
+  }
 }

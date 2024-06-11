@@ -39,7 +39,7 @@ just build
 
 ## Abstract
 
-(The main target in this project is to craete a library managemant system in which visitors can borrow books.)
+(The main target in this project is to create a library management system in which visitors can borrow books.)
 (The most important features are: "borrow Book", "return Book" and "load Library")
 (State the most interesting problems you encountered during the project.)
 
@@ -65,7 +65,7 @@ just build
 
 ## Additional Dependencies
 
-[TODO]: # (For each additional dependency your project requires- Add an additional row to the table!)
+ # (For each additional dependency your project requires- Add an additional row to the table!)
 
 | Number | Dependency Name | Dependency Description | Why is it necessary? |
 |--------|-----------------|------------------------|----------------------|
