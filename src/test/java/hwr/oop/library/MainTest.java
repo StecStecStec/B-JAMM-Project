@@ -24,9 +24,7 @@ class MainTest {
 
     String[] args = {};
 
-    assertThrows(
-        NoSuchElementException.class,
-        () -> MainLibrary.main(args));
+    assertThrows(NoSuchElementException.class, () -> MainLibrary.main(args));
   }
 
   @Test
@@ -35,8 +33,7 @@ class MainTest {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outputStream));
 
-    Assertions.assertDoesNotThrow(
-        () -> MainLibrary.main(args));
+    Assertions.assertDoesNotThrow(() -> MainLibrary.main(args));
 
     assertThat(outputStream.toString()).contains("Books viewed");
   }
@@ -45,23 +42,22 @@ class MainTest {
   void mainWithInvalidArgumentsTest() {
     String[] args = {"Invalid Statement"};
 
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> MainLibrary.main(args));
+    assertThrows(IllegalArgumentException.class, () -> MainLibrary.main(args));
   }
 
   @AfterAll
-    static void cleanUp() throws IOException {
-      Path directory1 = Paths.get(System.getProperty("user.dir"))
-              .resolve("src")
-              .resolve("main")
-              .resolve("resources")
-              .resolve("Invalid Statement");
-      Files.deleteIfExists(Paths.get(directory1.toString(), "Book.csv"));
-      Files.deleteIfExists(Paths.get(directory1.toString(), "Shelf.csv"));
-      Files.deleteIfExists(Paths.get(directory1.toString(), "Librarian.csv"));
-      Files.deleteIfExists(Paths.get(directory1.toString(), "Visitor.csv"));
-      Files.deleteIfExists(Paths.get(directory1.toString(), "Room.csv"));
-      Files.deleteIfExists(directory1);
+  static void cleanUp() throws IOException {
+    Path directory1 =
+        Paths.get(System.getProperty("user.dir"))
+            .resolve("src")
+            .resolve("main")
+            .resolve("resources")
+            .resolve("Invalid Statement");
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Book.csv"));
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Shelf.csv"));
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Librarian.csv"));
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Visitor.csv"));
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Room.csv"));
+    Files.deleteIfExists(directory1);
   }
 }

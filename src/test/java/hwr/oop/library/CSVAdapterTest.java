@@ -71,7 +71,8 @@ class CSVAdapterTest {
   void createDirectoryWithInvalidInputTest() {
     assertThatThrownBy(() -> new CSVAdapter(List.of("createVisitor", "arguments"), "test"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("Path is null or empty\nUsage: [option] [Name] [Surname] [Birthday] [Email] [Folder]\n");
+        .hasMessage(
+            "Path is null or empty\nUsage: [option] [Name] [Surname] [Birthday] [Email] [Folder]\n");
   }
 
   @Test
@@ -163,17 +164,19 @@ class CSVAdapterTest {
   }
 
   @AfterAll
-  static void cleanUp () throws IOException {
-    Path directory1 = Paths.get(System.getProperty("user.dir"))
+  static void cleanUp() throws IOException {
+    Path directory1 =
+        Paths.get(System.getProperty("user.dir"))
             .resolve("src")
             .resolve("test")
             .resolve("resources")
             .resolve("DIRECTORY");
-    Path directory2 = Paths.get(System.getProperty("user.dir"))
-                    .resolve("src")
-                    .resolve("test")
-                    .resolve("resources")
-                    .resolve("arguments");
+    Path directory2 =
+        Paths.get(System.getProperty("user.dir"))
+            .resolve("src")
+            .resolve("test")
+            .resolve("resources")
+            .resolve("arguments");
 
     Files.deleteIfExists(Paths.get(directory1.toString(), "Book.csv"));
     Files.deleteIfExists(Paths.get(directory1.toString(), "Shelf.csv"));
@@ -188,8 +191,5 @@ class CSVAdapterTest {
     Files.deleteIfExists(Paths.get(directory2.toString(), "Visitor.csv"));
     Files.deleteIfExists(Paths.get(directory2.toString(), "Room.csv"));
     Files.deleteIfExists(directory2);
-
-
-
   }
 }

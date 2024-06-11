@@ -382,7 +382,7 @@ public class CLI {
           (arguments.size() != 2) ? "Usage: [option] [Folder]\n" + options : null;
       case BORROW_BOOK ->
           (arguments.size() != 4) ? "Usage: [option] [BookID] [Email] [Folder]\n" + options : null;
-        default -> "Invalid option";
+      default -> "Invalid option";
     };
   }
 }
