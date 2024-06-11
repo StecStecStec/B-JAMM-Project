@@ -26,9 +26,7 @@ class MainTest {
 
     assertThrows(
         NoSuchElementException.class,
-        () -> {
-          MainLibrary.main(args);
-        });
+        () -> MainLibrary.main(args));
   }
 
   @Test
@@ -38,9 +36,7 @@ class MainTest {
     System.setOut(new PrintStream(outputStream));
 
     Assertions.assertDoesNotThrow(
-        () -> {
-          MainLibrary.main(args);
-        });
+        () -> MainLibrary.main(args));
 
     assertThat(outputStream.toString()).contains("Books viewed");
   }
@@ -51,9 +47,7 @@ class MainTest {
 
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          MainLibrary.main(args);
-        });
+        () -> MainLibrary.main(args));
   }
 
   @AfterAll
