@@ -57,11 +57,11 @@ just build
 | 6      | createNewVisitor   | CreateInstancesTest      |
 | 7      | addBookOnShelf     | AddRemoveBookShelfTest   |
 | 8      | removeBookOnShelf  | AddRemoveBookShelfTest   |
-| 9      | addBookToReturn    | AddRemoveBookVisitorTest |
-| 10     | removeBookToReturn | AddRemoveBookVisitorTest |
-| 11     | loadCSV            | CSVAdapterTest           |
-| 12     | saveCSV            | CSVAdapterTest           |
-| 13     | handleCLIQuery     | CLIToolsTest             |
+| 9      | restoreBook        | AddRemoveBookVisitorTest |
+| 10     | loadLibrary        | CSVAdapterTest           |
+| 11     | saveLibrary        | CSVAdapterTest           |
+| 12     | handleCLIQuery     | CLIToolsTest             |
+
 
 ## Additional Dependencies
 
