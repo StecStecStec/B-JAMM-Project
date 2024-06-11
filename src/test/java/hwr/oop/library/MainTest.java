@@ -2,11 +2,16 @@ package hwr.oop.library;
 
 import hwr.oop.library.cli.MainLibrary;
 import hwr.oop.library.persistence.CSVAdapterExceptions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -46,9 +51,24 @@ class MainTest {
     String[] args = {"Invalid Statement"};
 
     assertThrows(
-        CSVAdapterExceptions.class,
+        IllegalArgumentException.class,
         () -> {
           MainLibrary.main(args);
         });
+  }
+
+  @AfterAll
+    static void cleanUp() throws IOException {
+      Path directory1 = Paths.get(System.getProperty("user.dir"))
+              .resolve("src")
+              .resolve("main")
+              .resolve("resources")
+              .resolve("Invalid Statement");
+      Files.deleteIfExists(Paths.get(directory1.toString(), "Book.csv"));
+      Files.deleteIfExists(Paths.get(directory1.toString(), "Shelf.csv"));
+      Files.deleteIfExists(Paths.get(directory1.toString(), "Librarian.csv"));
+      Files.deleteIfExists(Paths.get(directory1.toString(), "Visitor.csv"));
+      Files.deleteIfExists(Paths.get(directory1.toString(), "Room.csv"));
+      Files.deleteIfExists(directory1);
   }
 }

@@ -4,10 +4,7 @@ import hwr.oop.library.cli.MainLibrary;
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
 import hwr.oop.library.persistence.Persistence;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -72,7 +69,7 @@ class CSVAdapterTest {
 
   @Test
   void createDirectoryWithInvalidInputTest() {
-    assertThatThrownBy(() -> new CSVAdapter(List.of("invalid", "arguments"), "test"))
+    assertThatThrownBy(() -> new CSVAdapter(List.of("createVisitor", "arguments"), "test"))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("Path is null or empty\nUsage: [option] [Name] [Surname] [Birthday] [Email] [Folder]\n");
   }
@@ -163,5 +160,36 @@ class CSVAdapterTest {
   @AfterEach
   void tearDown() {
     persistence.saveLibrary(library);
+  }
+
+  @AfterAll
+  static void cleanUp () throws IOException {
+    Path directory1 = Paths.get(System.getProperty("user.dir"))
+            .resolve("src")
+            .resolve("test")
+            .resolve("resources")
+            .resolve("DIRECTORY");
+    Path directory2 = Paths.get(System.getProperty("user.dir"))
+                    .resolve("src")
+                    .resolve("test")
+                    .resolve("resources")
+                    .resolve("arguments");
+
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Book.csv"));
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Shelf.csv"));
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Librarian.csv"));
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Visitor.csv"));
+    Files.deleteIfExists(Paths.get(directory1.toString(), "Room.csv"));
+    Files.deleteIfExists(directory1);
+
+    Files.deleteIfExists(Paths.get(directory2.toString(), "Book.csv"));
+    Files.deleteIfExists(Paths.get(directory2.toString(), "Shelf.csv"));
+    Files.deleteIfExists(Paths.get(directory2.toString(), "Librarian.csv"));
+    Files.deleteIfExists(Paths.get(directory2.toString(), "Visitor.csv"));
+    Files.deleteIfExists(Paths.get(directory2.toString(), "Room.csv"));
+    Files.deleteIfExists(directory2);
+
+
+
   }
 }
