@@ -27,7 +27,7 @@ public class CSVAdapter implements Persistence {
 
     public CSVAdapter(List<String> arguments, String mainOrTest) {
         String directory = pathToDirectory(arguments, mainOrTest);
-        if (directory == null || directory.isEmpty()) {
+        if (directory == null) {
             throw new IllegalArgumentException("Path is null or empty");
         }
         this.path =  directory;
@@ -311,7 +311,7 @@ public class CSVAdapter implements Persistence {
                     createFilesInDirectory(Path.of(newDir + "/"));
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new CSVAdapterExceptions("Error finding directory");
             }
 
             return directory + "/";
@@ -326,7 +326,7 @@ public class CSVAdapter implements Persistence {
             try {
                 Files.createFile(directory.resolve(fileName));
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new CSVAdapterExceptions("Error creating files");
             }
         }
     }

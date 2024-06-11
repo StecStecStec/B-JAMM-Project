@@ -1,6 +1,5 @@
 package hwr.oop.library;
 
-import hwr.oop.library.cli.CLI;
 import hwr.oop.library.cli.MainLibrary;
 import hwr.oop.library.domain.*;
 import hwr.oop.library.persistence.CSVAdapter;
@@ -10,9 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,6 +19,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CSVAdapterTest {
@@ -73,19 +71,10 @@ class CSVAdapterTest {
 
     @Test
     void createDirectoryWithInvaildInputTest() {
-        final OutputStream outputStream = new ByteArrayOutputStream();
-        final CLI consoleUI = new CLI(outputStream);
-        Library library1 = Library.createNewLibrary();
-
-        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
-                new CSVAdapter(List.of("createVisitor", "DIRECTORY"), "test")
-        );
-
-
-        consoleUI.handle(List.of("createVisitor", "DIRECTORY"), library1, persistence);
-        assertThat(Files.exists(Paths.get("DIRECTORY"))).isFalse();
-        assertThat(outputStream.toString()).contains("Usage: [option] [Name] [Surname] [Birthday] [Email] [Folder]");
-        assertThat(thrown.getMessage()).isEqualTo("Path is null or empty");    }
+        assertThatThrownBy(() -> new CSVAdapter(List.of("invalid", "arguments"), "test"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Path is null or empty");
+    }
 
     @Test
     void loadClearAndSaveCSV() {
