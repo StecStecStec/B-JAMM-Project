@@ -378,12 +378,11 @@ public class CLI {
           (arguments.size() != 3) ? "Usage: [option] [Title] [Folder]\n" + options : null;
       case DELETE_VISITOR ->
           (arguments.size() != 3) ? "Usage: [option] [Email] [Folder]\n" + options : null;
-      case VIEW_BOOKS, VIEW_BORROWED_BOOKS ->
+      case VIEW_BOOKS, VIEW_BORROWED_BOOKS, "init" ->
           (arguments.size() != 2) ? "Usage: [option] [Folder]\n" + options : null;
       case BORROW_BOOK ->
           (arguments.size() != 4) ? "Usage: [option] [BookID] [Email] [Folder]\n" + options : null;
-      case "init" -> (arguments.size() != 2) ? "Usage: [option] [Folder]\n" + options : null;
-      default -> "Invalid option";
+        default -> "Invalid option";
     };
   }
 }

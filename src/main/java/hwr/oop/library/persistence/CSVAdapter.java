@@ -26,8 +26,9 @@ public class CSVAdapter implements Persistence {
 
   public CSVAdapter(List<String> arguments, String mainOrTest) {
     String directory = pathToDirectory(arguments, mainOrTest);
-    if (directory == null) {
-      throw new IllegalArgumentException("Path is null or empty");
+    assert directory != null;
+    if (directory.contains("Usage:") || directory.contains("Invalid option")) {
+      throw new IllegalArgumentException("Path is null or empty\n" + directory);
     }
     this.path = directory;
   }
@@ -335,7 +336,7 @@ public class CSVAdapter implements Persistence {
     if (cli.check(arguments) == null) {
 
       String directoryNameToFind = arguments.getLast();
-      String directory = null;
+      String directory;
 
       try (Stream<Path> paths =
           Files.find(
@@ -369,7 +370,7 @@ public class CSVAdapter implements Persistence {
 
       return directory + "/";
     } else {
-      return null;
+      return cli.check(arguments);
     }
   }
 

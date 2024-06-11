@@ -1,6 +1,7 @@
 package hwr.oop.library;
 
 import hwr.oop.library.cli.MainLibrary;
+import hwr.oop.library.persistence.CSVAdapterExceptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +46,7 @@ class MainTest {
     String[] args = {"Invalid Statement"};
 
     assertThrows(
-        IllegalArgumentException.class,
+        CSVAdapterExceptions.class,
         () -> {
           MainLibrary.main(args);
         });

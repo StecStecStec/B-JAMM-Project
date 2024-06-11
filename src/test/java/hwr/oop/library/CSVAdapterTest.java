@@ -16,9 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -73,10 +71,10 @@ class CSVAdapterTest {
   }
 
   @Test
-  void createDirectoryWithInvaildInputTest() {
+  void createDirectoryWithInvalidInputTest() {
     assertThatThrownBy(() -> new CSVAdapter(List.of("invalid", "arguments"), "test"))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("Path is null or empty");
+        .hasMessage("Path is null or empty\nUsage: [option] [Name] [Surname] [Birthday] [Email] [Folder]\n");
   }
 
   @Test
