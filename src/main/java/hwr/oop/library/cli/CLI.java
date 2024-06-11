@@ -51,13 +51,13 @@ public class CLI {
             case DELETE_SHELF -> deleteShelf(arguments, library);
             case DELETE_ROOM -> deleteRoom(arguments, library);
             case ADD_BOOK -> addBook(arguments, library);
-            case VIEW_BOOKS -> viewBooks(arguments, library);
+            case VIEW_BOOKS -> viewBooks(library);
             case DELETE_BOOK -> deleteBook(arguments, library);
             case SEARCH_BOOK -> searchBook(arguments, library);
             case BORROW_BOOK -> borrowBook(arguments, library);
             case RETURN_BOOK -> returnBook(arguments, library);
             case RESTORE_BOOK -> restoreBook(arguments, library);
-            case VIEW_BORROWED_BOOKS -> viewBorrowedBooks(arguments, library);
+            case VIEW_BORROWED_BOOKS -> viewBorrowedBooks(library);
             default -> throw new IllegalStateException("Unexpected value: " + arguments.getFirst());
         };
         persistence.saveLibrary(library);
@@ -205,7 +205,7 @@ public class CLI {
         return "No Shelf found";
     }
 
-    private String viewBooks(List<String> arguments, Library library) {
+    private String viewBooks(Library library) {
         int i = 0;
 
         out.println("BookID\t\t\t\t\tTitle\tAuthor\tGenre");
@@ -302,7 +302,7 @@ public class CLI {
         return BOOK_WASNT_FOUND;
     }
 
-    private String viewBorrowedBooks(List<String> arguments, Library library) {
+    private String viewBorrowedBooks(Library library) {
         int i = 0;
         boolean borrowed = false;
 

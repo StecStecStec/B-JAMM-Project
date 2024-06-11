@@ -364,6 +364,7 @@ class CLIToolsTest {
         }
         handleCLI(List.of("deleteRoom", "017a50d0-f7c5-4223-8ff3-4baa0d977ddf" ));
         assertThat(outputStream.toString()).contains("Room wasn't found");
+        assert uuid != null;
         handleCLI(List.of("deleteRoom", uuid));
         assertThat(outputStream.toString()).contains("Room deleted");
     }
